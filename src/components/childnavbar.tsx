@@ -73,7 +73,7 @@ const ChildNavbar: React.FC = () => {
       <Button
         className="d-lg-none mb-3 fw-bold text-white border-0 px-4 py-2"
         style={{
-          backgroundColor: "#ff66b2", // Change this to match your theme
+          backgroundColor: "#45526e", // Change this to match your theme
           borderRadius: "8px",
         }}
         onClick={() => setShowSidebar(true)}
@@ -86,7 +86,7 @@ const ChildNavbar: React.FC = () => {
         show={showSidebar}
         onHide={() => setShowSidebar(false)}
         placement="start"
-        style={{ backgroundColor: "#f8f9fa" }} // Light Gray background
+        style={{ backgroundColor: "#45526e" }} // Light Gray background
       >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Categories</Offcanvas.Title>

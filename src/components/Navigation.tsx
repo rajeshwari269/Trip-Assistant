@@ -6,7 +6,7 @@ function Navbar() {
     <>
       <nav
         className="navbar navbar-expand-lg"
-        style={{ backgroundColor: "#F14999",position:"fixed",width:"100vw",zIndex:"20"}}
+        style={{ backgroundColor: "#45526e",background:"smooth",scrollBehavior:"smooth",zIndex:"20"}}
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
@@ -38,11 +38,6 @@ function Navbar() {
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="/">
                   Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/about">
-                  About
                 </a>
               </li>
               <li className="nav-item">

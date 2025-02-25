@@ -7,7 +7,7 @@ const SearchBar: React.FC = () => {
     <div className="d-flex justify-content-center my-3">
       <InputGroup
         className="p-2 rounded-4 shadow-lg bg-white"
-        style={{ maxWidth: "850px", border: "2px solid #ff66b2" }}
+        style={{ maxWidth: "850px", border: "2px solid #45526e" }}
       >
         <Row className="w-100 align-items-center g-2">
           {/* Where Input */}
@@ -17,7 +17,7 @@ const SearchBar: React.FC = () => {
               type="text"
               placeholder="Search places"
               className="border-0 p-1 rounded-3"
-              style={{ backgroundColor: "#f8f9fa" }}
+              style={{ backgroundColor: "" }}
             />
           </Col>
 
@@ -45,12 +45,12 @@ const SearchBar: React.FC = () => {
               variant="danger"
               className="rounded-circle p-3 d-flex align-items-center justify-content-center"
               style={{
-                backgroundColor: "#ff66b2",
+                backgroundColor: "#45526e",
                 border: "none",
                 transition: "0.3s",
               }}
-              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#ff3385")}
-              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#ff66b2")}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#45526e")}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#45526e")}
             >
               <FaSearch size={18} className="text-white" />
             </Button>

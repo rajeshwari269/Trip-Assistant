@@ -45,7 +45,7 @@ const Places: React.FC = () => {
             <img src={place.image} alt={place.location} className="place-image" />
             <div className="place-info">
               <h3>
-                <FaMapMarkerAlt /> {place.location}
+                <a href="#"><FaMapMarkerAlt /></a> {place.location}
               </h3>
               <p>{place.distance}</p>
               <p>{place.date}</p>
