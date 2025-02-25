@@ -13,10 +13,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const Footer: React.FC = () => {
   return (
-    <div className="container my-5">
+    <div className=" my-5">
       <footer
         className="text-center text-lg-start text-white"
-        style={{ backgroundColor: "#45526e" }}
+        style={{ backgroundColor: "#45526e", width: "100%",position:"absolute" }}
       >
         <div className="container p-4 pb-0">
           <section>
@@ -132,15 +132,15 @@ const Footer: React.FC = () => {
                   className="btn btn-outline-light btn-floating m-1 text-white social-icon"
                   role="button"
                 >
-                    <style>
-                        {`
+                  <style>
+                    {`
                         .social-icon:hover {
                             background-color: white !important;
                             color: black !important;
                             transition: 0.3s ease-in-out;
                         }
                         `}
-  </style>
+                  </style>
                   <FaFacebookF />
                 </a>
                 <a

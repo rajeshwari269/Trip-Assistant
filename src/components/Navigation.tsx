@@ -1,4 +1,3 @@
-// import {Fragment} from "react";  this can be used to wrap element into single component or just keep (<> </>) directly
 import { useNavigate } from "react-router-dom";
 function Navbar() {
   const navigate = useNavigate();
@@ -6,7 +5,12 @@ function Navbar() {
     <>
       <nav
         className="navbar navbar-expand-lg"
-        style={{ backgroundColor: "#45526e",background:"smooth",scrollBehavior:"smooth",zIndex:"20"}}
+        style={{
+          backgroundColor: "#45526e",
+          background: "smooth",
+          scrollBehavior: "smooth",
+          zIndex: "20",
+        }}
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
@@ -36,22 +40,26 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/">
+                <a
+                  className="nav-link active hover-nav"
+                  aria-current="page"
+                  href="/"
+                >
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/Places">
+                <a className="nav-link hover-nav" href="/Places">
                   Places
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/contact">
+                <a className="nav-link hover-nav" href="/contact">
                   Contact Us
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="find-friends">
+                <a className="nav-link hover-nav" href="find-friends">
                   Find Friends
                 </a>
               </li>
@@ -64,13 +72,24 @@ function Navbar() {
               >
                 Login
               </button>
+              <style>
+                {`
+                  .hover-nav {
+                    transition: color 0.3s ease-in-out;
+                  }
+                  .hover-nav:hover {
+                    color: #FAD700;
+                    text-decoration: none;
+                  }
+                `}
+              </style>
               <div
                 className="input-group"
                 style={{ width: "180px", margin: "10px" }}
               >
                 <span className="input-group-text">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns="/"
                     width="16"
                     height="16"
                     fill="currentColor"
