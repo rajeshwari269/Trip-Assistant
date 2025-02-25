@@ -1,5 +1,6 @@
 import "./home.css";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+
 const places = [
   {
     id: 1,

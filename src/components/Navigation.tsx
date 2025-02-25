@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { FaGlobeAmericas } from "react-icons/fa"
 function Navbar() {
   const navigate = useNavigate();
   return (
@@ -14,17 +15,8 @@ function Navbar() {
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            <img
-              src="src/images/logo1.jpg"
-              alt="logo"
-              style={{
-                width: "50px",
-                height: "50px",
-                padding: "0px",
-                margin: "0px",
-                borderRadius: "50%",
-              }}
-            />
+          <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas> 
+
           </a>
           <button
             className="navbar-toggler"
@@ -51,11 +43,6 @@ function Navbar() {
               <li className="nav-item">
                 <a className="nav-link hover-nav" href="/Places">
                   Places
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link hover-nav" href="/contact">
-                  Contact Us
                 </a>
               </li>
               <li className="nav-item">

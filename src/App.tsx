@@ -8,7 +8,6 @@ import Navbar from "./components/Navigation";
 import Home from "./pages/home";
 import About from "./pages/About";
 import Places from "./pages/Places";
-import Contact from "./pages/Contact";
 import FindFriends from "./pages/FindFriends";
 import Auth from "./pages/Auth";
 import Footer from "./components/footer"
@@ -25,7 +24,6 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/places" element={<Places />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/find-friends" element={<FindFriends />}/>
         <Route path="/auth" element={<Auth />} />
 

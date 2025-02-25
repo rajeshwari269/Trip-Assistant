@@ -19,10 +19,53 @@ body{
 }
 .heading{
     width:100vw;
-}
-h1{
-    color: white;
+
+}h1 {
+    position: relative;
+    top: 200px;
+    color: #FFD700;
     text-align: center;
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    text-shadow: 0px 7px 8px black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 50px; /* Larger and more visible */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    
+    /* Gradient Text Effect */
+    background: linear-gradient(45deg, #FFD700, #FFB800, #FFF5A4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Glow Effect */
+    text-shadow: 0px 0px 10px rgba(255, 215, 0, 0.8), 
+                 0px 0px 20px rgba(255, 204, 0, 0.7), 
+                 0px 5px 10px rgba(0, 0, 0, 0.5);
+
+    /* Animation for glow and floating effect */
+    animation: glowing 2.5s ease-in-out infinite alternate, 
+               floating 4s ease-in-out infinite alternate;
+}
+
+/* Keyframes for glowing text */
+@keyframes glowing {
+    0% {
+        text-shadow: 0px 0px 5px rgba(255, 215, 0, 0.5), 
+                     0px 0px 15px rgba(255, 204, 0, 0.5), 
+                     0px 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    100% {
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.9), 
+                     0px 0px 30px rgba(255, 204, 0, 0.8), 
+                     0px 7px 15px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Keyframes for floating effect */
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
 }
