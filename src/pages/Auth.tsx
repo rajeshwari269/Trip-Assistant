@@ -1,11 +1,17 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 function Auth() {
+  const location=useLocation();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
-
+// When the component loads, check if we received isLogin from Navbar
+useEffect(() => {
+  if (location.state?.isLogin !== undefined) {
+    setIsLogin(location.state.isLogin);
+  }
+}, [location]);
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(isLogin ? "Logging in..." : "Signing up...");
