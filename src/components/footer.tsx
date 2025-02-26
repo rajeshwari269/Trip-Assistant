@@ -16,7 +16,11 @@ const Footer: React.FC = () => {
     <div className=" my-5">
       <footer
         className="text-center text-lg-start text-white"
-        style={{ backgroundColor: "#45526e", width: "100%",position:"absolute" }}
+        style={{
+          backgroundColor: "#45526e",
+          width: "100%",
+          position: "absolute",
+        }}
       >
         <div className="container p-4 pb-0">
           <section>
@@ -41,22 +45,22 @@ const Footer: React.FC = () => {
                   Countries
                 </h6>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     India
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     Nepal
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     Bangladesh
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     China
                   </a>
                 </p>
@@ -69,22 +73,22 @@ const Footer: React.FC = () => {
                   Most Visited Places
                 </h6>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     Delhi
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     Agra
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     Kathmandu
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white olor-gold">
                     Pokhara
                   </a>
                 </p>
@@ -97,18 +101,18 @@ const Footer: React.FC = () => {
                   Contact
                 </h6>
                 <p>
-                  <FaHome className="me-2" />
+                  <FaHome className="me-2 color-gold" />
                   Tamilnadu, India
                 </p>
                 <p>
-                  <FaEnvelope className="me-2" />
+                  <FaEnvelope className="me-2 color-gold" />
                   T_M@gmail.com
                 </p>
                 <p>
-                  <FaPhone className="me-2" /> +91 01 234 567 88
+                  <FaPhone className="me-2 color-gold" /> +91 01 234 567 88
                 </p>
                 <p>
-                  <FaPrint className="me-2" /> +91 01 234 567 89
+                  <FaPrint className="me-2 color-gold" /> +91 01 234 567 89
                 </p>
               </div>
             </div>
@@ -121,7 +125,7 @@ const Footer: React.FC = () => {
               <div className="col-md-7 col-lg-8 text-center text-md-start">
                 <div className="p-3">
                   © 2024 Copyright:{" "}
-                  <a href="#" className="text-white">
+                  <a href="#" className="text-white color-gold">
                     PlanTrip.com
                   </a>
                 </div>
@@ -134,8 +138,12 @@ const Footer: React.FC = () => {
                 >
                   <style>
                     {`
+                        .color-gold:hover{
+                        color:#FAD700 !important;
+                        transition: 0.3s ease-in-out;
+                        }
                         .social-icon:hover {
-                            background-color: white !important;
+                            background-color: #FAD700 !important;
                             color: black !important;
                             transition: 0.3s ease-in-out;
                         }

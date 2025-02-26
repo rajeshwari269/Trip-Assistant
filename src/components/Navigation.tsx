@@ -3,26 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { FaBars, FaUser, FaGlobe, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
-// ✅ Import i18next for language switching
 import { useTranslation } from "react-i18next";
 
 function Navbar() {
   const navigate = useNavigate();
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
-
-  // ✅ Initialize i18next translation hook
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const { i18n } = useTranslation();
 
-  // ✅ Function to handle language change
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
-    localStorage.setItem("language", lng); // Save preference
+    localStorage.setItem("language", lng);
   };
 
-  // Toggle Dark Mode
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
@@ -30,7 +22,6 @@ function Navbar() {
     document.body.classList.toggle("dark-mode", newMode);
   };
 
-  // Apply dark mode class on initial render
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark-mode");
@@ -39,7 +30,6 @@ function Navbar() {
     }
   }, [darkMode]);
 
-  // ✅ Retrieve saved language preference on load
   useEffect(() => {
     const savedLang = localStorage.getItem("language");
     if (savedLang) {
@@ -57,7 +47,6 @@ function Navbar() {
       }}
     >
       <div className="container-fluid">
-        {/* Logo */}
         <a className="navbar-brand" href="#">
           <img
             src="src/images/logo1.jpg"
@@ -66,7 +55,6 @@ function Navbar() {
           />
         </a>
 
-        {/* Navbar Toggler */}
         <button
           className="navbar-toggler"
           type="button"
@@ -131,38 +119,11 @@ function Navbar() {
                   </button>
                 </li>
                 <li>
-                  <button className="dropdown-item" onClick={() => changeLanguage("en-GB")}>
-                    English - United Kingdom
-                  </button>
-                </li>
-                <li>
                   <button className="dropdown-item" onClick={() => changeLanguage("hi")}>
                     हिंदी - भारत
                   </button>
                 </li>
               </ul>
-              <hr />
-              <h6 className="dropdown-header text-muted">Choose a language and region</h6>
-              <div className="d-flex flex-wrap">
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("en-IN")}>
-                  English - India
-                </button>
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("az")}>
-                  Azərbaycanca - Azərbaycan
-                </button>
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("id")}>
-                  Bahasa Indonesia - Indonesia
-                </button>
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("de")}>
-                  Deutsch - Deutschland
-                </button>
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("es")}>
-                  Español - España
-                </button>
-                <button className="btn btn-light m-1" onClick={() => changeLanguage("fr")}>
-                  Français - France
-                </button>
-              </div>
             </div>
           </div>
 

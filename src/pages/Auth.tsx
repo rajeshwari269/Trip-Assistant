@@ -85,7 +85,7 @@ function Auth() {
 
         {/* Toggle Button */}
         <p className="mt-3 text-center">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
           <button
             className="btn btn-link text-danger fw-bold"
             onClick={() => setIsLogin(!isLogin)}

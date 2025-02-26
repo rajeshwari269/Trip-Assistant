@@ -11,11 +11,24 @@
   },
   "dependencies": {
     "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.7.9",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+<<<<<<< HEAD
     "datepicker": "^0.0.0",
     "i18next": "^24.2.2",
     "i18next-browser-languagedetector": "^8.0.4",
+=======
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+>>>>>>> af48bc633d35b6952e7d2efb67974d497dfb4b4d
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-datepicker": "^8.1.0",
@@ -26,6 +39,12 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.5",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
@@ -39,7 +58,21 @@
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
+<<<<<<< HEAD
   "keywords": [],
   "author": "",
   "license": "ISC"
+=======
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Richajaishwal0/Trip_assistant.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Richajaishwal0/Trip_assistant/issues"
+  },
+  "homepage": "https://github.com/Richajaishwal0/Trip_assistant#readme"
+>>>>>>> af48bc633d35b6952e7d2efb67974d497dfb4b4d
 }
