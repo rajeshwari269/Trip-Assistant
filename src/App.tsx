@@ -11,6 +11,7 @@ import Places from "./pages/Places";
 import FindFriends from "./pages/FindFriends";
 import Auth from "./pages/Auth";
 import Footer from "./components/footer"
+import "./i18n"; // Import i18next configuration
 
 function AppContent() {
   const location = useLocation(); // Get the current route

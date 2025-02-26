@@ -1,10 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 function Auth() {
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+
+  // When the component loads, check if we received `isLogin` from Navbar
+  useEffect(() => {
+    if (location.state?.isLogin !== undefined) {
+      setIsLogin(location.state.isLogin);
+    }
+  }, [location]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -16,7 +24,7 @@ function Auth() {
     <div
       className="vh-100 d-flex justify-content-center align-items-center bg-image"
       style={{
-        backgroundImage: "url('src/images/bg-auth.jpg')", // Replace with actual path
+        backgroundImage: "url('src/images/bg-auth.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}

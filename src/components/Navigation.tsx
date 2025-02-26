@@ -1,103 +1,209 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaGlobeAmericas } from "react-icons/fa"
+import { FaBars, FaUser, FaGlobe, FaSun, FaMoon } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+// ✅ Import i18next for language switching
+import { useTranslation } from "react-i18next";
+
 function Navbar() {
   const navigate = useNavigate();
-  return (
-    <>
-      <nav
-        className="navbar navbar-expand-lg"
-        style={{
-          backgroundColor: "#45526e",
-          background: "smooth",
-          scrollBehavior: "smooth",
-          zIndex: "20",
-        }}
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-          <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas> 
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
 
-          </a>
+  // ✅ Initialize i18next translation hook
+  const { i18n } = useTranslation();
+
+  // ✅ Function to handle language change
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    localStorage.setItem("language", lng); // Save preference
+  };
+
+  // Toggle Dark Mode
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("darkMode", newMode);
+    document.body.classList.toggle("dark-mode", newMode);
+  };
+
+  // Apply dark mode class on initial render
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
+  // ✅ Retrieve saved language preference on load
+  useEffect(() => {
+    const savedLang = localStorage.getItem("language");
+    if (savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, []);
+
+  return (
+    <nav
+      className="navbar navbar-expand-lg"
+      style={{
+        backgroundColor: "#45526e",
+        scrollBehavior: "smooth",
+        zIndex: "20",
+      }}
+    >
+      <div className="container-fluid">
+        {/* Logo */}
+        <a className="navbar-brand" href="#">
+          <img
+            src="src/images/logo1.jpg"
+            alt="logo"
+            style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+          />
+        </a>
+
+        {/* Navbar Toggler */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <a className="nav-link active" href="/">
+                Home
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/places">
+                Places
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/contact">
+                Contact Us
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/find-friends">
+                Find Friends
+              </a>
+            </li>
+          </ul>
+
+          {/* 🌙 Dark Mode Toggle */}
           <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
+            onClick={toggleDarkMode}
           >
-            <span className="navbar-toggler-icon"></span>
+            {darkMode ? <FaSun className="text-warning" /> : <FaMoon className="text-light" />}
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a
-                  className="nav-link active hover-nav"
-                  aria-current="page"
-                  href="/"
-                >
-                  Home
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link hover-nav" href="/Places">
-                  Places
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link hover-nav" href="find-friends">
-                  Find Friends
-                </a>
-              </li>
-            </ul>
-            <form className="d-flex justify-content-center" role="search">
-              <button
-                className="btn btn-outline-light"
-                style={{ width: "70px", margin: "10px" }}
-                onClick={() => navigate("/auth")}
-              >
-                Login
-              </button>
-              <style>
-                {`
-                  .hover-nav {
-                    transition: color 0.3s ease-in-out;
-                  }
-                  .hover-nav:hover {
-                    color: #FAD700;
-                    text-decoration: none;
-                  }
-                `}
-              </style>
-              <div
-                className="input-group"
-                style={{ width: "180px", margin: "10px" }}
-              >
-                <span className="input-group-text">
-                  <svg
-                    xmlns="/"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-search"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                  </svg>
-                </span>
-                <input
-                  className="form-control"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
+
+          {/* 🌍 Language Dropdown */}
+          <div className="dropdown me-3">
+            <button
+              className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaGlobe className="text-light" />
+            </button>
+
+            <div className="dropdown-menu dropdown-menu-end p-3" style={{ width: "300px" }}>
+              <h6 className="dropdown-header text-muted">Suggested languages and regions</h6>
+              <ul className="list-unstyled">
+                <li>
+                  <button className="dropdown-item" onClick={() => changeLanguage("en")}>
+                    English - United States
+                  </button>
+                </li>
+                <li>
+                  <button className="dropdown-item" onClick={() => changeLanguage("en-GB")}>
+                    English - United Kingdom
+                  </button>
+                </li>
+                <li>
+                  <button className="dropdown-item" onClick={() => changeLanguage("hi")}>
+                    हिंदी - भारत
+                  </button>
+                </li>
+              </ul>
+              <hr />
+              <h6 className="dropdown-header text-muted">Choose a language and region</h6>
+              <div className="d-flex flex-wrap">
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("en-IN")}>
+                  English - India
+                </button>
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("az")}>
+                  Azərbaycanca - Azərbaycan
+                </button>
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("id")}>
+                  Bahasa Indonesia - Indonesia
+                </button>
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("de")}>
+                  Deutsch - Deutschland
+                </button>
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("es")}>
+                  Español - España
+                </button>
+                <button className="btn btn-light m-1" onClick={() => changeLanguage("fr")}>
+                  Français - France
+                </button>
               </div>
-            </form>
+            </div>
+          </div>
+
+          {/* 👤 Profile Dropdown */}
+          <div className="dropdown">
+            <button
+              className="btn border rounded-pill d-flex align-items-center p-2 shadow-sm"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FaBars className="text-secondary me-2" />
+              <div className="rounded-circle bg-secondary d-flex align-items-center justify-content-center profile-icon">
+                <FaUser className="text-white" />
+              </div>
+            </button>
+
+            <ul className="dropdown-menu dropdown-menu-end shadow-sm">
+              <li>
+                <button
+                  className="dropdown-item fw-bold"
+                  onClick={() => navigate("/auth", { state: { isLogin: false } })}
+                >
+                  Sign up
+                </button>
+              </li>
+              <li>
+                <button
+                  className="dropdown-item"
+                  onClick={() => navigate("/auth", { state: { isLogin: true } })}
+                >
+                  Log in
+                </button>
+              </li>
+              <hr />
+              <li><a className="dropdown-item" href="#">Help Centre</a></li>
+            </ul>
           </div>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }
 
