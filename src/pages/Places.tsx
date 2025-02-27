@@ -1,7 +1,10 @@
-import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
+import { useState } from "react";
+import { FaMapMarkerAlt, FaStar, FaComments } from "react-icons/fa";
 import "./Places.css";
-import ChildNavbar from "../components/childnavbar"
-import SearchBar from "../components/searchbar"; 
+import ChildNavbar from "../components/childnavbar";
+import SearchBar from "../components/searchbar";
+import Chatbot from "../components/chatbot"; // Import chatbot component
+
 const places = [
   {
     id: 1,
@@ -33,31 +36,41 @@ const places = [
 ];
 
 const Places: React.FC = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <>
-    <SearchBar /> 
-    <ChildNavbar/>
-    <div className="places-container">
-      <h2 className="title">Explore Amazing Places</h2>
-      <div className="places-grid">
-        {places.map((place) => (
-          <div key={place.id} className="place-card">
-            <img src={place.image} alt={place.location} className="place-image" />
-            <div className="place-info">
-              <h3>
-                <a href="#"><FaMapMarkerAlt /></a> {place.location}
-              </h3>
-              <p>{place.distance}</p>
-              <p>{place.date}</p>
-              <p className="price">{place.price}</p>
-              <p className="rating">
-                <FaStar /> {place.rating}
-              </p>
+      <SearchBar />
+      <ChildNavbar />
+      <div className="places-container">
+        <h2 className="title">Explore Amazing Places</h2>
+        <div className="places-grid">
+          {places.map((place) => (
+            <div key={place.id} className="place-card">
+              <img src={place.image} alt={place.location} className="place-image" />
+              <div className="place-info">
+                <h3>
+                  <a href="#"><FaMapMarkerAlt /></a> {place.location}
+                </h3>
+                <p>{place.distance}</p>
+                <p>{place.date}</p>
+                <p className="price">{place.price}</p>
+                <p className="rating">
+                  <FaStar /> {place.rating}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
+
+      {/* Floating Chatbot Button */}
+      <button className="chatbot-btn btn btn-primary" onClick={() => setIsChatOpen(true)}>
+        <FaComments size={20} />
+      </button>
+
+      {/* Show Chatbot when button is clicked */}
+      {isChatOpen && <Chatbot onClose={() => setIsChatOpen(false)} />}
     </>
   );
 };
