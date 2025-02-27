@@ -66,36 +66,44 @@ const places = [
   {
     id: 7,
     name: "Victoria Memorial, Kolkata, India",
-    image: "https://indiano.travel/wp-content/uploads/2022/02/Victoria-Memorial-1.webp",
+    image:
+      "https://indiano.travel/wp-content/uploads/2022/02/Victoria-Memorial-1.webp",
     location: "Kolkata, West Bengal, India",
-    mapLink: "https://www.google.com/maps/place/Victoria+Memorial,+Kolkata,+West+Bengal,+India",
+    mapLink:
+      "https://www.google.com/maps/place/Victoria+Memorial,+Kolkata,+West+Bengal,+India",
     price: "₹500 for foreign tourists; ₹30 for Indian tourists",
     rating: "4.5/5",
   },
   {
     id: 8,
     name: "Lake Pichola, Udaipur, India",
-    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnQ60ScbK0RArTXZ_85aQAV2sKfpc-0bEKog&s",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnQ60ScbK0RArTXZ_85aQAV2sKfpc-0bEKog&s",
     location: "Udaipur, Rajasthan, India",
-    mapLink: "https://www.google.com/maps/place/Lake+Pichola,+Udaipur,+Rajasthan,+India",
+    mapLink:
+      "https://www.google.com/maps/place/Lake+Pichola,+Udaipur,+Rajasthan,+India",
     price: "Boat rides starting from ₹400 per person",
     rating: "4.7/5",
   },
   {
     id: 9,
     name: "Mysore Palace, Mysore, India",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mysore_Palace_Front_view.jpg/1200px-Mysore_Palace_Front_view.jpg",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Mysore_Palace_Front_view.jpg/1200px-Mysore_Palace_Front_view.jpg",
     location: "Mysore, Karnataka, India",
-    mapLink: "https://www.google.com/maps/place/Mysore+Palace,+Mysore,+Karnataka,+India",
+    mapLink:
+      "https://www.google.com/maps/place/Mysore+Palace,+Mysore,+Karnataka,+India",
     price: "₹200 for foreign tourists; ₹70 for Indian tourists",
     rating: "4.6/5",
   },
   {
     id: 10,
     name: "Ghats of Varanasi, Varanasi, India",
-    image: "https://static.toiimg.com/thumb/width-600,height-400,msid-107570888.cms",
+    image:
+      "https://static.toiimg.com/thumb/width-600,height-400,msid-107570888.cms",
     location: "Varanasi, Uttar Pradesh, India",
-    mapLink: "https://www.google.com/maps/place/Varanasi+Ghats,+Varanasi,+Uttar+Pradesh,+India",
+    mapLink:
+      "https://www.google.com/maps/place/Varanasi+Ghats,+Varanasi,+Uttar+Pradesh,+India",
     price: "Free public access; boat rides priced individually",
     rating: "4.8/5",
   },
@@ -113,11 +121,13 @@ const Home: React.FC = () => {
         <div className="places-grid">
           {places.map((place) => (
             <div key={place.id} className="place-card">
-              <img
-                src={place.image}
-                alt={place.location}
-                className="place-image"
-              />
+              <a href="/agra">
+                <img
+                  src={place.image}
+                  alt={place.location}
+                  className="place-image"
+                />
+              </a>
               <div className="place-info">
                 <h3>
                   {place.location}{" "}
@@ -138,7 +148,6 @@ const Home: React.FC = () => {
           ))}
         </div>
       </div>
-  
     </>
   );
 };

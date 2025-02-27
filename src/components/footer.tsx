@@ -32,9 +32,7 @@ const Footer: React.FC = () => {
                   one-stop solution for seamless travel experiences!
                   Effortlessly create personalized itineraries, find the best
                   destinations, book accommodations, and explore must-visit
-                  attractions. Whether it's a solo adventure, family getaway, or
-                  business trip, our AI-powered planner ensures a hassle-free
-                  journey.
+                  attractions.
                 </p>
               </div>
 
