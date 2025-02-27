@@ -16,6 +16,11 @@
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+<<<<<<< HEAD
+    "datepicker": "^0.0.0",
+    "i18next": "^24.2.2",
+    "i18next-browser-languagedetector": "^8.0.4",
+=======
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -23,8 +28,10 @@
     "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
+>>>>>>> af48bc633d35b6952e7d2efb67974d497dfb4b4d
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
+    "react-datepicker": "^8.1.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-icons": "^5.5.0",
@@ -51,6 +58,11 @@
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
+<<<<<<< HEAD
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+=======
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Richajaishwal0/Trip_assistant.git"
@@ -62,4 +74,5 @@
     "url": "https://github.com/Richajaishwal0/Trip_assistant/issues"
   },
   "homepage": "https://github.com/Richajaishwal0/Trip_assistant#readme"
+>>>>>>> af48bc633d35b6952e7d2efb67974d497dfb4b4d
 }

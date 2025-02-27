@@ -1,17 +1,19 @@
-import { useState,useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
 
 function Auth() {
-  const location=useLocation();
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
-// When the component loads, check if we received isLogin from Navbar
-useEffect(() => {
-  if (location.state?.isLogin !== undefined) {
-    setIsLogin(location.state.isLogin);
-  }
-}, [location]);
+
+  // When the component loads, check if we received `isLogin` from Navbar
+  useEffect(() => {
+    if (location.state?.isLogin !== undefined) {
+      setIsLogin(location.state.isLogin);
+    }
+  }, [location]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(isLogin ? "Logging in..." : "Signing up...");
@@ -22,7 +24,7 @@ useEffect(() => {
     <div
       className="vh-100 d-flex justify-content-center align-items-center bg-image"
       style={{
-        backgroundImage: "url('src/images/bg-auth.jpg')", // Replace with actual path
+        backgroundImage: "url('src/images/bg-auth.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -83,7 +85,7 @@ useEffect(() => {
 
         {/* Toggle Button */}
         <p className="mt-3 text-center">
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
           <button
             className="btn btn-link text-danger fw-bold"
             onClick={() => setIsLogin(!isLogin)}
