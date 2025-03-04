@@ -6,41 +6,44 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/Navigation";
 import Home from "./pages/home";
-import About from "./pages/About";
 import Places from "./pages/Places";
 import FindFriends from "./pages/FindFriends";
 import Auth from "./pages/Auth";
-import Footer from "./components/footer"
+import Footer from "./components/footer";
+import Dashboard from "./pages/Admin/admin";
 import "./i18n"; // Import i18next configuration
-// import _ from ".src/details/arga";
+
 function AppContent() {
   const location = useLocation(); // Get the current route
 
   return (
     <>
       {/* Show Navbar only if NOT on the Auth page */}
-      {location.pathname !== "/auth" && <Navbar />}
+
+      {location.pathname !== "/auth" && location.pathname !== "/admin" && (
+        <Navbar />
+      )}
 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
         <Route path="/places" element={<Places />} />
-        <Route path="/find-friends" element={<FindFriends />}/>
+        <Route path="/find-friends" element={<FindFriends />} />
         <Route path="/auth" element={<Auth />} />
-        {/* <Route path="/agra" element={< />} /> */}
 
+        <Route path="/admin" element={<Dashboard />} />
       </Routes>
-      <Footer/>
+      {location.pathname !== "/auth" && location.pathname !== "/admin" && (
+        <Footer />
+      )}
     </>
   );
 }
 
 function App() {
   return (
- 
-      <Router>
-        <AppContent />
-      </Router>
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 

@@ -12,16 +12,18 @@ body{
   
     
 }
-.ho-em{
+.home .ho-em{
     height:500px;
     background-image: url('../images/ihome_image.png');
     background-repeat: no-repeat;
     background-size: cover;
 }
-.heading{
+.home .heading{
     width:100vw;
 
-}h1 {
+}
+
+.home h1 {
     position: relative;
     top: 200px;
     color: #FFD700;
