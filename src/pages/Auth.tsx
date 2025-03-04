@@ -1,23 +1,56 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Auth() {
   const location = useLocation();
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [mobileNo, setMobileNO] = useState("");
+  const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
-  // When the component loads, check if we received `isLogin` from Navbar
   useEffect(() => {
     if (location.state?.isLogin !== undefined) {
       setIsLogin(location.state.isLogin);
     }
   }, [location]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(isLogin ? "Logging in..." : "Signing up...");
-    navigate("/");
+    
+    if (!isLogin && password !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    const url = isLogin ? "http://localhost:5000/login" : "http://localhost:5000/signup";
+
+    isLogin ? console.log("Logging in...") : console.log("Signing up..." + userName + mobileNo);
+    const payload = { email, password, mobileNo, userName};
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      
+      const data = await response.json();
+      if (response.ok) {
+        console.log(isLogin ? "Login Successful" : "Signup Successful", data);
+        navigate("/places");
+      } else {
+        alert(data.message || "An error occurred");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Network error, please try again.");
+    }
   };
 
   return (
@@ -31,40 +64,65 @@ function Auth() {
     >
       <div
         className="card p-4 rounded-4 shadow-lg bg-light"
-        style={{
-          maxWidth: "400px",
-          width: "100%",
-          border: "2px solid #ff4081",
-        }}
+        style={{ maxWidth: "400px", width: "100%", border: "2px solid #ff4081" }}
       >
-        <h2 className="text-center mb-4 text-dark">
-          {isLogin ? "Login" : "Sign Up"}
-        </h2>
-
+        <h2 className="text-center mb-4 text-dark">{isLogin ? "Login" : "Sign Up"}</h2>
+        
         <form onSubmit={handleSubmit}>
-          {/* Email Field */}
+        
+        {!isLogin && (
+            <div className="mb-3">
+              <label className="form-label text-dark">User Name</label>
+              <input
+                type="text"
+                className="form-control border-danger"
+                placeholder="Enter your UserName"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                required
+              />
+            </div>
+          )}
+
+
           <div className="mb-3">
             <label className="form-label text-dark">Email address</label>
             <input
               type="email"
               className="form-control border-danger"
               placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          {/* Password Field */}
+          {!isLogin && (
+            <div className="mb-3">
+              <label className="form-label text-dark">Phone No.</label>
+              <input
+                type="number"
+                className="form-control border-danger"
+                placeholder="Enter You Mobile number"
+                value={mobileNo}
+                onChange={(e) => setMobileNO(e.target.value)}
+                required
+              />
+            </div>
+          )}
+
           <div className="mb-3">
             <label className="form-label text-dark">Password</label>
             <input
               type="password"
               className="form-control border-danger"
               placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          {/* Extra Field for Signup */}
           {!isLogin && (
             <div className="mb-3">
               <label className="form-label text-dark">Confirm Password</label>
@@ -72,24 +130,22 @@ function Auth() {
                 type="password"
                 className="form-control border-danger"
                 placeholder="Confirm your password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
             </div>
           )}
+          
 
-          {/* Submit Button */}
           <button type="submit" className="btn btn-danger w-100 fw-bold">
             {isLogin ? "Login" : "Sign Up"}
           </button>
         </form>
 
-        {/* Toggle Button */}
         <p className="mt-3 text-center">
           {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
-          <button
-            className="btn btn-link text-danger fw-bold"
-            onClick={() => setIsLogin(!isLogin)}
-          >
+          <button className="btn btn-link text-danger fw-bold" onClick={() => setIsLogin(!isLogin)}>
             {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
