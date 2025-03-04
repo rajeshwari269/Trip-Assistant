@@ -12,7 +12,7 @@ import FindFriends from "./pages/FindFriends";
 import Auth from "./pages/Auth";
 import Footer from "./components/footer"
 import "./i18n"; // Import i18next configuration
-
+// import _ from ".src/details/arga";
 function AppContent() {
   const location = useLocation(); // Get the current route
 
@@ -27,6 +27,7 @@ function AppContent() {
         <Route path="/places" element={<Places />} />
         <Route path="/find-friends" element={<FindFriends />}/>
         <Route path="/auth" element={<Auth />} />
+        {/* <Route path="/agra" element={< />} /> */}
 
       </Routes>
       <Footer/>
