@@ -32,9 +32,9 @@ function AppContent() {
 
         <Route path="/admin" element={<Dashboard />} />
       </Routes>
-      {location.pathname !== "/auth" && location.pathname !== "/admin" && (
-        <Footer />
-      )}
+      {location.pathname !== "/auth" &&
+        location.pathname !== "/admin" &&
+        location.pathname !== "/find-friends" && <Footer />}
     </>
   );
 }

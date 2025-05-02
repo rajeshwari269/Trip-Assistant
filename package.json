@@ -56,21 +56,7 @@
   },
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "eslint.config.js",
-<<<<<<< HEAD
-  "keywords": [], 
-  "author": "", 
-  "license": "ISC",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Richajaishwal0/Trip_assistant.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Richajaishwal0/Trip_assistant/issues"
-  },
-  "homepage": "https://github.com/Richajaishwal0/Trip_assistant#readme"
-=======
   "keywords": [],
   "author": "",
   "license": "ISC"
->>>>>>> e15698ff6cb80e0f6c4561ff1b2098252a85e3c2
 }

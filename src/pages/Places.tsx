@@ -47,10 +47,17 @@ const Places: React.FC = () => {
         <div className="places-grid">
           {places.map((place) => (
             <div key={place.id} className="place-card">
-              <img src={place.image} alt={place.location} className="place-image" />
+              <img
+                src={place.image}
+                alt={place.location}
+                className="place-image"
+              />
               <div className="place-info">
                 <h3>
-                  <a href="#"><FaMapMarkerAlt /></a> {place.location}
+                  <a href="#">
+                    <FaMapMarkerAlt />
+                  </a>{" "}
+                  {place.location}
                 </h3>
                 <p>{place.distance}</p>
                 <p>{place.date}</p>
@@ -65,7 +72,10 @@ const Places: React.FC = () => {
       </div>
 
       {/* Floating Chatbot Button */}
-      <button className="chatbot-btn btn btn-primary" onClick={() => setIsChatOpen(true)}>
+      <button
+        className="chatbot-btn btn btn-primary"
+        onClick={() => setIsChatOpen(true)}
+      >
         <FaComments size={20} />
       </button>
 

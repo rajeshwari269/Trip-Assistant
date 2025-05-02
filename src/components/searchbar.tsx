@@ -28,19 +28,26 @@ const SearchBar: React.FC = () => {
 
           {/* Check In */}
           <Col xs={6} sm={3} md={2} className="border-end">
-            <Form.Label className="fw-bold text-dark mb-0" style={{ cursor: "pointer" }}>Check in</Form.Label>
-            <DatePicker 
+            <Form.Label
+              className="fw-bold text-dark mb-0"
+              style={{ cursor: "pointer" }}
+            >
+              Check in
+            </Form.Label>
+            <DatePicker
               selected={checkIn}
               onChange={(date) => setCheckIn(date)}
               placeholderText="Add dates"
               className="text-muted small border-0 w-100"
-              
             />
           </Col>
 
           {/* Check Out */}
           <Col xs={6} sm={3} md={2} className="border-end">
-            <Form.Label className="fw-bold text-dark mb-0" style={{ cursor: "pointer" }}>
+            <Form.Label
+              className="fw-bold text-dark mb-0"
+              style={{ cursor: "pointer" }}
+            >
               Check out
             </Form.Label>
             <DatePicker
@@ -53,7 +60,12 @@ const SearchBar: React.FC = () => {
 
           {/* Guests */}
           <Col xs={12} sm={6} md={3} className="border-end">
-            <Form.Label className="fw-bold text-dark mb-0" style={{ cursor: "pointer" }}>Guests</Form.Label>
+            <Form.Label
+              className="fw-bold text-dark mb-0"
+              style={{ cursor: "pointer" }}
+            >
+              Guests
+            </Form.Label>
             <Dropdown>
               <Dropdown.Toggle
                 variant="light"
