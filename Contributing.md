@@ -1,11 +1,11 @@
 # 🌍 Trip Planner
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
-![alt text](image-3.png)
-![alt text](image-4.png)
-![alt text](image-5.png)
+![alt text](site_images_/image.png)
+![alt text](site_images_/image-1.png)
+![alt text](site_images_/image-2.png)
+![alt text](site_images_/image-3.png)
+![alt text](site_images_/image-4.png)
+![alt text](site_images_/image-5.png)
 
 ## Overview <hr>
 
