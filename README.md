@@ -18,24 +18,27 @@
 | 🏨 Stay Booking Support   | Find and book accommodations (Airbnb-style listings).                           |
 | 📍 Personalized Itinerary | AI suggests travel plans based on your interests.                               |
 | 🛠️ Admin Dashboard        | Admins/hosts can manage property listings and view bookings.                    |
-| 🔐 User Authentication    | Secure login and registration for travelers and hosts.                          |
+| 🔐 User Authentication    | Secure login and registration for travelers and hosts (Firebase Auth).          |
 | 🌐 Multi-language         | Supports English, Hindi, and French.                                            |
 | 🌙 Dark Mode              | Toggle between light and dark themes.                                           |
 | 📱 Responsive Design      | Fully responsive for mobile and desktop.                                        |
+| ☁️ Cloud Database         | Uses MongoDB and Firebase for scalable data storage.                            |
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer                 | Technology                          |
-| --------------------- | ----------------------------------- |
-| 💻 Frontend           | React.js, TypeScript, Vite, Bootstrap|
-| 🖥️ Backend            | Node.js, Express, MySQL             |
-| 🗄️ Database           | MySQL                               |
-| 🔐 Authentication     | Custom (JWT, bcryptjs)              |
-| 🧠 AI Integration     | Custom Chatbot (API endpoint)        |
-| 🌍 i18n               | react-i18next                       |
-| 🎨 Styling            | CSS, Bootstrap, custom styles        |
+| Layer                 | Technology                                   |
+| --------------------- | -------------------------------------------- |
+| 💻 Frontend           | React.js, TypeScript, Vite, Bootstrap        |
+| 🖥️ Backend            | Node.js, Express                             |
+| 🗄️ Database           | MongoDB, Firebase (Firestore/Realtime DB)    |
+| 🔐 Authentication     | Firebase Authentication                      |
+| 🧠 AI Integration     | Custom Chatbot (API endpoint)                |
+| 🌍 i18n               | react-i18next                                |
+| 🎨 Styling            | CSS, Bootstrap, custom styles                |
+
+> **Note:** The backend will support MongoDB and Firebase integration for data storage and authentication, providing flexibility and scalability for future enhancements.
 
 ---
 
@@ -44,7 +47,8 @@
 ### Prerequisites
 - Node.js (v18+ recommended)
 - npm (v9+ recommended)
-- MySQL (for backend)
+- MongoDB (for backend)
+- Firebase account (for authentication and/or database)
 
 ### 1. Clone the Repository
 ```bash
@@ -72,7 +76,10 @@ node server.js
 ```
 The backend will run at [http://localhost:5000](http://localhost:5000)
 
-> **Note:** Ensure your MySQL server is running and the `tripPlannerDB` database is set up. Update credentials in `server.js` as needed.
+> **Note:**
+> - Ensure your MongoDB server is running and update the backend connection string as needed.
+> - For Firebase, set up your project and add your configuration to the relevant files.
+> - MySQL support is being replaced or supplemented by MongoDB and Firebase for future development.
 
 ---
 
@@ -126,6 +133,7 @@ We welcome all contributions—big or small! See [Contributing.md](Contributing.
 | 🏅 Reward System                 | Badges and rewards for active users.                        |
 | 📦 PWA Support                   | Progressive Web App/offline access.                         |
 | 🧳 Travel Budget Planner         | Tool for managing travel expenses.                          |
+| ☁️ Multi-DB Support              | Seamless integration with MongoDB, Firebase, and more.      |
 
 ---
 
@@ -140,7 +148,8 @@ This project is licensed under the ISC License.
 - [Vite](https://vitejs.dev/)
 - [Bootstrap](https://getbootstrap.com/)
 - [react-i18next](https://react.i18next.com/)
-- [MySQL](https://www.mysql.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Firebase](https://firebase.google.com/)
 - [Express](https://expressjs.com/)
 
 ---
