@@ -1,7 +1,8 @@
 .place {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 2rem 0;
+  
+  padding: 2rem ;
 }
 
 .places-container {
@@ -318,4 +319,10 @@
   .place-card:hover {
     transform: none;
   }
+}
+
+.dark-mode .place {
+  background: linear-gradient(135deg, #232946 0%, #121629 100%) !important;
+  color: #f7fafc !important;
+  transition: background 0.3s, color 0.3s;
 }

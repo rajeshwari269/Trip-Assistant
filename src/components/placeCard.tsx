@@ -116,7 +116,7 @@ const PlaceCard: React.FC = () => {
   ]
 
   return (
-    <div className="place">
+    <div className="place bg-black">
       
       <div className={darkMode ? "places-container bg-dark text-light":"places-container"}>
         <h2 className={darkMode ? "title bg-dark text-light":"title"}>Our Top Rated Tours and Adventures</h2>
