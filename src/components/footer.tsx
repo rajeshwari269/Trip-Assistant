@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
                   </a>
                 </p>
                 <p>
-                  <a href="#" className="text-white olor-gold">
+                  <a href="#" className="text-white color-gold">
                     Pokhara
                   </a>
                 </p>
