@@ -12,6 +12,7 @@ import Auth from "./pages/Auth";
 import Footer from "./components/footer";
 import Dashboard from "./pages/Admin/admin";
 import "./i18n"; // Import i18next configuration
+import "./responsive.css";
 
 function AppContent() {
   const location = useLocation(); // Get the current route

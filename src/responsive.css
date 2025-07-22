@@ -1,0 +1,108 @@
+/* Global responsive rules */
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.container, .container-fluid {
+  width: 100%;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* Navbar tweaks for mobile */
+.navbar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.navbar-brand {
+  font-size: 1.5rem;
+}
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background: #45526e;
+    padding: 1rem 0;
+  }
+  .navbar-nav .nav-link {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* Footer responsive tweaks */
+footer .row > div {
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 767.98px) {
+  footer .row {
+    flex-direction: column;
+    text-align: center;
+  }
+  footer .row > div {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Responsive cards and grids */
+.places-grid, .Operations {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 600px) {
+  .places-grid, .Operations {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Chatbot button and window responsive */
+.chatbot-btn {
+  bottom: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+}
+@media (max-width: 500px) {
+  .chatbot-container {
+    width: 98vw !important;
+    right: 1vw !important;
+    left: 1vw !important;
+    min-width: unset;
+    max-width: unset;
+  }
+  .chatbot-btn {
+    right: 8px;
+    bottom: 8px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Responsive text */
+h1, .title {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+/* Utility */
+.hide-on-mobile {
+  display: block;
+}
+@media (max-width: 600px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+} 
