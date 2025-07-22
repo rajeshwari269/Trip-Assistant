@@ -25,3 +25,9 @@ body.dark-mode span,
 body.dark-mode a {
   color: #f7fafc !important; /* Ensure text elements are light in dark mode */
 }
+
+@media (max-width: 600px) {
+  .searchbar-margin-fix {
+    margin-top: 70px !important;
+  }
+}

@@ -52,7 +52,7 @@ const PlaceCard: React.FC = () => {
       id: 5,
       name: "Qutub Minar, Delhi, India",
       image:
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Qutub_Minar_at_Delhi.jpg/675px-Qutub_Minar_at_Delhi.jpg?20131008133659",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Qutub_Minar_with_other_Monuments_13.jpg/640px-Qutub_Minar_with_other_Monuments_13.jpg",
       location: "Delhi, India",
       mapLink: "https://www.google.com/maps/place/Qutub+Minar,+Delhi,+India",
       price: "₹600 for foreign tourists; ₹40 for Indian tourists",
@@ -112,6 +112,24 @@ const PlaceCard: React.FC = () => {
         "https://www.google.com/maps/place/Varanasi+Ghats,+Varanasi,+Uttar+Pradesh,+India",
       price: "Free public access; boat rides priced individually",
       rating: "4.8/5",
+    },
+    {
+      id: 11,
+      name: "Shimla, Himachal Pradesh, India",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Longwood_%28Shimla%29.jpg/640px-Longwood_%28Shimla%29.jpg",
+      location: "Shimla, Himachal Pradesh, India",
+      mapLink: "https://www.google.com/maps/place/Amber+Fort,+Jaipur,+India",
+      price: "₹500 for foreign tourists; ₹100 for Indian tourists",
+      rating: "4.7/5",
+    },
+    {
+      id: 12,
+      name: "Shanti Stupa, Ladakh",
+      image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Shanti_Stupa_-Leh_-Jammu_and_Kashmir_-IMG001.jpg/640px-Shanti_Stupa_-Leh_-Jammu_and_Kashmir_-IMG001.jpg",
+      location: "Shanti Stupa, Ladakh",
+      mapLink: "https://www.google.com/maps/place/Charminar,+Hyderabad,+India",
+      price: "₹250 for foreign tourists; ₹25 for Indian tourists",
+      rating: "4.6/5",
     },
   ]
 
