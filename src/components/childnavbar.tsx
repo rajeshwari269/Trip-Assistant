@@ -30,7 +30,7 @@ const categories = [
         id: 1,
         name: "Coorg County Resorts",
         image:
-          " https://res.cloudinary.com/simplotel/image/upload/x_0,y_0,w_1024,h_768,r_0,c_crop,q_80,fl_progressive/w_900,f_auto,c_fit/coorg-county-resort-spa/WhatsApp_Image_2023-12-08_at_9.02.48_PM_s4h1c9 ",
+          " https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg ",
         price: "₹26,996 night",
         mapLink:
           "https://www.google.com/maps?q=9-138,+behind+coorg+international+hotel,+convent+layout,+vijayanagara,+Madikeri,+India",
@@ -264,20 +264,20 @@ const ChildNavbar: React.FC = () => {
         {selectedCategory && (
           <Container className="mt-4  ">
             <h4 className="text-center mb-3">{selectedCategory}</h4>
-            <Row className="g-3">
+            <Row className="g-3 justify-content-center align-items-stretch">
               {categories
                 .find((category) => category.name === selectedCategory)
                 ?.items.map((item, index) => (
-                  <Col xs={12} sm={6} md={4} lg={3} key={item.id}>
-                    <Card className="shadow-lg border-0 rounded-4 custom-card">
+                  <Col xs={12} sm={6} md={4} lg={3} key={item.id} className="d-flex justify-content-center">
+                    <Card className="shadow-lg border-0 rounded-4 custom-card w-100 h-100 d-flex flex-column align-items-center">
                       <Card.Img
                         variant="top"
                         src={item.image} // Updated to use item.image
                         alt={item.name} // Updated to use item.name
                         className="rounded-top-4"
                       />
-                      <Card.Body>
-                        <div className="d-flex align-items-center justify-content">
+                      <Card.Body className="d-flex flex-column align-items-center w-100">
+                        <div className="d-flex align-items-center justify-content-center w-100">
                           <Card.Title
                             className="mb-0"
                             style={{
@@ -297,12 +297,12 @@ const ChildNavbar: React.FC = () => {
                             <FaMapMarkerAlt />
                           </a>
                         </div>
-                        <Card.Text className="text-muted">
+                        <Card.Text className="text-muted w-100 text-center">
                           <strong>Price:</strong> {item.price} <br />
-                          <strong>
+                          <span className="d-inline-flex align-items-center justify-content-center gap-1 mt-1">
                             <FaStar style={{ color: "gold" }} />
-                          </strong>{" "}
-                          {item.rating}
+                            <span>{item.rating}</span>
+                          </span>
                         </Card.Text>
                       </Card.Body>
                     </Card>
@@ -314,13 +314,30 @@ const ChildNavbar: React.FC = () => {
       </Container>
       <style>{`
         .custom-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.3s cubic-bezier(.4,2,.3,1), box-shadow 0.3s, background 0.3s;
+          background: linear-gradient(135deg, rgba(69, 82, 110, 0.05), rgba(250, 215, 0, 0.05));
         }
 
         .custom-card:hover {
-          transform: scale(1.05);
-          box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-          background-color: rgba(0, 0, 0, 0.05);
+          transform: translateY(-6px) scale(1.03);
+          box-shadow: 0px 10px 32px rgba(0, 0, 0, 0.18);
+          background: linear-gradient(135deg, rgba(69, 82, 110, 0.10), rgba(250, 215, 0, 0.10));
+        }
+
+        body.dark-mode .custom-card {
+          background: #2d3748 !important;
+          color: #f7fafc !important;
+          border-color: #4a5568 !important;
+        }
+
+        body.dark-mode .custom-card:hover {
+          background: #374151 !important;
+          border-color: #FAD700;
+        }
+
+        body.dark-mode .custom-card .text-muted,
+        body.dark-mode .custom-card .card-text {
+          color: #f7fafc !important;
         }
       `}</style>
     </>

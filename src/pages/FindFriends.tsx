@@ -90,9 +90,27 @@ const users = [
 
 const UserCard: React.FC<{ user: (typeof users)[0] }> = ({ user }) => {
   const [requested, setRequested] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  React.useEffect(() => {
+    const checkDark = () => setDarkMode(document.body.classList.contains('dark-mode'));
+    checkDark();
+    const observer = new MutationObserver(checkDark);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  const cardStyle = darkMode
+    ? {
+        background: '#2d3748',
+        color: '#f7fafc',
+        border: '1px solid #4a5568',
+        boxShadow: '0 4px 24px #23294644',
+      }
+    : {};
 
   return (
-    <div className="card">
+    <div className="card" style={cardStyle}>
       <img src={user.avatar} alt={user.name} className="avatar" />
       <h3>{user.name}</h3>
       <p>{user.location}</p>
@@ -108,12 +126,31 @@ const UserCard: React.FC<{ user: (typeof users)[0] }> = ({ user }) => {
 const App: React.FC = () => {
   const [view, setView] = useState("home");
   const [search, setSearch] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
+
+  React.useEffect(() => {
+    const checkDark = () => setDarkMode(document.body.classList.contains('dark-mode'));
+    checkDark();
+    const observer = new MutationObserver(checkDark);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  const headerStyle = darkMode
+    ? {
+        background: '#2d3748',
+        borderBottom: '2px solid #FAD700',
+        color: '#FAD700',
+        borderRadius: '16px 16px 0 0',
+        boxShadow: '0 2px 12px #23294644',
+      }
+    : {};
 
   return (
-    <div className="container">
-      <div className="header">
-        <h1>Explore Together</h1>
-        <div className="search-bar">
+    <div className="container" style={{ marginTop: '80px' }}>
+      <div className="header" style={headerStyle}>
+        <h1 style={darkMode ? { color: '#FAD700' } : {}}>Explore Together</h1>
+        <div className="search-bar" style={{ background: '#fff', border: '1px solid #ccc' }}>
           <FaSearch className="search-icon" />
           <input
             type="text"
@@ -158,7 +195,6 @@ const App: React.FC = () => {
 };
 
 export default App;
-
 // CSS styles
 const styles = `
 .container {
@@ -255,3 +291,4 @@ button:hover {
 const styleElement = document.createElement("style");
 styleElement.innerHTML = styles;
 document.head.appendChild(styleElement);
+

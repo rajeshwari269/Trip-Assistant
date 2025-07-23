@@ -49,7 +49,7 @@ function Navbar() {
   return (
     <>
       <nav
-        className="navbar navbar-expand-lg"
+        className="navbar navbar-expand-lg fixed-top"
         style={{
           backgroundColor: "#45526e",
           scrollBehavior: "smooth",

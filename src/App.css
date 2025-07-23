@@ -1,1 +1,33 @@
 @import "tailwindcss";
+
+/* App.css */
+
+/* Add a smooth transition for background and text color changes */
+.place {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Styles for dark mode when the 'dark-mode' class is applied to the body */
+body.dark-mode {
+  background-color: #1a202c !important; /* A dark charcoal/gray background */
+  color: #f7fafc !important; /* A very light off-white for text */
+}
+
+/* You might also want to ensure other elements inherit the dark mode colors */
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode a {
+  color: #f7fafc !important; /* Ensure text elements are light in dark mode */
+}
+
+@media (max-width: 600px) {
+  .searchbar-margin-fix {
+    margin-top: 70px !important;
+  }
+}
