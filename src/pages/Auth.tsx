@@ -1,6 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { handleError } from "../utils/errorHandlerToast";
+import { showError, showSuccess } from "../utils/toastUtils";
 
 function Auth() {
   const location = useLocation();
@@ -18,11 +20,11 @@ function Auth() {
     }
   }, [location]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     
     if (!isLogin && password !== confirmPassword) {
-      alert("Passwords do not match!");
+      showError("Passwords do not match!");
       return;
     }
 
@@ -42,14 +44,14 @@ function Auth() {
       
       const data = await response.json();
       if (response.ok) {
-        console.log(isLogin ? "Login Successful" : "Signup Successful", data);
+        showSuccess(isLogin ? "Login Successful" : "Signup Successful");
+        console.log(data);
         navigate("/places");
       } else {
-        alert(data.message || "An error occurred");
+        showError(data.message || "An error occurred");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Network error, please try again.");
+      handleError(error, "Network error, please try again.");
     }
   };
 
