@@ -62,19 +62,42 @@ npm run dev
 
 Visit the app at: http://localhost:5173
 
-## 📌 Note for Contributors
+## 📌 Contribution Guidelines
 
 We welcome and appreciate all contributions — big or small!
 
-🔧 Currently, only a part of the **frontend** has been implemented. The **backend** and many key features are still **under development or planned**.
+### 🚦 How to Contribute
 
-Feel free to contribute in the following ways:
+1. **Fork the repository** to your own GitHub account.
+2. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
+   - Use a descriptive branch name, e.g. `feature/add-chatbot`, `bugfix/fix-navbar`, etc.
+   - Example:
+     ```bash
+     git checkout -b feature/your-feature-name
+     ```
+3. **Make your changes** in your branch.
+4. **Commit your changes** with clear and descriptive commit messages.
+5. **Push your branch** to your forked repository.
+6. **Create a Pull Request (PR)** to the main repository.
+   - **Include proof of your work in the PR description** (e.g., screenshots, photos, or screen recordings) to help reviewers understand and verify your changes.
+   - PRs without proof may not be considered for merging.
+7. **Wait for review and feedback.** Respond to any requested changes.
 
-- 🐞 Find and report bugs or UI issues
-- ✨ Suggest and implement new features
-- 🧹 Improve code structure or performance
-- 💡 Enhance UI/UX design
-- 📄 Update documentation
+### 🚨 Important:
+- **Never commit directly to the `main` branch.**
+- **Always create a new branch for each feature or fix.**
+- **Keep your branch up to date** with the latest `main` branch by pulling and merging regularly.
+- **Resolve any merge conflicts** before submitting your PR.
+
+### 📝 Example PR Description
+```
+## What does this PR do?
+- Adds a new chatbot feature to the homepage.
+
+## Proof of Work
+- ![Screenshot of chatbot](link-to-screenshot)
+- [Optional: short video or photo]
+```
 
 Whether it’s a small typo fix or a new functionality, your contribution makes a difference! Please fork the repo, make your changes, and open a pull request.
 

@@ -10,9 +10,9 @@ const SearchBar: React.FC = () => {
   const [guests, setGuests] = useState(1);
 
   return (
-    <div className="d-flex justify-content-center my-3">
+    <div className="d-flex justify-content-center my-3 searchbar-margin-fix" style={{ marginTop: '100px' }}>
       <InputGroup
-        className="p-2 rounded-4 shadow-lg bg-white"
+        className="p-2 rounded-4 shadow-lg bg-white  "
         style={{ maxWidth: "850px", border: "2px solid #45526e" }}
       >
         <Row className="w-100 align-items-center g-2">

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaStar, FaComments } from "react-icons/fa";
 import "./Places.css";
 import ChildNavbar from "../components/childnavbar";
@@ -37,16 +37,27 @@ const places = [
 
 const Places: React.FC = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setDarkMode(document.body.classList.contains("dark-mode"));
+    };
+    checkDarkMode();
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
       <SearchBar />
       <ChildNavbar />
-      <div className="places-container">
-        <h2 className="title">Explore Amazing Places</h2>
-        <div className="places-grid">
+      <div className={darkMode ? "places-container bg-dark" : "places-container"}>
+        <h2 className={darkMode ? "title bg-dark text-light" : "title"}>Explore Amazing Places</h2>
+        <div className={darkMode ? "places-grid bg-dark text-light" : "places-grid"}>
           {places.map((place) => (
-            <div key={place.id} className="place-card">
+            <div key={place.id} className={darkMode ? "place-card dark-mode" : "place-card"}>
               <img
                 src={place.image}
                 alt={place.location}
@@ -55,13 +66,13 @@ const Places: React.FC = () => {
               <div className="place-info">
                 <h3>
                   <a href="#">
-                    <FaMapMarkerAlt />
+                    <FaMapMarkerAlt className={darkMode ? "map-icon dark-mode" : "map-icon"} />
                   </a>{" "}
                   {place.location}
                 </h3>
                 <p>{place.distance}</p>
                 <p>{place.date}</p>
-                <p className="price">{place.price}</p>
+                <p className={darkMode ? "price dark-mode" : "price"}>{place.price}</p>
                 <p className="rating">
                   <FaStar /> {place.rating}
                 </p>

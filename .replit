@@ -1,0 +1,20 @@
+modules = ["nodejs-20", "web"]
+run = "npm run dev"
+
+[nix]
+channel = "stable-24_05"
+packages = ["gir-rs"]
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+
+[env]
+  NODE_ENV = "development"
+
+[[ports]]
+localPort = 5173
+externalPort = 5173
+
+[[ports]]
+localPort = 5174
+externalPort = 80
