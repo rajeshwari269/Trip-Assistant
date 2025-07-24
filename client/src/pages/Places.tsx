@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import { FaMapMarkerAlt, FaStar, FaComments } from "react-icons/fa";
 import "./Places.css";

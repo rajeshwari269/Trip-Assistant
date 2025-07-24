@@ -1,10 +1,10 @@
 # 🌍 Trip Planner
 
-![Trip Planner Screenshot](site_images_/image.png)
+![Trip Planner Screenshot](client/site_images_/image.png)
 
 ## Overview
 
-**Trip Planner** is a modern, AI-powered travel planning web application. It helps travelers effortlessly create personalized itineraries, discover top destinations, book accommodations, and connect with fellow travelers. The platform features an interactive chatbot for recommendations, a friend-finding system, and an admin dashboard for property management—making it your one-stop solution for seamless travel experiences.
+**Trip Planner** is a modern, AI-powered travel planning web application built with the MERN stack (MongoDB, Express, React, Node.js). It helps travelers effortlessly create personalized itineraries, discover top destinations, book accommodations, and connect with fellow travelers. The platform features an interactive chatbot for recommendations, a friend-finding system, and an admin dashboard for property management—making it your one-stop solution for seamless travel experiences.
 
 ---
 
@@ -32,13 +32,13 @@
 | --------------------- | -------------------------------------------- |
 | 💻 Frontend           | React.js, TypeScript, Vite, Bootstrap        |
 | 🖥️ Backend            | Node.js, Express                             |
-| 🗄️ Database           | MongoDB, Firebase (Firestore/Realtime DB)    |
+| 🗄️ Database           | MongoDB (Mongoose), Firebase (optional)      |
 | 🔐 Authentication     | Firebase Authentication                      |
 | 🧠 AI Integration     | Custom Chatbot (API endpoint)                |
 | 🌍 i18n               | react-i18next                                |
 | 🎨 Styling            | CSS, Bootstrap, custom styles                |
 
-> **Note:** The backend will support MongoDB and Firebase integration for data storage and authentication, providing flexibility and scalability for future enhancements.
+> **Note:** The backend uses MongoDB (via Mongoose) for data storage. Firebase is used for authentication and can be used for additional data storage if needed.
 
 ---
 
@@ -47,7 +47,7 @@
 ### Prerequisites
 - Node.js (v18+ recommended)
 - npm (v9+ recommended)
-- MongoDB (for backend)
+- MongoDB (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 - Firebase account (for authentication and/or database)
 
 ### 1. Clone the Repository
@@ -57,12 +57,20 @@ cd react_app
 ```
 
 ### 2. Install Dependencies
+#### For the frontend (React):
 ```bash
+cd client
+npm install
+```
+#### For the backend (Express):
+```bash
+cd ../server
 npm install
 ```
 
 ### 3. Start the Frontend (React)
 ```bash
+cd ../client
 npm run dev
 ```
 Visit the app at: [http://localhost:5173](http://localhost:5173)
@@ -70,16 +78,14 @@ Visit the app at: [http://localhost:5173](http://localhost:5173)
 ### 4. Start the Backend (Express API)
 Open a new terminal and run:
 ```bash
-cd src/pages/Admin
-npm install # if needed for backend dependencies
-node server.js
+cd server
+npm start # or node server.js
 ```
 The backend will run at [http://localhost:5000](http://localhost:5000)
 
 > **Note:**
-> - Ensure your MongoDB server is running and update the backend connection string as needed.
+> - Ensure your MongoDB server is running and update the backend connection string as needed (see `server/server.js`).
 > - For Firebase, set up your project and add your configuration to the relevant files.
-> - MySQL support is being replaced or supplemented by MongoDB and Firebase for future development.
 
 ---
 
@@ -87,7 +93,7 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 | Home Page | Places | Find Friends | Admin Dashboard |
 |-----------|--------|--------------|-----------------|
-| ![Home](site_images_/image-1.png) | ![Places](site_images_/image-2.png) | ![Friends](site_images_/image-3.png) | ![Admin](site_images_/image-4.png) |
+| ![Home](client/site_images_/image-1.png) | ![Places](client/site_images_/image-2.png) | ![Friends](client/site_images_/image-3.png) | ![Admin](client/site_images_/image-4.png) |
 
 ---
 
@@ -95,16 +101,70 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ```
 react_app/
-  ├── public/                # Static assets
-  ├── src/
-  │   ├── components/        # Reusable UI components
-  │   ├── pages/             # Main app pages (Home, Places, Auth, Admin, etc.)
-  │   ├── images/            # Image assets
-  │   ├── i18n.js            # Internationalization config
-  │   └── main.tsx           # App entry point
-  ├── package.json           # Project metadata & scripts
-  ├── vite.config.ts         # Vite config
-  └── ...
+├── client/
+│   ├── node_modules/
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── index.html
+│   ├── public/
+│   │   └── vite.svg
+│   ├── site_images_/
+│   │   ├── image-1.png
+│   │   ├── image-2.png
+│   │   ├── image-3.png
+│   │   ├── image-4.png
+│   │   ├── image-5.png
+│   │   └── image.png
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── main.tsx
+│   │   ├── App.css
+│   │   ├── responsive.css
+│   │   ├── i18n.js
+│   │   ├── Message.tsx
+│   │   ├── vite-env.d.ts
+│   │   ├── assets/
+│   │   │   ├── TripLogo.svg
+│   │   │   └── react.svg
+│   │   ├── images/
+│   │   │   ├── bg-auth.jpg
+│   │   │   ├── home1.jpg
+│   │   │   ├── home2.jpg
+│   │   │   ├── home3.jpg
+│   │   │   ├── home4.jpg
+│   │   │   ├── home5.jpeg
+│   │   │   ├── ihome_image.png
+│   │   │   └── logo1.jpg
+│   │   ├── components/
+│   │   │   ├── Navigation.tsx
+│   │   │   ├── chatbot.tsx
+│   │   │   ├── searchbar.tsx
+│   │   │   ├── placeCard.tsx
+│   │   │   ├── placeCard.css
+│   │   │   ├── footer.tsx
+│   │   │   ├── childnavbar.tsx
+│   │   │   └── chatbot.css
+│   │   ├── pages/
+│   │   │   ├── Auth.tsx
+│   │   │   ├── home.tsx
+│   │   │   ├── Places.tsx
+│   │   │   ├── FindFriends.tsx
+│   │   │   ├── Places.css
+│   │   │   ├── home.css
+│   │   │   └── Admin/
+│   │   │       ├── admin.tsx
+│   │   │       ├── admin.css
+│   │   │       └── Add.tsx
+├── server/
+│   └── server.js
+├── README.md
+├── Contributing.md
+├── vite.config.ts
+├── tsconfig.json
+├── tsconfig.app.json
+├── tsconfig.node.json
+├── eslint.config.js
+└── .gitignore
 ```
 
 ---
