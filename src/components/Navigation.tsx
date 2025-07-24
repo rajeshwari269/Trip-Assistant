@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaGlobeAmericas,
   FaBars,
@@ -11,11 +11,9 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { useTranslation } from "react-i18next";
-import "../App.css"; // Make sure hover/active styling is there
 
 function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 For active route check
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
   );
@@ -48,23 +46,19 @@ function Navbar() {
     }
   }, []);
 
-  // Helper to check active route
-  const isActive = (path: string) => location.pathname === path;
-
   return (
     <>
-    
       <nav
-        className="navbar navbar-expand-lg fixed-top custom-navbar shadow-sm"
+        className="navbar navbar-expand-lg"
         style={{
-          backgroundColor: darkMode ? "#222" : "#ffffff",
-          transition: "background-color 0.3s ease",
-          zIndex: 20,
+          backgroundColor: "#45526e",
+          scrollBehavior: "smooth",
+          zIndex: "20",
         }}
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            <FaGlobeAmericas size={50} color="#FFD700" />
+            <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
           </a>
 
           <button
@@ -82,37 +76,31 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    isActive("/") ? "active-link" : ""
-                  }`}
-                  href="/"
-                >
+                <a className="nav-link" href="/">
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    isActive("/places") ? "active-link" : ""
-                  }`}
-                  href="/places"
-                >
+                <a className="nav-link" href="/places">
                   Places
                 </a>
               </li>
+
               <li className="nav-item">
-                <a
-                  className={`nav-link ${
-                    isActive("/find-friends") ? "active-link" : ""
-                  }`}
-                  href="/find-friends"
-                >
+                <a className="nav-link" href="/find-friends">
                   Find Friends
                 </a>
               </li>
             </ul>
-
+            <style>
+              {`.nav-link{
+          color:white;
+           }
+           .nav-link:hover
+           {
+          color:#FAD700  !important;
+          transition: 0.3s ease-in-out;}`}
+            </style>
             {/* 🌙 Dark Mode Toggle */}
             <button
               className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
