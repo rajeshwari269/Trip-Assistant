@@ -5,6 +5,7 @@ import "./admin.css"; // Custom styles
 import "bootstrap-icons/font/bootstrap-icons.css";
 import PropertyForm from "./Add"; // Import the PropertyForm component
 import axios from "axios";
+import { handleError } from "../../utils/errorHandlerToast";
 
 const Dashboard: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -21,7 +22,7 @@ const Dashboard: React.FC = () => {
       const response = await axios.get("http://localhost:5000/api/properties");
       setProperties(response.data);
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      handleError(error, "Error occured while fetching properties.")
     }
   };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import "./chatbot.css";
+import { handleError } from "../utils/errorHandlerToast";
 
 const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [messages, setMessages] = useState<
@@ -49,6 +50,7 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       }
     } catch (error) {
       setMessages((prev) => [...prev, { text: "Request failed", type: "bot" }]);
+      handleError(error)
     }
   };
 

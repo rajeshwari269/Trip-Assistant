@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import axios from "axios";
+import { handleError } from "../../utils/errorHandlerToast";
 
 interface PropertyFormProps {
   show: boolean;
@@ -69,7 +70,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
       refreshProperties(); // Refresh Dashboard
       handleClose();
     } catch (error) {
-      console.error("Error adding property:", error);
+      handleError(error)
     }
   };
 
