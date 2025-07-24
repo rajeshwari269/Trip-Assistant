@@ -68,6 +68,11 @@ We welcome and appreciate all contributions — big or small!
 
 ### 🚦 How to Contribute
 
+- **You are free to work on any part of the website!** Whether it's fixing bugs, adding new features, improving UI/UX, or optimizing performance, your contributions are welcome—from small tweaks to major features.
+- **Before starting work, always check existing [issues](https://github.com/Richajaishwal0/Trip_assistant/issues) and [pull requests](https://github.com/Richajaishwal0/Trip_assistant/pulls)** to make sure the same thing is not already being worked on. This helps avoid duplicate work and merge conflicts.
+- **If you have an idea or want to experiment, feel free to open a new issue or PR.** Creativity and experimentation are encouraged to make this website as good as possible!
+
+#### Standard Workflow
 1. **Fork the repository** to your own GitHub account.
 2. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
    - Use a descriptive branch name, e.g. `feature/add-chatbot`, `bugfix/fix-navbar`, etc.
