@@ -1,3 +1,4 @@
+import React from "react";
 import "./home.css";
 import PlaceCard from "../components/placeCard";
 
