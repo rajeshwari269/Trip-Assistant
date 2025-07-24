@@ -135,6 +135,9 @@ react_app/
 │   │   │   ├── home5.jpeg
 │   │   │   ├── ihome_image.png
 │   │   │   └── logo1.jpg
+│   │   ├── utils/
+│   │   │   ├── errorHandlerToast.ts
+│   │   │   └── toastUtils.ts
 │   │   ├── components/
 │   │   │   ├── Navigation.tsx
 │   │   │   ├── chatbot.tsx
