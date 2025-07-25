@@ -1,6 +1,5 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import {
   FaGlobeAmericas,
   FaBars,
@@ -54,12 +53,12 @@ function Navbar() {
         style={{
           backgroundColor: "#45526e",
           scrollBehavior: "smooth",
-          zIndex: "20",
+          zIndex: 20,
         }}
       >
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
-            <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
+            <FaGlobeAmericas size={50} color="#FFD700" />
           </a>
 
           <button
@@ -77,31 +76,37 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/places">
+                <Link className="nav-link" to="/places">
                   Places
-                </a>
+                </Link>
               </li>
-
               <li className="nav-item">
-                <a className="nav-link" href="/find-friends">
+                <Link className="nav-link" to="/find-friends">
                   Find Friends
-                </a>
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/more-places">
+                  More Places
+                </Link>
               </li>
             </ul>
+
             <style>
-              {`.nav-link{
-          color:white;
-           }
-           .nav-link:hover
-           {
-          color:#FAD700  !important;
-          transition: 0.3s ease-in-out;}`}
+              {`.nav-link {
+                color: white;
+              }
+              .nav-link:hover {
+                color: #FAD700 !important;
+                transition: 0.3s ease-in-out;
+              }`}
             </style>
+
             {/* 🌙 Dark Mode Toggle */}
             <button
               className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
@@ -124,7 +129,6 @@ function Navbar() {
               >
                 <FaGlobe className="text-light" />
               </button>
-
               <div
                 className="dropdown-menu dropdown-menu-end p-3"
                 style={{ width: "300px" }}
