@@ -101,73 +101,72 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ```
 react_app/
-├── client/
-│   ├── node_modules/
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── index.html
-│   ├── public/
-│   │   └── vite.svg
-│   ├── site_images_/
-│   │   ├── image-1.png
-│   │   ├── image-2.png
-│   │   ├── image-3.png
-│   │   ├── image-4.png
-│   │   ├── image-5.png
-│   │   └── image.png
-│   ├── src/
-│   │   ├── App.tsx
-│   │   ├── main.tsx
-│   │   ├── App.css
-│   │   ├── responsive.css
-│   │   ├── i18n.js
-│   │   ├── Message.tsx
-│   │   ├── vite-env.d.ts
-│   │   ├── assets/
-│   │   │   ├── TripLogo.svg
-│   │   │   └── react.svg
-│   │   ├── images/
-│   │   │   ├── bg-auth.jpg
-│   │   │   ├── home1.jpg
-│   │   │   ├── home2.jpg
-│   │   │   ├── home3.jpg
-│   │   │   ├── home4.jpg
-│   │   │   ├── home5.jpeg
-│   │   │   ├── ihome_image.png
-│   │   │   └── logo1.jpg
-│   │   ├── utils/
-│   │   │   ├── errorHandlerToast.ts
-│   │   │   └── toastUtils.ts
-│   │   ├── components/
-│   │   │   ├── Navigation.tsx
-│   │   │   ├── chatbot.tsx
-│   │   │   ├── searchbar.tsx
-│   │   │   ├── placeCard.tsx
-│   │   │   ├── placeCard.css
-│   │   │   ├── footer.tsx
-│   │   │   ├── childnavbar.tsx
-│   │   │   └── chatbot.css
-│   │   ├── pages/
-│   │   │   ├── Auth.tsx
-│   │   │   ├── home.tsx
-│   │   │   ├── Places.tsx
-│   │   │   ├── FindFriends.tsx
-│   │   │   ├── Places.css
-│   │   │   ├── home.css
-│   │   │   └── Admin/
-│   │   │       ├── admin.tsx
-│   │   │       ├── admin.css
-│   │   │       └── Add.tsx
-├── server/
-│   └── server.js
-├── README.md
-├── Contributing.md
-├── vite.config.ts
-├── tsconfig.json
-├── tsconfig.app.json
-├── tsconfig.node.json
-├── eslint.config.js
-└── .gitignore
+  client/
+    index.html
+    package-lock.json
+    package.json
+    public/
+      vite.svg
+    site_images_/
+      image-1.png
+      image-2.png
+      image-3.png
+      image-4.png
+      image-5.png
+      image.png
+    src/
+      App.css
+      App.tsx
+      assets/
+        react.svg
+        TripLogo.svg
+      components/
+        chatbot.css
+        chatbot.tsx
+        childnavbar.tsx
+        footer.tsx
+        Navigation.tsx
+        placeCard.css
+        placeCard.tsx
+        searchbar.tsx
+      i18n.js
+      images/
+        bg-auth.jpg
+        home1.jpg
+        home2.jpg
+        home3.jpg
+        home4.jpg
+        home5.jpeg
+        ihome_image.png
+        logo1.jpg
+      main.tsx
+      Message.tsx
+      pages/
+        Admin/
+          Add.tsx
+          admin.css
+          admin.tsx
+        Auth.tsx
+        FindFriends.tsx
+        home.css
+        home.tsx
+        Places.css
+        Places.tsx
+      responsive.css
+      utils/
+        errorHandlerToast.ts
+        toastUtils.ts
+      vite-env.d.ts
+  Contributing.md
+  eslint.config.js
+  README.md
+  server/
+    server.js
+  src/
+  tsconfig.app.json
+  tsconfig.json
+  tsconfig.node.json
+  vite.config.ts
 ```
 
 ---
