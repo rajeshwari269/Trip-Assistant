@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
   return (
     <div className=" my-5">
       <footer
-        className="text-center text-lg-start text-white"
+        className="text-start text-white"
         style={{
           backgroundColor: "#45526e",
           width: "100%",
@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
         <div className="container p-4 pb-0">
           <section>
             <div className="row">
-              <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+              <div className="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3 text-start">
                 <h6 className="text-uppercase mb-4 font-weight-bold">Tripp</h6>
                 <p>
                   🌟Discover the ultimate <strong>Trip Planner </strong> your
@@ -38,7 +38,7 @@ const Footer: React.FC = () => {
 
               <hr className="w-100 clearfix d-md-none" />
 
-              <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+              <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3 text-start">
                 <h6 className="text-uppercase mb-4 font-weight-bold">
                   Countries
                 </h6>
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
                 </p>
                 <p>
                   <a href="#" className="text-white color-gold">
-                    Bangladesh
+                      Bangladesh
                   </a>
                 </p>
                 <p>
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
 
               <hr className="w-100 clearfix d-md-none" />
 
-              <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+              <div className="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3 text-start">
                 <h6 className="text-uppercase mb-4 font-weight-bold">
                   Most Visited Places
                 </h6>
@@ -94,7 +94,7 @@ const Footer: React.FC = () => {
 
               <hr className="w-100 clearfix d-md-none" />
 
-              <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+              <div className="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3 text-start">
                 <h6 className="text-uppercase mb-4 font-weight-bold">
                   Contact
                 </h6>
@@ -120,7 +120,7 @@ const Footer: React.FC = () => {
 
           <section className="p-3 pt-0">
             <div className="row d-flex align-items-center">
-              <div className="col-md-7 col-lg-8 text-center text-md-start">
+              <div className="col-md-7 col-lg-8 text-start">
                 <div className="p-3">
                   © 2024 Copyright:{" "}
                   <a href="#" className="text-white color-gold">
@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
                   </a>
                 </div>
               </div>
-              <div className="col-md-5 col-lg-4 text-center text-md-end">
+              <div className="col-md-5 col-lg-4 text-start">
                 <a
                   href="#"
                   className="btn btn-outline-light btn-floating m-1 text-white social-icon"
