@@ -1,6 +1,5 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Use Link for navigation
 import {
   FaGlobeAmericas,
   FaBars,
@@ -49,12 +48,14 @@ function Navbar() {
 
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg custom-navbar"
+      {/* --- THIS IS THE FIX --- */}
+      {/* The "fixed-top" class from Bootstrap makes the navbar
+          stay at the top of the screen when you scroll. */}
+      <nav className="navbar navbar-expand-lg fixed-top"
+
         style={{
           backgroundColor: "#45526e",
-          scrollBehavior: "smooth",
-          zIndex: "20",
+          zIndex: "1030", // Ensure it's above other content
         }}
       >
         <style>
@@ -129,9 +130,9 @@ function Navbar() {
     `}
         </style>
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/">
             <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
-          </a>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -148,19 +149,24 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="/">
+                <Link className="nav-link" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/places">
+                <Link className="nav-link" to="/places">
                   Places
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="/find-friends">
+                <Link className="nav-link" to="/find-friends">
                   Find Friends
-                </a>
+                </Link>
+              </li>
+               <li className="nav-item">
+                <Link className="nav-link" to="/more-places">
+                  Famous Places
+                </Link>
               </li>
               {/* About Us Section */}
               <li className="nav-item">
@@ -178,7 +184,6 @@ function Navbar() {
           color:#FAD700  !important;
           transition: 0.3s ease-in-out;}`}
             </style>
-            {/* 🌙 Dark Mode Toggle */}
             <button
               className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
               onClick={toggleDarkMode}
@@ -189,8 +194,6 @@ function Navbar() {
                 <FaMoon className="text-light" />
               )}
             </button>
-
-            {/* 🌍 Language Dropdown */}
             <div className="dropdown me-3">
               <button
                 className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm"
@@ -200,7 +203,6 @@ function Navbar() {
               >
                 <FaGlobe className="text-light" />
               </button>
-
               <div
                 className="dropdown-menu dropdown-menu-end p-3"
                 style={{ width: "300px" }}
@@ -228,8 +230,6 @@ function Navbar() {
                 </ul>
               </div>
             </div>
-
-            {/* 👤 Profile Dropdown */}
             <div className="dropdown">
               <button
                 className="btn border rounded-pill d-flex align-items-center p-2 shadow-sm"
@@ -242,7 +242,6 @@ function Navbar() {
                   <FaUser className="text-white" />
                 </div>
               </button>
-
               <ul className="dropdown-menu dropdown-menu-end shadow-sm">
                 <li>
                   <button
@@ -266,9 +265,9 @@ function Navbar() {
                 </li>
                 <hr />
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/help">
                     Help Centre
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
