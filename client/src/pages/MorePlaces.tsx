@@ -122,7 +122,7 @@ const MorePlaces = () => {
                   </h3>
                   <p className="price">Photographer: {place.photographer}</p>
                   <p className="rating">
-                    <FaStar style={{color: '#FAD700'}} /> View on Pexels
+                    <FaStar style={{color: '#FAD700'}} /> View More
                   </p>
                 </div>
               </div>
