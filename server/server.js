@@ -2,30 +2,128 @@ const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
 const path = require("path");
+const { createClient } = require("pexels"); // ✅ Only declared once
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 // Database connection
 const db = require("./db");
 const app = express();
+
+// ✅ CORS and JSON middleware
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+app.use(express.json());
+app.use("/uploads", express.static("uploads")); // Serve image uploads
+
+
+const pexelsClient = createClient(process.env.PEXELS_API_KEY);
+
+
+// Route to get famous or user-searched places from Pexels
+app.get("/api/more-places", async (req, res) => {
+  try {
+    const query = req.query.query?.trim() || "famous places";
+    const page = req.query.page
+      ? parseInt(req.query.page)
+      : Math.floor(Math.random() * 5) + 1; // random page 1-5 if not provided
+    const per_page = parseInt(req.query.per_page) || 12;
+
+    const response = await pexelsClient.photos.search({
+      query,
+      page,
+      per_page,
+    });
+
+    const photos = response.photos.map((photo) => ({
+      id: photo.id,
+      src: photo.src.large,
+      alt: photo.alt,
+      photographer: photo.photographer,
+      location: photo.url,
+    }));
+
+    res.json(photos);
+  } catch (err) {
+    console.error("❌ Pexels API error:", err.message);
+    res.status(500).json({ error: "Failed to fetch places" });
+  }
+});
+
+/**
+ * @route   GET /api/more-places
+ * @desc    Fetches a list of places from Pexels for the "More Places" page.
+ * @access  Public
+ */
+app.get('/api/more-places', async (req, res) => {
+  const { query, page, per_page } = req.query;
+
+  if (!process.env.PEXELS_API_KEY) {
+      return res.status(500).json({ error: 'Pexels API key is missing.' });
+  }
+  if (!query) {
+      return res.status(400).json({ error: 'Search query is required.' });
+  }
+
+  try {
+      const response = await pexelsClient.photos.search({ 
+          query, 
+          page: parseInt(page) || 1, 
+          per_page: parseInt(per_page) || 12 
+      });
+      
+      res.json(response.photos);
+  } catch (error) {
+      console.error('Error fetching from Pexels for more-places:', error.message);
+      res.status(500).json({ error: 'Failed to fetch more places' });
+  }
+});
+
+
+
+// Middleware
 app.use(express.json());
 app.use(cors());
-app.use("/uploads", express.static("uploads")); // Serve static images
+app.use("/uploads", express.static("uploads")); // Serve uploaded images
 
 // Database connection
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "richa@2006",
+  database: "tripPlannerDB",
+});
 
-// Multer storage setup for image uploads
+db.connect((err) => {
+  if (err) {
+    console.error("❌ Database connection failed:", err.message);
+  } else {
+    console.log("✅ Database connected!");
+  }
+});
+
+
+// Storage setup for multer
 const storage = multer.diskStorage({
   destination: "./uploads",
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName);
   },
 });
 
 const upload = multer({ storage });
 
-// API to add a new property with images
+/**
+ * @route   POST /api/properties
+ * @desc    Add a new property with images
+ */
 app.post("/api/properties", upload.array("images", 5), (req, res) => {
   const {
-    host_id,
+    host_id = 1,
     title,
     description,
     location,
@@ -39,10 +137,13 @@ app.post("/api/properties", upload.array("images", 5), (req, res) => {
 
   const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
 
-  const sql =
-    "INSERT INTO properties (host_id, title, description, location, price, max_guests, bedrooms, bathrooms, property_type, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  const sql = `
+    INSERT INTO properties 
+    (host_id, title, description, location, price, max_guests, bedrooms, bathrooms, property_type, status) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
   const values = [
-    host_id || 1, // Default to host_id 1 for testing
+    host_id,
     title,
     description,
     location,
@@ -55,7 +156,10 @@ app.post("/api/properties", upload.array("images", 5), (req, res) => {
   ];
 
   db.query(sql, values, (err, result) => {
-    if (err) return res.status(500).json({ error: "Failed to add property" });
+    if (err) {
+      console.error("❌ Property insert failed:", err.message);
+      return res.status(500).json({ error: "Failed to add property" });
+    }
 
     const propertyId = result.insertId;
     const imageSql =
@@ -63,28 +167,48 @@ app.post("/api/properties", upload.array("images", 5), (req, res) => {
     const imageValues = imagePaths.map((url) => [propertyId, url]);
 
     db.query(imageSql, [imageValues], (imgErr) => {
-      if (imgErr)
+      if (imgErr) {
+        console.error("❌ Image insert failed:", imgErr.message);
         return res.status(500).json({ error: "Failed to save images" });
-      res.status(201).json({ message: "Property added successfully" });
+      }
+
+      res.status(201).json({ message: "✅ Property added successfully" });
     });
   });
 });
 
-// API to fetch properties with images
+/**
+ * @route   GET /api/properties
+ * @desc    Get all properties with image URLs
+ */
 app.get("/api/properties", (req, res) => {
   const sql = `
-    SELECT p.*, GROUP_CONCAT(i.image_url) AS images
+    SELECT 
+      p.*, 
+      GROUP_CONCAT(i.image_url) AS images
     FROM properties p
     LEFT JOIN property_images i ON p.property_id = i.property_id
     GROUP BY p.property_id
     ORDER BY p.created_at DESC`;
 
   db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: "Failed to fetch properties" });
-    res.json(results);
+    if (err) {
+      console.error("❌ Fetch properties failed:", err.message);
+      return res.status(500).json({ error: "Failed to fetch properties" });
+    }
+
+    // Split image URLs string into array
+    const formatted = results.map((row) => ({
+      ...row,
+      images: row.images ? row.images.split(",") : [],
+    }));
+
+    res.json(formatted);
   });
 });
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// Start server
+const PORT = 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
