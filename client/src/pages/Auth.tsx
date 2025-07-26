@@ -67,7 +67,12 @@ function Auth() {
     >
       <div
         className="card p-4 rounded-4 shadow-lg bg-light"
-        style={{ maxWidth: "400px", width: "100%", border: "2px solid #ff4081" }}
+        style={{
+          maxWidth: "400px",
+          width: "100%",
+          border: "2px solid #ff4081",
+          background: "linear-gradient(135deg, #d3be52ff 0%, #d4527bff 100%)" // changed background
+        }}
       >
         <h2 className="text-center mb-4 text-dark">{isLogin ? "Login" : "Sign Up"}</h2>
         
@@ -104,7 +109,7 @@ function Auth() {
             <div className="mb-3">
               <label className="form-label text-dark">Phone No.</label>
               <input
-                type="number"
+                type="tel"
                 className="form-control border-danger"
                 placeholder="Enter You Mobile number"
                 value={mobileNo}

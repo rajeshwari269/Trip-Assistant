@@ -1,6 +1,5 @@
 const express = require("express");
 const multer = require("multer");
-const mysql = require("mysql2");
 const cors = require("cors");
 const path = require("path");
 const { createClient } = require("pexels"); // ✅ Only declared once
@@ -8,6 +7,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 
+// Database connection
+const db = require("./db");
 const app = express();
 
 // ✅ CORS and JSON middleware
@@ -103,6 +104,7 @@ db.connect((err) => {
     console.log("✅ Database connected!");
   }
 });
+
 
 // Storage setup for multer
 const storage = multer.diskStorage({
