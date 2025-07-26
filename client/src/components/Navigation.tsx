@@ -50,13 +50,84 @@ function Navbar() {
   return (
     <>
       <nav
-        className="navbar navbar-expand-lg"
+        className="navbar navbar-expand-lg custom-navbar"
         style={{
           backgroundColor: "#45526e",
           scrollBehavior: "smooth",
           zIndex: "20",
         }}
       >
+        <style>
+          {`
+      .custom-navbar {
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+        font-family: 'Segoe UI', 'Arial', sans-serif;
+        letter-spacing: 0.5px;
+      }
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.7rem;
+        color: #FFD700 !important;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .navbar-nav .nav-link {
+        color: #fff !important;
+        font-size: 1.1rem;
+        padding: 0.7rem 1.1rem;
+        border-radius: 0.5rem;
+        margin: 0 0.2rem;
+        transition: background 0.2s, color 0.2s;
+      }
+      .navbar-nav .nav-link.active, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:hover {
+        color: #45526e !important;
+        background: #FAD700 !important;
+        font-weight: 500;
+        box-shadow: 0 2px 8px rgba(250,215,0,0.08);
+      }
+      .navbar-toggler {
+        border: none;
+        outline: none;
+      }
+      .navbar-toggler:focus {
+        box-shadow: none;
+      }
+      .btn.border {
+        border-color: #FAD700 !important;
+        background: #45526e;
+        color: #fff;
+      }
+      .btn.border:hover, .btn.border:focus {
+        background: #FAD700 !important;
+        color: #45526e !important;
+        border-color: #FAD700 !important;
+      }
+      .dropdown-menu {
+        border-radius: 0.7rem;
+        border: 1px solid #FAD700;
+        box-shadow: 0 4px 24px rgba(69,82,110,0.12);
+      }
+      .dropdown-item {
+        border-radius: 0.4rem;
+        transition: background 0.2s, color 0.2s;
+      }
+      .dropdown-item:hover, .dropdown-item:focus {
+        background: #FAD700;
+        color: #45526e;
+      }
+      .profile-icon {
+        width: 32px;
+        height: 32px;
+      }
+      @media (max-width: 991px) {
+        .navbar-nav .nav-link {
+          padding: 0.5rem 1rem;
+          font-size: 1rem;
+        }
+      }
+    `}
+        </style>
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
@@ -86,10 +157,15 @@ function Navbar() {
                   Places
                 </a>
               </li>
-
               <li className="nav-item">
                 <a className="nav-link" href="/find-friends">
                   Find Friends
+                </a>
+              </li>
+              {/* About Us Section */}
+              <li className="nav-item">
+                <a className="nav-link" href="/about">
+                  About Us
                 </a>
               </li>
             </ul>
