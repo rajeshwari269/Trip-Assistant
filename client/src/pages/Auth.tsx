@@ -109,7 +109,7 @@ function Auth() {
             <div className="mb-3">
               <label className="form-label text-dark">Phone No.</label>
               <input
-                type="number"
+                type="tel"
                 className="form-control border-danger"
                 placeholder="Enter You Mobile number"
                 value={mobileNo}
