@@ -1,26 +1,16 @@
 const express = require("express");
 const multer = require("multer");
-const mysql = require("mysql2");
 const cors = require("cors");
 const path = require("path");
 
+// Database connection
+const db = require("./db");
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads")); // Serve static images
 
 // Database connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "richa@2006",
-  database: "tripPlannerDB",
-});
-
-db.connect((err) => {
-  if (err) console.error("Database connection failed:", err);
-  else console.log("Database connected!");
-});
 
 // Multer storage setup for image uploads
 const storage = multer.diskStorage({
