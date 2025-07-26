@@ -92,7 +92,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/more-places">
-                  More Places
+                  Famous Places
                 </Link>
               </li>
             </ul>

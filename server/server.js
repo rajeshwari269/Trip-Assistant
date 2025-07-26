@@ -52,6 +52,35 @@ app.get("/api/more-places", async (req, res) => {
   }
 });
 
+/**
+ * @route   GET /api/more-places
+ * @desc    Fetches a list of places from Pexels for the "More Places" page.
+ * @access  Public
+ */
+app.get('/api/more-places', async (req, res) => {
+  const { query, page, per_page } = req.query;
+
+  if (!process.env.PEXELS_API_KEY) {
+      return res.status(500).json({ error: 'Pexels API key is missing.' });
+  }
+  if (!query) {
+      return res.status(400).json({ error: 'Search query is required.' });
+  }
+
+  try {
+      const response = await pexelsClient.photos.search({ 
+          query, 
+          page: parseInt(page) || 1, 
+          per_page: parseInt(per_page) || 12 
+      });
+      
+      res.json(response.photos);
+  } catch (error) {
+      console.error('Error fetching from Pexels for more-places:', error.message);
+      res.status(500).json({ error: 'Failed to fetch more places' });
+  }
+});
+
 
 
 // Middleware

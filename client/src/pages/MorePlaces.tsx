@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaMapMarkerAlt, FaStar, FaSearch } from "react-icons/fa";
+// Import the CSS from your existing placeCard component for consistent styling
+import '../components/placeCard.css';
 
 const MorePlaces = () => {
   const [places, setPlaces] = useState([]);
@@ -7,15 +10,16 @@ const MorePlaces = () => {
   const [searchTerm, setSearchTerm] = useState('famous places in india');
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  // State to trigger animations after initial load
   const [isMounted, setIsMounted] = useState(false);
+  const [darkMode] = useState(document.body.classList.contains('dark-mode'));
 
   const fetchPlaces = async (query = searchTerm, currentPage = 1) => {
     try {
-      setLoading(true);
-      // Fetching more items to better fill the screen
+      if (currentPage === 1) {
+        setLoading(true);
+      }
       const res = await axios.get(
-        `http://localhost:5000/api/more-places?query=${encodeURIComponent(query)}&page=${currentPage}&per_page=16`
+        `http://localhost:5000/api/more-places?query=${encodeURIComponent(query)}&page=${currentPage}&per_page=12`
       );
 
       if (res.data.length === 0) {
@@ -37,15 +41,15 @@ const MorePlaces = () => {
 
   useEffect(() => {
     fetchPlaces(searchTerm, 1);
-    // Set mounted to true after a short delay to trigger entry animations
     const timer = setTimeout(() => setIsMounted(true), 100);
-    return () => clearTimeout(timer); // Cleanup timer on unmount
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSearch = e => {
     e.preventDefault();
     setPage(1);
     setHasMore(true);
+    setPlaces([]);
     fetchPlaces(searchTerm, 1);
   };
 
@@ -55,102 +59,102 @@ const MorePlaces = () => {
     fetchPlaces(searchTerm, nextPage);
   };
 
-  // Helper function to get a cleaner, more searchable name from a long description.
   const getCleanPlaceName = (description) => {
-    if (!description) return '';
-    // Splits the description by common words and takes the first, most relevant part.
+    if (!description) return 'Beautiful Destination';
     const parts = description.split(/,| featuring| with| in| at sunset| spanning/);
     return parts[0].trim();
   };
 
-  // This function now opens a new tab with a Google search.
   const handleShowDetails = (placeName) => {
-    if (!placeName) {
-      console.warn('No place name provided to handleShowDetails');
-      return;
-    }
-    // Construct a Google search URL.
     const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(placeName)}`;
-    // Open the URL in a new tab.
     window.open(googleSearchUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
-    // Main container with a dark blue background
-    <div className="bg-slate-900 text-white min-h-screen p-4 sm:p-8">
-      <div className="max-w-screen-xl mx-auto">
-        {/* Animated Header and Search Bar */}
-        <div className={`transition-all duration-700 ease-out ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-5'}`}>
-          <div className="text-center mb-6">
-            <h1 className="text-4xl sm:text-5xl font-bold mb-2">Explore Destinations</h1>
-            <p className="text-lg text-gray-400">Find your next adventure</p>
-          </div>
-          <div className="flex justify-center mb-12">
-            <form
-              onSubmit={handleSearch}
-              className="flex w-full max-w-lg"
-            >
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                placeholder="Search for places..."
-                className="bg-white text-gray-900 px-4 py-3 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-yellow-500"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 bg-yellow-500 text-black font-semibold rounded-r-md hover:bg-yellow-600 transition-colors transform hover:scale-105"
-              >
-                Search
-              </button>
+    <div className="place">
+      <div className={darkMode ? "places-container bg-dark text-light" : "places-container"}>
+        <h2 className={darkMode ? "title bg-dark text-light" : "title"}>Explore More Destinations</h2>
+        
+        <div className="d-flex justify-content-center mb-5">
+            <form onSubmit={handleSearch} className="d-flex w-100" style={{ maxWidth: '600px' }}>
+                <input
+                    type="text"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    placeholder="Search for places..."
+                    className="form-control form-control-lg"
+                />
+                <button type="submit" className="btn btn-primary btn-lg ms-2">
+                    <FaSearch />
+                </button>
             </form>
-          </div>
         </div>
 
-        {/* Image Grid */}
         {loading && places.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">Loading destinations...</div>
+          <div className="text-center py-5"><h4>Loading...</h4></div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className={darkMode ? "places-grid bg-dark text-light" : "places-grid"}>
             {places.map((place, index) => (
-              // Enhanced pop-out effect and staggered entry animation
-              <div
-                key={place.id}
-                className={`cursor-pointer group relative rounded-lg overflow-hidden shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-yellow-500/30 hover:z-10 hover:-translate-y-4 ${isMounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                style={{ transitionDelay: `${isMounted ? index * 50 : 0}ms` }} // Staggered delay
+              <div 
+                key={place.id} 
+                className={`place-card ${isMounted ? 'fade-in' : ''}`} 
+                style={{ animationDelay: `${isMounted ? index * 50 : 0}ms` }}
                 onClick={() => handleShowDetails(getCleanPlaceName(place.alt))}
               >
+                {/* --- THIS IS THE FIX --- */}
+                {/* Use place.src directly, as provided by your backend */}
                 <img
-                  src={place.src.large || place.src.medium || place.src}
+                  src={place.src}
                   alt={place.alt}
-                  className="w-full h-80 object-cover transform group-hover:scale-110 transition-transform duration-500"
+                  className="place-image"
                 />
-                {/* Gradient overlay for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-all duration-300 group-hover:from-black/90"></div>
-                {/* Text content positioned at the bottom, animates on hover */}
-                <div className="absolute bottom-0 left-0 p-4 w-full transition-transform duration-300 transform group-hover:-translate-y-1">
-                  <h2 className="font-bold text-lg text-white truncate">
-                    {getCleanPlaceName(place.alt) || 'Unknown Place'}
-                  </h2>
-                  <p className="text-sm text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">View Details →</p>
+                <div className="place-info">
+                  <h3>
+                    {getCleanPlaceName(place.alt)}
+                    <a
+                      href={`https://www.google.com/maps?q=${encodeURIComponent(getCleanPlaceName(place.alt))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <FaMapMarkerAlt className="map-icon" />
+                    </a>
+                  </h3>
+                  <p className="price">Photographer: {place.photographer}</p>
+                  <p className="rating">
+                    <FaStar style={{color: '#FAD700'}} /> View on Pexels
+                  </p>
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* Show More Button */}
         {hasMore && !loading && (
-          <div className="text-center mt-12">
-            <button
-              onClick={handleShowMore}
-              className="px-8 py-3 bg-yellow-500 text-black font-semibold rounded-md hover:bg-yellow-600 transition-colors transform hover:scale-105"
-            >
+          <div className="text-center mt-5">
+            <button onClick={handleShowMore} className="btn btn-warning btn-lg">
               Show More
             </button>
           </div>
         )}
       </div>
+      <style>{`
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInAnimation 0.5s ease-out forwards;
+        }
+        @keyframes fadeInAnimation {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+      `}</style>
     </div>
   );
 };
