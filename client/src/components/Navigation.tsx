@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // Use Link for navigation
 import {
   FaGlobeAmericas,
   FaBars,
@@ -48,18 +48,20 @@ function Navbar() {
 
   return (
     <>
+      {/* --- THIS IS THE FIX --- */}
+      {/* The "fixed-top" class from Bootstrap makes the navbar
+          stay at the top of the screen when you scroll. */}
       <nav
-        className="navbar navbar-expand-lg"
+        className="navbar navbar-expand-lg fixed-top"
         style={{
           backgroundColor: "#45526e",
-          scrollBehavior: "smooth",
-          zIndex: 20,
+          zIndex: "1030", // Ensure it's above other content
         }}
       >
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <FaGlobeAmericas size={50} color="#FFD700" />
-          </a>
+          <Link className="navbar-brand" to="/">
+            <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
+          </Link>
 
           <button
             className="navbar-toggler"
@@ -90,24 +92,21 @@ function Navbar() {
                   Find Friends
                 </Link>
               </li>
-              <li className="nav-item">
+               <li className="nav-item">
                 <Link className="nav-link" to="/more-places">
                   Famous Places
                 </Link>
               </li>
             </ul>
-
             <style>
-              {`.nav-link {
-                color: white;
-              }
-              .nav-link:hover {
-                color: #FAD700 !important;
-                transition: 0.3s ease-in-out;
-              }`}
+              {`.nav-link{
+          color:white;
+           }
+           .nav-link:hover
+           {
+          color:#FAD700  !important;
+          transition: 0.3s ease-in-out;}`}
             </style>
-
-            {/* 🌙 Dark Mode Toggle */}
             <button
               className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
               onClick={toggleDarkMode}
@@ -118,8 +117,6 @@ function Navbar() {
                 <FaMoon className="text-light" />
               )}
             </button>
-
-            {/* 🌍 Language Dropdown */}
             <div className="dropdown me-3">
               <button
                 className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm"
@@ -156,8 +153,6 @@ function Navbar() {
                 </ul>
               </div>
             </div>
-
-            {/* 👤 Profile Dropdown */}
             <div className="dropdown">
               <button
                 className="btn border rounded-pill d-flex align-items-center p-2 shadow-sm"
@@ -170,7 +165,6 @@ function Navbar() {
                   <FaUser className="text-white" />
                 </div>
               </button>
-
               <ul className="dropdown-menu dropdown-menu-end shadow-sm">
                 <li>
                   <button
@@ -194,9 +188,9 @@ function Navbar() {
                 </li>
                 <hr />
                 <li>
-                  <a className="dropdown-item" href="#">
+                  <Link className="dropdown-item" to="/help">
                     Help Centre
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
