@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Use Link for navigation
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaGlobeAmericas,
   FaBars,
@@ -48,90 +48,49 @@ function Navbar() {
 
   return (
     <>
-      {/* --- THIS IS THE FIX --- */}
-      {/* The "fixed-top" class from Bootstrap makes the navbar
-          stay at the top of the screen when you scroll. */}
-      <nav className="navbar navbar-expand-lg fixed-top"
-
+      <nav
+        className="navbar navbar-expand-lg fixed-top"
         style={{
           backgroundColor: "#45526e",
-          zIndex: "1030", // Ensure it's above other content
+          zIndex: "1030",
         }}
       >
         <style>
           {`
-      .custom-navbar {
-        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-        font-family: 'Segoe UI', 'Arial', sans-serif;
-        letter-spacing: 0.5px;
-      }
-      .navbar-brand {
-        font-weight: bold;
-        font-size: 1.7rem;
-        color: #FFD700 !important;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .navbar-nav .nav-link {
-        color: #fff !important;
-        font-size: 1.1rem;
-        padding: 0.7rem 1.1rem;
-        border-radius: 0.5rem;
-        margin: 0 0.2rem;
-        transition: background 0.2s, color 0.2s;
-      }
-      .navbar-nav .nav-link.active, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:hover {
-        color: #45526e !important;
-        background: #FAD700 !important;
-        font-weight: 500;
-        box-shadow: 0 2px 8px rgba(250,215,0,0.08);
-      }
-      .navbar-toggler {
-        border: none;
-        outline: none;
-      }
-      .navbar-toggler:focus {
-        box-shadow: none;
-      }
-      .btn.border {
-        border-color: #FAD700 !important;
-        background: #45526e;
-        color: #fff;
-      }
-      .btn.border:hover, .btn.border:focus {
-        background: #FAD700 !important;
-        color: #45526e !important;
-        border-color: #FAD700 !important;
-      }
-      .dropdown-menu {
-        border-radius: 0.7rem;
-        border: 1px solid #FAD700;
-        box-shadow: 0 4px 24px rgba(69,82,110,0.12);
-      }
-      .dropdown-item {
-        border-radius: 0.4rem;
-        transition: background 0.2s, color 0.2s;
-      }
-      .dropdown-item:hover, .dropdown-item:focus {
-        background: #FAD700;
-        color: #45526e;
-      }
-      .profile-icon {
-        width: 32px;
-        height: 32px;
-      }
-      @media (max-width: 991px) {
-        .navbar-nav .nav-link {
-          padding: 0.5rem 1rem;
-          font-size: 1rem;
-        }
-      }
-    `}
+          .navbar-brand {
+            font-weight: bold;
+            font-size: 1.7rem;
+            color: #FFD700 !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+          .navbar-nav .nav-link {
+            color: #fff !important;
+            font-size: 1.1rem;
+            padding: 0.7rem 1.1rem;
+            border-radius: 0.5rem;
+            margin: 0 0.2rem;
+            transition: background 0.2s, color 0.2s;
+          }
+          .navbar-nav .nav-link.active,
+          .navbar-nav .nav-link:focus,
+          .navbar-nav .nav-link:hover {
+            color: #45526e !important;
+            background: #FAD700 !important;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(250,215,0,0.08);
+          }
+          .profile-icon {
+            width: 32px;
+            height: 32px;
+          }
+        `}
         </style>
+
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <FaGlobeAmericas size={50} color="#FFD700"></FaGlobeAmericas>
+            <FaGlobeAmericas size={50} color="#FFD700" />
           </Link>
 
           <button
@@ -146,8 +105,12 @@ function Navbar() {
             <span className="navbar-toggler-icon"></span>
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <div
+            className="collapse navbar-collapse"
+            id="navbarSupportedContent"
+          >
+            {/* --- Nav Items --- */}
+            <ul className="navbar-nav me-auto mb-3 mb-lg-0 d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2 ps-3 ps-lg-0">
               <li className="nav-item">
                 <Link className="nav-link" to="/">
                   Home
@@ -163,113 +126,109 @@ function Navbar() {
                   Find Friends
                 </Link>
               </li>
-               <li className="nav-item">
+              <li className="nav-item">
                 <Link className="nav-link" to="/more-places">
                   Famous Places
                 </Link>
               </li>
-              {/* About Us Section */}
               <li className="nav-item">
                 <a className="nav-link" href="/about">
                   About Us
                 </a>
               </li>
             </ul>
-            <style>
-              {`.nav-link{
-          color:white;
-           }
-           .nav-link:hover
-           {
-          color:#FAD700  !important;
-          transition: 0.3s ease-in-out;}`}
-            </style>
-            <button
-              className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
-              onClick={toggleDarkMode}
-            >
-              {darkMode ? (
-                <FaSun className="text-warning" />
-              ) : (
-                <FaMoon className="text-light" />
-              )}
-            </button>
-            <div className="dropdown me-3">
+
+            {/* --- Right Side Icons --- */}
+            <div className="d-flex align-items-center">
               <button
-                className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+                className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm me-3"
+                onClick={toggleDarkMode}
               >
-                <FaGlobe className="text-light" />
+                {darkMode ? (
+                  <FaSun className="text-warning" />
+                ) : (
+                  <FaMoon className="text-light" />
+                )}
               </button>
-              <div
-                className="dropdown-menu dropdown-menu-end p-3"
-                style={{ width: "300px" }}
-              >
-                <h6 className="dropdown-header text-muted">
-                  Suggested languages and regions
-                </h6>
-                <ul className="list-unstyled">
+
+              <div className="dropdown me-3">
+                <button
+                  className="btn border rounded-circle d-flex align-items-center p-2 shadow-sm"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <FaGlobe className="text-light" />
+                </button>
+                <div
+                  className="dropdown-menu dropdown-menu-end p-1"
+                  style={{ width: "300px",position:"absolute",left: "0px"  }}
+                >
+                  <h6 className="dropdown-header text-muted">
+                    Suggested languages and regions
+                  </h6>
+                  <ul className="list-unstyled">
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => changeLanguage("en")}
+                      >
+                        English - United States
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="dropdown-item"
+                        onClick={() => changeLanguage("hi")}
+                      >
+                        हिंदी - भारत
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="dropdown">
+                <button
+                  className="btn border rounded-pill d-flex align-items-center p-2 shadow-sm"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <FaBars className="text-secondary me-2" />
+                  <div className="rounded-circle bg-secondary d-flex align-items-center justify-content-center profile-icon">
+                    <FaUser className="text-white" />
+                  </div>
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end shadow-sm">
                   <li>
                     <button
-                      className="dropdown-item"
-                      onClick={() => changeLanguage("en")}
+                      className="dropdown-item fw-bold"
+                      onClick={() =>
+                        navigate("/auth", { state: { isLogin: false } })
+                      }
                     >
-                      English - United States
+                      Sign up
                     </button>
                   </li>
                   <li>
                     <button
                       className="dropdown-item"
-                      onClick={() => changeLanguage("hi")}
+                      onClick={() =>
+                        navigate("/auth", { state: { isLogin: true } })
+                      }
                     >
-                      हिंदी - भारत
+                      Log in
                     </button>
+                  </li>
+                  <hr />
+                  <li>
+                    <Link className="dropdown-item" to="/help">
+                      Help Centre
+                    </Link>
                   </li>
                 </ul>
               </div>
-            </div>
-            <div className="dropdown">
-              <button
-                className="btn border rounded-pill d-flex align-items-center p-2 shadow-sm"
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <FaBars className="text-secondary me-2" />
-                <div className="rounded-circle bg-secondary d-flex align-items-center justify-content-center profile-icon">
-                  <FaUser className="text-white" />
-                </div>
-              </button>
-              <ul className="dropdown-menu dropdown-menu-end shadow-sm">
-                <li>
-                  <button
-                    className="dropdown-item fw-bold"
-                    onClick={() =>
-                      navigate("/auth", { state: { isLogin: false } })
-                    }
-                  >
-                    Sign up
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="dropdown-item"
-                    onClick={() =>
-                      navigate("/auth", { state: { isLogin: true } })
-                    }
-                  >
-                    Log in
-                  </button>
-                </li>
-                <hr />
-                <li>
-                  <Link className="dropdown-item" to="/help">
-                    Help Centre
-                  </Link>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
