@@ -16,7 +16,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Admin/admin";
 import MorePlaces from './pages/MorePlaces';
 import PlaceDetails from './pages/PlaceDetails';
-
+import HelpCentre from "./pages/HelpCentre";
 // Style and Configuration Imports
 import "./i18n"; 
 import "./responsive.css";
@@ -46,6 +46,7 @@ function AppContent() {
           <Route path="/more-places" element={<MorePlaces />} />
           <Route path="/places/:placeName" element={<PlaceDetails />} />
           <Route path="/admin" element={<Dashboard />} />
+          <Route path="/help" element={<HelpCentre/>}/>
         </Routes>
       </main>
 
