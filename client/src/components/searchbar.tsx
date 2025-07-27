@@ -10,7 +10,10 @@ const SearchBar: React.FC = () => {
   const [guests, setGuests] = useState(1);
 
   return (
-    <div className="d-flex justify-content-center my-3 searchbar-margin-fix" style={{ marginTop: '100px' }}>
+    <div
+      className="d-flex justify-content-center my-3 searchbar-margin-fix"
+      style={{ marginTop: "100px" }}
+    >
       <InputGroup
         className="p-2 rounded-4 shadow-lg bg-white  "
         style={{ maxWidth: "850px", border: "2px solid #45526e" }}
@@ -75,7 +78,10 @@ const SearchBar: React.FC = () => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {[1, 2, 3, 4, 5].map((num) => (
-                  <Dropdown.Item key={num} onClick={() => setGuests(num)}>
+                  <Dropdown.Item
+                    key={`guest-${num}`}
+                    onClick={() => setGuests(num)}
+                  >
                     {num} {num === 1 ? "Guest" : "Guests"}
                   </Dropdown.Item>
                 ))}
