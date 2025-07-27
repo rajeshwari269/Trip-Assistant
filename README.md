@@ -111,7 +111,7 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 | Home Page                                   | Places                                     | Find Friends                                     | Admin Dashboard                                     |
 | ------------------------------------------- | ------------------------------------------ | ------------------------------------------------ | --------------------------------------------------- |
-| ![Home Page](client/site_images_/image.png) | ![Places](client/site_images_/image-1.png) | ![Find Friends](client/site_images_/image-2.png) | ![Admin Dashboard](client/site_images_/image-3.png) |
+| ![Home Page](client/site_images_/image.png) | ![Places](client/site_images_/image-1.png) | ![Find Friends](client/site_images_/image-2.png) | ![Admin Dashboard](client/site_images_/image-5.png) |
 
 ---
 
