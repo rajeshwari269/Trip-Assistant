@@ -33,8 +33,8 @@ app.get("/api/more-places", async (req, res) => {
   try {
     const { query = "famous places", page = 1, per_page = 12 } = req.query;
 
-    // Simple, working mock data with different content for each city
-    const mockData = [
+    // Enhanced mock data with unique images and better variety
+    const allMockData = [
       {
         id: 1,
         src: "https://images.pexels.com/photos/2014422/pexels-photo-2014422.jpeg",
@@ -140,23 +140,402 @@ app.get("/api/more-places", async (req, res) => {
         price: "₹2,000",
         rating: "4.6",
       },
+      {
+        id: 9,
+        src: "https://images.pexels.com/photos/2014430/pexels-photo-2014430.jpeg",
+        alt: "Golden Temple - Sacred Sikh Shrine in Amritsar",
+        photographer: "Amritsar Photographer",
+        location: "https://maps.google.com/?q=Golden+Temple+Amritsar",
+        city: "Amritsar",
+        attraction: "Golden Temple",
+        description:
+          "Spiritual city with the holiest Sikh shrine - Visit the magnificent Golden Temple",
+        price: "₹1,500",
+        rating: "4.9",
+      },
+      {
+        id: 10,
+        src: "https://images.pexels.com/photos/2014431/pexels-photo-2014431.jpeg",
+        alt: "Hawa Mahal - Palace of Winds in Jaipur",
+        photographer: "Jaipur Photographer",
+        location: "https://maps.google.com/?q=Hawa+Mahal+Jaipur",
+        city: "Jaipur",
+        attraction: "Hawa Mahal",
+        description:
+          "Pink City with royal heritage - Visit the stunning Hawa Mahal",
+        price: "₹2,400",
+        rating: "4.7",
+      },
+      {
+        id: 11,
+        src: "https://images.pexels.com/photos/2014432/pexels-photo-2014432.jpeg",
+        alt: "Taj Mahal - Wonder of the World in Agra",
+        photographer: "Agra Photographer",
+        location: "https://maps.google.com/?q=Taj+Mahal+Agra",
+        city: "Agra",
+        attraction: "Taj Mahal",
+        description:
+          "City of the Taj with Mughal splendor - Visit the iconic Taj Mahal",
+        price: "₹3,500",
+        rating: "5.0",
+      },
+      {
+        id: 12,
+        src: "https://images.pexels.com/photos/2014433/pexels-photo-2014433.jpeg",
+        alt: "Varanasi Ghats - Spiritual Capital in Varanasi",
+        photographer: "Varanasi Photographer",
+        location: "https://maps.google.com/?q=Varanasi+Ghats",
+        city: "Varanasi",
+        attraction: "Varanasi Ghats",
+        description:
+          "Spiritual capital on the Ganges - Experience the sacred Varanasi Ghats",
+        price: "₹1,800",
+        rating: "4.8",
+      },
+      {
+        id: 13,
+        src: "https://images.pexels.com/photos/2014434/pexels-photo-2014434.jpeg",
+        alt: "Ellora Caves - Ancient Rock-cut Temples in Aurangabad",
+        photographer: "Aurangabad Photographer",
+        location: "https://maps.google.com/?q=Ellora+Caves+Aurangabad",
+        city: "Aurangabad",
+        attraction: "Ellora Caves",
+        description:
+          "Gateway to ancient wonders - Explore the magnificent Ellora Caves",
+        price: "₹2,200",
+        rating: "4.6",
+      },
+      {
+        id: 14,
+        src: "https://images.pexels.com/photos/2014435/pexels-photo-2014435.jpeg",
+        alt: "Konark Sun Temple - Architectural Marvel in Puri",
+        photographer: "Puri Photographer",
+        location: "https://maps.google.com/?q=Konark+Sun+Temple+Puri",
+        city: "Puri",
+        attraction: "Konark Sun Temple",
+        description:
+          "Coastal city with spiritual heritage - Visit the stunning Konark Sun Temple",
+        price: "₹1,900",
+        rating: "4.5",
+      },
+      {
+        id: 15,
+        src: "https://images.pexels.com/photos/2014436/pexels-photo-2014436.jpeg",
+        alt: "Khajuraho Temples - Ancient Temples in Chhatarpur",
+        photographer: "Chhatarpur Photographer",
+        location: "https://maps.google.com/?q=Khajuraho+Temples+Chhatarpur",
+        city: "Chhatarpur",
+        attraction: "Khajuraho Temples",
+        description:
+          "Ancient temple complex with intricate carvings - Explore the Khajuraho Temples",
+        price: "₹2,600",
+        rating: "4.7",
+      },
+      {
+        id: 16,
+        src: "https://images.pexels.com/photos/2014437/pexels-photo-2014437.jpeg",
+        alt: "Ajanta Caves - Buddhist Cave Temples in Aurangabad",
+        photographer: "Aurangabad Photographer",
+        location: "https://maps.google.com/?q=Ajanta+Caves+Aurangabad",
+        city: "Aurangabad",
+        attraction: "Ajanta Caves",
+        description:
+          "Ancient Buddhist cave temples - Discover the beautiful Ajanta Caves",
+        price: "₹2,300",
+        rating: "4.8",
+      },
+      // Additional places for Delhi
+      {
+        id: 17,
+        src: "https://images.pexels.com/photos/2014438/pexels-photo-2014438.jpeg",
+        alt: "Qutub Minar - Tallest Brick Minaret in Delhi",
+        photographer: "Delhi Photographer",
+        location: "https://maps.google.com/?q=Qutub+Minar+Delhi",
+        city: "Delhi",
+        attraction: "Qutub Minar",
+        description:
+          "Ancient Islamic monument and UNESCO World Heritage Site - Visit the magnificent Qutub Minar",
+        price: "₹1,800",
+        rating: "4.7",
+      },
+      {
+        id: 18,
+        src: "https://images.pexels.com/photos/2014439/pexels-photo-2014439.jpeg",
+        alt: "India Gate - War Memorial in Delhi",
+        photographer: "Delhi Photographer",
+        location: "https://maps.google.com/?q=India+Gate+Delhi",
+        city: "Delhi",
+        attraction: "India Gate",
+        description:
+          "Iconic war memorial and national monument - Experience the grandeur of India Gate",
+        price: "₹0",
+        rating: "4.9",
+      },
+      // Additional places for Mumbai
+      {
+        id: 19,
+        src: "https://images.pexels.com/photos/2014440/pexels-photo-2014440.jpeg",
+        alt: "Marine Drive - Queen's Necklace in Mumbai",
+        photographer: "Mumbai Photographer",
+        location: "https://maps.google.com/?q=Marine+Drive+Mumbai",
+        city: "Mumbai",
+        attraction: "Marine Drive",
+        description:
+          "Famous curved boulevard along the coast - Experience the beautiful Marine Drive",
+        price: "₹2,800",
+        rating: "4.7",
+      },
+      {
+        id: 20,
+        src: "https://images.pexels.com/photos/2014441/pexels-photo-2014441.jpeg",
+        alt: "Elephanta Caves - Ancient Cave Temples in Mumbai",
+        photographer: "Mumbai Photographer",
+        location: "https://maps.google.com/?q=Elephanta+Caves+Mumbai",
+        city: "Mumbai",
+        attraction: "Elephanta Caves",
+        description:
+          "Ancient rock-cut cave temples - Explore the historic Elephanta Caves",
+        price: "₹1,500",
+        rating: "4.5",
+      },
+      // Additional places for Chennai
+      {
+        id: 21,
+        src: "https://images.pexels.com/photos/2014442/pexels-photo-2014442.jpeg",
+        alt: "Kapaleeshwarar Temple - Ancient Temple in Chennai",
+        photographer: "Chennai Photographer",
+        location: "https://maps.google.com/?q=Kapaleeshwarar+Temple+Chennai",
+        city: "Chennai",
+        attraction: "Kapaleeshwarar Temple",
+        description:
+          "Ancient Dravidian temple architecture - Visit the sacred Kapaleeshwarar Temple",
+        price: "₹0",
+        rating: "4.6",
+      },
+      {
+        id: 22,
+        src: "https://images.pexels.com/photos/2014443/pexels-photo-2014443.jpeg",
+        alt: "Fort St. George - Historic Fort in Chennai",
+        photographer: "Chennai Photographer",
+        location: "https://maps.google.com/?q=Fort+St+George+Chennai",
+        city: "Chennai",
+        attraction: "Fort St. George",
+        description:
+          "First British fortress in India - Explore the historic Fort St. George",
+        price: "₹1,200",
+        rating: "4.4",
+      },
+      // Additional places for Bangalore
+      {
+        id: 23,
+        src: "https://images.pexels.com/photos/2014444/pexels-photo-2014444.jpeg",
+        alt: "Cubbon Park - Urban Park in Bangalore",
+        photographer: "Bangalore Photographer",
+        location: "https://maps.google.com/?q=Cubbon+Park+Bangalore",
+        city: "Bangalore",
+        attraction: "Cubbon Park",
+        description:
+          "Historic park in the heart of the city - Relax in the beautiful Cubbon Park",
+        price: "₹0",
+        rating: "4.8",
+      },
+      {
+        id: 24,
+        src: "https://images.pexels.com/photos/2014445/pexels-photo-2014445.jpeg",
+        alt: "Bangalore Palace - Royal Palace in Bangalore",
+        photographer: "Bangalore Photographer",
+        location: "https://maps.google.com/?q=Bangalore+Palace",
+        city: "Bangalore",
+        attraction: "Bangalore Palace",
+        description:
+          "Royal palace with Tudor architecture - Visit the magnificent Bangalore Palace",
+        price: "₹2,500",
+        rating: "4.6",
+      },
+      // Additional places for Kolkata
+      {
+        id: 25,
+        src: "https://images.pexels.com/photos/2014446/pexels-photo-2014446.jpeg",
+        alt: "Howrah Bridge - Iconic Bridge in Kolkata",
+        photographer: "Kolkata Photographer",
+        location: "https://maps.google.com/?q=Howrah+Bridge+Kolkata",
+        city: "Kolkata",
+        attraction: "Howrah Bridge",
+        description:
+          "Iconic cantilever bridge over the Hooghly River - Experience the majestic Howrah Bridge",
+        price: "₹0",
+        rating: "4.8",
+      },
+      {
+        id: 26,
+        src: "https://images.pexels.com/photos/2014447/pexels-photo-2014447.jpeg",
+        alt: "Dakshineswar Kali Temple - Sacred Temple in Kolkata",
+        photographer: "Kolkata Photographer",
+        location: "https://maps.google.com/?q=Dakshineswar+Kali+Temple+Kolkata",
+        city: "Kolkata",
+        attraction: "Dakshineswar Kali Temple",
+        description:
+          "Famous Hindu temple dedicated to Goddess Kali - Visit the sacred Dakshineswar Temple",
+        price: "₹0",
+        rating: "4.7",
+      },
+      // Additional places for Hyderabad
+      {
+        id: 27,
+        src: "https://images.pexels.com/photos/2014448/pexels-photo-2014448.jpeg",
+        alt: "Golconda Fort - Historic Fort in Hyderabad",
+        photographer: "Hyderabad Photographer",
+        location: "https://maps.google.com/?q=Golconda+Fort+Hyderabad",
+        city: "Hyderabad",
+        attraction: "Golconda Fort",
+        description:
+          "Ancient fortress and former diamond trading center - Explore the historic Golconda Fort",
+        price: "₹2,000",
+        rating: "4.6",
+      },
+      {
+        id: 28,
+        src: "https://images.pexels.com/photos/2014449/pexels-photo-2014449.jpeg",
+        alt: "Hussain Sagar - Artificial Lake in Hyderabad",
+        photographer: "Hyderabad Photographer",
+        location: "https://maps.google.com/?q=Hussain+Sagar+Hyderabad",
+        city: "Hyderabad",
+        attraction: "Hussain Sagar",
+        description:
+          "Heart-shaped lake with Buddha statue - Visit the beautiful Hussain Sagar",
+        price: "₹800",
+        rating: "4.5",
+      },
+      // Additional places for Pune
+      {
+        id: 29,
+        src: "https://images.pexels.com/photos/2014450/pexels-photo-2014450.jpeg",
+        alt: "Aga Khan Palace - Historic Palace in Pune",
+        photographer: "Pune Photographer",
+        location: "https://maps.google.com/?q=Aga+Khan+Palace+Pune",
+        city: "Pune",
+        attraction: "Aga Khan Palace",
+        description:
+          "Historic palace with Gandhi connection - Visit the beautiful Aga Khan Palace",
+        price: "₹1,500",
+        rating: "4.4",
+      },
+      {
+        id: 30,
+        src: "https://images.pexels.com/photos/2014451/pexels-photo-2014451.jpeg",
+        alt: "Sinhagad Fort - Hill Fort in Pune",
+        photographer: "Pune Photographer",
+        location: "https://maps.google.com/?q=Sinhagad+Fort+Pune",
+        city: "Pune",
+        attraction: "Sinhagad Fort",
+        description:
+          "Ancient hill fort with panoramic views - Explore the historic Sinhagad Fort",
+        price: "₹1,200",
+        rating: "4.6",
+      },
+      // Additional places for Ahmedabad
+      {
+        id: 31,
+        src: "https://images.pexels.com/photos/2014452/pexels-photo-2014452.jpeg",
+        alt: "Sidi Saiyyed Mosque - Historic Mosque in Ahmedabad",
+        photographer: "Ahmedabad Photographer",
+        location: "https://maps.google.com/?q=Sidi+Saiyyed+Mosque+Ahmedabad",
+        city: "Ahmedabad",
+        attraction: "Sidi Saiyyed Mosque",
+        description:
+          "Famous for its stone lattice work - Visit the beautiful Sidi Saiyyed Mosque",
+        price: "₹0",
+        rating: "4.5",
+      },
+      {
+        id: 32,
+        src: "https://images.pexels.com/photos/2014453/pexels-photo-2014453.jpeg",
+        alt: "Kankaria Lake - Artificial Lake in Ahmedabad",
+        photographer: "Ahmedabad Photographer",
+        location: "https://maps.google.com/?q=Kankaria+Lake+Ahmedabad",
+        city: "Ahmedabad",
+        attraction: "Kankaria Lake",
+        description:
+          "Largest lake in the city with entertainment zone - Visit the scenic Kankaria Lake",
+        price: "₹500",
+        rating: "4.3",
+      },
     ];
 
-    // Return different data based on page
-    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
-    const endIndex = startIndex + parseInt(per_page);
-    const pageData = mockData.slice(startIndex, endIndex);
+    // Filter data based on search query
+    let filteredData = allMockData;
+    if (query && query.toLowerCase() !== "famous places") {
+      const searchTerm = query.toLowerCase();
 
-    // Add some variety by shuffling and adding more items if needed
-    if (pageData.length < parseInt(per_page)) {
-      const additionalItems = mockData.slice(
-        0,
-        parseInt(per_page) - pageData.length
+      // Extract city name from search query (e.g., "famous places in delhi" -> "delhi")
+      const cityMatch = searchTerm.match(/in\s+([a-zA-Z]+)/);
+      const cityName = cityMatch ? cityMatch[1].toLowerCase() : searchTerm;
+
+      // Also check for direct city names
+      const directCityMatch = searchTerm.match(
+        /(delhi|mumbai|kolkata|chennai|bangalore|hyderabad|pune|ahmedabad|amritsar|jaipur|agra|varanasi|aurangabad|puri|chhatarpur)/i
       );
-      pageData.push(...additionalItems);
+      const directCity = directCityMatch
+        ? directCityMatch[1].toLowerCase()
+        : null;
+
+      filteredData = allMockData.filter((place) => {
+        const placeCity = place.city.toLowerCase();
+        const placeAttraction = place.attraction.toLowerCase();
+        const placeDescription = place.description.toLowerCase();
+        const placeAlt = place.alt.toLowerCase();
+
+        // More flexible matching
+        const searchTerms = [cityName, directCity].filter(Boolean);
+
+        return searchTerms.some(
+          (term) =>
+            placeCity.includes(term) ||
+            placeAttraction.includes(term) ||
+            placeDescription.includes(term) ||
+            placeAlt.includes(term)
+        );
+      });
+
+      console.log(
+        `🔍 Search terms: ${[cityName, directCity].filter(Boolean).join(", ")}`
+      );
+      console.log(
+        `🏙️ All cities in data:`,
+        allMockData.map((p) => p.city)
+      );
+      console.log(
+        `🎯 Filtered cities:`,
+        filteredData.map((p) => p.city)
+      );
+
+      // If no results found, return all data
+      if (filteredData.length === 0) {
+        console.log(`No results found for "${query}", returning all places`);
+        filteredData = allMockData;
+      }
     }
 
-    res.json(pageData);
+    // Calculate pagination
+    const startIndex = (parseInt(page) - 1) * parseInt(per_page);
+    const endIndex = startIndex + parseInt(per_page);
+    const pageData = filteredData.slice(startIndex, endIndex);
+
+    // Generate unique IDs for pagination to avoid React key conflicts
+    const finalData = pageData.map((place, index) => ({
+      ...place,
+      id: startIndex + index + 1, // Ensure unique IDs across pages
+    }));
+
+    console.log(
+      `✅ API Response: Query="${query}", Found ${finalData.length} places, Page ${page}`
+    );
+    console.log(`🔍 Filtered data length: ${filteredData.length}`);
+    console.log(
+      `🏙️ Cities in filtered data:`,
+      filteredData.map((p) => p.city)
+    );
+    res.json(finalData);
   } catch (err) {
     console.error("❌ Mock API error:", err.message);
     res.status(500).json({ error: "Failed to fetch places" });
