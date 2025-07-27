@@ -109,11 +109,9 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ## 🖼️ Screenshots
 
-> **Note:** Screenshots will be updated to reflect the new modern UI design with glass-morphism effects and the professional compass logo.
-
-| Home Page   | Places      | Find Friends | Admin Dashboard |
-| ----------- | ----------- | ------------ | --------------- |
-| Coming Soon | Coming Soon | Coming Soon  | Coming Soon     |
+| Home Page                                   | Places                                     | Find Friends                                     | Admin Dashboard                                     |
+| ------------------------------------------- | ------------------------------------------ | ------------------------------------------------ | --------------------------------------------------- |
+| ![Home Page](client/site_images_/image.png) | ![Places](client/site_images_/image-1.png) | ![Find Friends](client/site_images_/image-2.png) | ![Admin Dashboard](client/site_images_/image-3.png) |
 
 ---
 
@@ -121,74 +119,27 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ```
 react_app/
-├── client/
-│   ├── index.html
-│   ├── package.json
-│   ├── public/
-│   │   └── vite.svg
-│   └── src/
-│       ├── App.css
-│       ├── App.tsx
-│       ├── main.tsx
-│       ├── responsive.css
-│       ├── vite-env.d.ts
-│       ├── components/
-│       │   ├── Navigation.tsx
-│       │   ├── footer.tsx
-│       │   ├── placeCard.tsx
-│       │   ├── placeCard.css
-│       │   ├── searchbar.tsx
-│       │   ├── chatbot.tsx
-│       │   ├── chatbot.css
-│       │   ├── WeatherCard.tsx
-│       │   └── MapView.tsx
-│       ├── pages/
-│       │   ├── home.tsx
-│       │   ├── home.css
-│       │   ├── Places.tsx
-│       │   ├── Places.css
-│       │   ├── MorePlaces.tsx
-│       │   ├── PlaceDetails.tsx
-│       │   ├── FindFriends.tsx
-│       │   ├── HelpCentre.tsx
-│       │   ├── Auth.tsx
-│       │   └── Admin/
-│       │       ├── admin.tsx
-│       │       ├── admin.css
-│       │       └── Add.tsx
-│       ├── images/
-│       │   ├── home1.jpg
-│       │   ├── home2.jpg
-│       │   ├── home3.jpg
-│       │   ├── home4.jpg
-│       │   ├── home5.jpeg
-│       │   ├── ihome_image.png
-│       │   ├── bg-auth.jpg
-│       │   └── logo1.jpg
-│       └── utils/
-│           ├── errorHandlerToast.ts
-│           └── toastUtils.ts
-├── server/
-│   ├── server.js
-│   ├── package.json
-│   ├── config/
-│   │   └── db.js
-│   ├── controllers/
-│   │   └── propertyController.js
-│   ├── middleware/
-│   │   └── upload.js
-│   ├── routes/
-│   │   └── propertyRoutes.js
-│   └── uploads/
-├── README.md
-├── Contributing.md
-├── LICENSE
-├── eslint.config.js
-├── tsconfig.json
-├── tsconfig.app.json
-├── tsconfig.node.json
-└── vite.config.ts
+├── 📱 client/                 # React frontend
+│   ├── src/
+│   │   ├── components/        # Reusable UI components
+│   │   ├── pages/            # Application pages
+│   │   ├── images/           # Static images
+│   │   └── utils/            # Utility functions
+│   └── site_images_/         # Screenshots for documentation
+├── 🖥️ server/                 # Node.js backend
+│   ├── config/               # Database configuration
+│   ├── controllers/          # API controllers
+│   ├── middleware/           # Custom middleware
+│   └── routes/               # API routes
+└── 📄 docs/                  # Documentation files
 ```
+
+**Key Directories:**
+
+- **`client/src/components/`** - Navigation, Footer, PlaceCard, Chatbot, etc.
+- **`client/src/pages/`** - Home, Places, FindFriends, Admin, Auth pages
+- **`server/`** - Express.js API with MongoDB integration
+- **`site_images_/`** - Application screenshots and documentation assets
 
 ---
 
