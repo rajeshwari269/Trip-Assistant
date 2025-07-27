@@ -109,11 +109,9 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ## 🖼️ Screenshots
 
-> **Note:** Screenshots will be updated to reflect the new modern UI design with glass-morphism effects and the professional compass logo.
-
-| Home Page   | Places      | Find Friends | Admin Dashboard |
-| ----------- | ----------- | ------------ | --------------- |
-| Coming Soon | Coming Soon | Coming Soon  | Coming Soon     |
+| Home Page                                   | Places                                     | Find Friends                                     | Admin Dashboard                                     |
+| ------------------------------------------- | ------------------------------------------ | ------------------------------------------------ | --------------------------------------------------- |
+| ![Home Page](client/site_images_/image.png) | ![Places](client/site_images_/image-1.png) | ![Find Friends](client/site_images_/image-2.png) | ![Admin Dashboard](client/site_images_/image-3.png) |
 
 ---
 
