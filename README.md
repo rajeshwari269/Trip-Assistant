@@ -10,33 +10,33 @@
 
 ## ✨ Features
 
-| Feature                   | Description                                                                     |
-| ------------------------- | ------------------------------------------------------------------------------- |
-| 🧠 AI Chatbot             | Get travel recommendations and tips via an interactive chatbot.                 |
-| 🗺️ Destination Guide      | Explore information about top places, attractions, and landmarks.               |
-| 🤝 Find Friends           | Connect and chat with other travelers to plan trips together.                   |
-| 🏨 Stay Booking Support   | Find and book accommodations (Airbnb-style listings).                           |
-| 📍 Personalized Itinerary | AI suggests travel plans based on your interests.                               |
-| 🛠️ Admin Dashboard        | Admins/hosts can manage property listings and view bookings.                    |
-| 🔐 User Authentication    | Secure login and registration for travelers and hosts (Firebase Auth).          |
-| 🌐 Multi-language         | Supports English, Hindi, and French.                                            |
-| 🌙 Dark Mode              | Toggle between light and dark themes.                                           |
-| 📱 Responsive Design      | Fully responsive for mobile and desktop.                                        |
-| ☁️ Cloud Database         | Uses MongoDB and Firebase for scalable data storage.                            |
+| Feature                   | Description                                                            |
+| ------------------------- | ---------------------------------------------------------------------- |
+| 🧠 AI Chatbot             | Get travel recommendations and tips via an interactive chatbot.        |
+| 🗺️ Destination Guide      | Explore information about top places, attractions, and landmarks.      |
+| 🤝 Find Friends           | Connect and chat with other travelers to plan trips together.          |
+| 🏨 Stay Booking Support   | Find and book accommodations (Airbnb-style listings).                  |
+| 📍 Personalized Itinerary | AI suggests travel plans based on your interests.                      |
+| 🛠️ Admin Dashboard        | Admins/hosts can manage property listings and view bookings.           |
+| 🔐 User Authentication    | Secure login and registration for travelers and hosts (Firebase Auth). |
+
+| 🌙 Dark Mode | Toggle between light and dark themes. |
+| 📱 Responsive Design | Fully responsive for mobile and desktop. |
+| ☁️ Cloud Database | Uses MongoDB and Firebase for scalable data storage. |
 
 ---
 
 ## 🧰 Tech Stack
 
-| Layer                 | Technology                                   |
-| --------------------- | -------------------------------------------- |
-| 💻 Frontend           | React.js, TypeScript, Vite, Bootstrap        |
-| 🖥️ Backend            | Node.js, Express                             |
-| 🗄️ Database           | MongoDB (Mongoose), Firebase (optional)      |
-| 🔐 Authentication     | Firebase Authentication                      |
-| 🧠 AI Integration     | Custom Chatbot (API endpoint)                |
-| 🌍 i18n               | react-i18next                                |
-| 🎨 Styling            | CSS, Bootstrap, custom styles                |
+| Layer             | Technology                              |
+| ----------------- | --------------------------------------- |
+| 💻 Frontend       | React.js, TypeScript, Vite, Bootstrap   |
+| 🖥️ Backend        | Node.js, Express                        |
+| 🗄️ Database       | MongoDB (Mongoose), Firebase (optional) |
+| 🔐 Authentication | Firebase Authentication                 |
+| 🧠 AI Integration | Custom Chatbot (API endpoint)           |
+
+| 🎨 Styling | CSS, Bootstrap, custom styles |
 
 > **Note:** The backend uses MongoDB (via Mongoose) for data storage. Firebase is used for authentication and can be used for additional data storage if needed.
 
@@ -45,45 +45,57 @@
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js (v18+ recommended)
 - npm (v9+ recommended)
 - MongoDB (local or [MongoDB Atlas](https://www.mongodb.com/atlas))
 - Firebase account (for authentication and/or database)
 
 ### 1. Clone the Repository
+
 ```bash
 git clone <your-repo-url>
 cd react_app
 ```
 
 ### 2. Install Dependencies
+
 #### For the frontend (React):
+
 ```bash
 cd client
 npm install
 ```
+
 #### For the backend (Express):
+
 ```bash
 cd ../server
 npm install
 ```
 
 ### 3. Start the Frontend (React)
+
 ```bash
 cd ../client
 npm run dev
 ```
+
 Visit the app at: [http://localhost:5173](http://localhost:5173)
 
 ### 4. Start the Backend (Express API)
+
 Open a new terminal and run:
+
 ```bash
 cd server
 npm start # or node server.js
 ```
+
 The backend will run at [http://localhost:5000](http://localhost:5000)
 
 > **Note:**
+>
 > - Ensure your MongoDB server is running and update the backend connection string as needed (see `server/server.js`).
 > - For Firebase, set up your project and add your configuration to the relevant files.
 
@@ -91,8 +103,8 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ## 🖼️ Screenshots
 
-| Home Page | Places | Find Friends | Admin Dashboard |
-|-----------|--------|--------------|-----------------|
+| Home Page                                | Places                                     | Find Friends                                | Admin Dashboard                           |
+| ---------------------------------------- | ------------------------------------------ | ------------------------------------------- | ----------------------------------------- |
 | ![Home](client/site_images_/image-1.png) | ![Places](client/site_images_/image-2.png) | ![Friends](client/site_images_/image-3.png) | ![Admin](client/site_images_/image-4.png) |
 
 ---
@@ -185,17 +197,17 @@ We welcome all contributions—big or small! See [Contributing.md](Contributing.
 
 ## 📌 Future Enhancements
 
-| Feature                          | Description                                                 |
-| -------------------------------- | ----------------------------------------------------------- |
-| 🧠 Smarter AI Chatbot            | Enhanced NLP for smarter query handling.                    |
-| 📱 Mobile App                    | Native mobile app support.                                  |
-| 🤝 Social Integration            | Google/Facebook login and trip sharing.                     |
-| 💬 Real-time Chat                | Live chat among travelers.                                  |
-| 📍 Geolocation Suggestions       | Destinations based on user’s real-time location.            |
-| 🏅 Reward System                 | Badges and rewards for active users.                        |
-| 📦 PWA Support                   | Progressive Web App/offline access.                         |
-| 🧳 Travel Budget Planner         | Tool for managing travel expenses.                          |
-| ☁️ Multi-DB Support              | Seamless integration with MongoDB, Firebase, and more.      |
+| Feature                    | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| 🧠 Smarter AI Chatbot      | Enhanced NLP for smarter query handling.               |
+| 📱 Mobile App              | Native mobile app support.                             |
+| 🤝 Social Integration      | Google/Facebook login and trip sharing.                |
+| 💬 Real-time Chat          | Live chat among travelers.                             |
+| 📍 Geolocation Suggestions | Destinations based on user’s real-time location.       |
+| 🏅 Reward System           | Badges and rewards for active users.                   |
+| 📦 PWA Support             | Progressive Web App/offline access.                    |
+| 🧳 Travel Budget Planner   | Tool for managing travel expenses.                     |
+| ☁️ Multi-DB Support        | Seamless integration with MongoDB, Firebase, and more. |
 
 ---
 
@@ -206,6 +218,7 @@ This project is licensed under the ISC License.
 ---
 
 ## 🙏 Acknowledgements
+
 - [React](https://react.dev/)
 - [Vite](https://vitejs.dev/)
 - [Bootstrap](https://getbootstrap.com/)

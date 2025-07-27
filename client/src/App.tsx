@@ -14,19 +14,22 @@ import Places from "./pages/Places";
 import FindFriends from "./pages/FindFriends";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Admin/admin";
-import MorePlaces from './pages/MorePlaces';
-import PlaceDetails from './pages/PlaceDetails';
+import MorePlaces from "./pages/MorePlaces";
+import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 // Style and Configuration Imports
-import "./i18n"; 
 import "./responsive.css";
 
 function AppContent() {
   const location = useLocation(); // Get the current route
 
   // Determine if the header and footer should be shown
-  const showHeaderFooter = location.pathname !== "/auth" && location.pathname !== "/admin";
-  const showFooter = showHeaderFooter && location.pathname !== "/find-friends";
+  const showHeaderFooter =
+    location.pathname !== "/auth" && location.pathname !== "/admin";
+  const showFooter =
+    showHeaderFooter &&
+    location.pathname !== "/find-friends" &&
+    location.pathname !== "/help";
 
   return (
     <>
@@ -37,7 +40,12 @@ function AppContent() {
       {/* We add top padding to the main content area ONLY when the navbar is visible.
           This prevents the page content from being hidden underneath the fixed navbar. 
       */}
-      <main style={{ paddingTop: showHeaderFooter ? '80px' : '0' }}>
+      <main
+        style={{
+          paddingTop:
+            showHeaderFooter && location.pathname !== "/help" ? "80px" : "0",
+        }}
+      >
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/places" element={<Places />} />
@@ -46,7 +54,7 @@ function AppContent() {
           <Route path="/more-places" element={<MorePlaces />} />
           <Route path="/places/:placeName" element={<PlaceDetails />} />
           <Route path="/admin" element={<Dashboard />} />
-          <Route path="/help" element={<HelpCentre/>}/>
+          <Route path="/help" element={<HelpCentre />} />
         </Routes>
       </main>
 
