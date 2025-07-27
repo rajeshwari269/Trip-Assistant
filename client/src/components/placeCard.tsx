@@ -1,11 +1,15 @@
 import React from "react";
 import "./placeCard.css";
-import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { useState } from "react";
+import WeatherCard from "./WeatherCard";
+import { FaMapMarkerAlt, FaStar, FaCloudSun } from "react-icons/fa"; // added icon
+
 
 const PlaceCard: React.FC = () => {
 
     const [darkMode, setDarkMode] = useState(false);
+    const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
+
 
   const places = [
     {
@@ -163,6 +167,19 @@ const PlaceCard: React.FC = () => {
                 <p className="rating">
                   <FaStar /> {place.rating}
                 </p>
+
+              <button
+        onClick={() =>
+          setSelectedPlaceId(selectedPlaceId === place.id ? null : place.id)
+        }
+        className="weather-btn"
+      >
+        <FaCloudSun style={{ marginRight: "6px" }} />
+        {selectedPlaceId === place.id ? "Hide Weather" : "Show Weather"}
+      </button>
+
+      {selectedPlaceId === place.id && <WeatherCard city={place.location} />}
+
               </div>
             </div>
           ))}
