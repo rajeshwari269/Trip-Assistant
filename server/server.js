@@ -32,7 +32,7 @@ app.get("/api/test", (req, res) => {
 app.get("/api/more-places", async (req, res) => {
   try {
     const { query = "famous places", page = 1, per_page = 12 } = req.query;
-    
+
     // Simple, working mock data with different content for each city
     const mockData = [
       {
@@ -43,9 +43,10 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Red+Fort+Delhi",
         city: "Delhi",
         attraction: "Red Fort",
-        description: "Historic capital with Mughal architecture - Visit the magnificent Red Fort",
+        description:
+          "Historic capital with Mughal architecture - Visit the magnificent Red Fort",
         price: "₹2,500",
-        rating: "4.8"
+        rating: "4.8",
       },
       {
         id: 2,
@@ -55,9 +56,10 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Gateway+of+India+Mumbai",
         city: "Mumbai",
         attraction: "Gateway of India",
-        description: "City of dreams with beaches and Bollywood - Visit the iconic Gateway of India",
+        description:
+          "City of dreams with beaches and Bollywood - Visit the iconic Gateway of India",
         price: "₹3,200",
-        rating: "4.6"
+        rating: "4.6",
       },
       {
         id: 3,
@@ -67,9 +69,10 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Victoria+Memorial+Kolkata",
         city: "Kolkata",
         attraction: "Victoria Memorial",
-        description: "Cultural capital with colonial heritage - Visit the grand Victoria Memorial",
+        description:
+          "Cultural capital with colonial heritage - Visit the grand Victoria Memorial",
         price: "₹1,800",
-        rating: "4.7"
+        rating: "4.7",
       },
       {
         id: 4,
@@ -79,21 +82,24 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Marina+Beach+Chennai",
         city: "Chennai",
         attraction: "Marina Beach",
-        description: "Gateway to South India with beautiful beaches - Visit the stunning Marina Beach",
+        description:
+          "Gateway to South India with beautiful beaches - Visit the stunning Marina Beach",
         price: "₹2,100",
-        rating: "4.5"
+        rating: "4.5",
       },
       {
         id: 5,
         src: "https://images.pexels.com/photos/2014426/pexels-photo-2014426.jpeg",
         alt: "Lalbagh Botanical Garden - Garden City in Bangalore",
         photographer: "Bangalore Photographer",
-        location: "https://maps.google.com/?q=Lalbagh+Botanical+Garden+Bangalore",
+        location:
+          "https://maps.google.com/?q=Lalbagh+Botanical+Garden+Bangalore",
         city: "Bangalore",
         attraction: "Lalbagh Botanical Garden",
-        description: "Garden city and IT hub of India - Visit the beautiful Lalbagh Botanical Garden",
+        description:
+          "Garden city and IT hub of India - Visit the beautiful Lalbagh Botanical Garden",
         price: "₹2,800",
-        rating: "4.9"
+        rating: "4.9",
       },
       {
         id: 6,
@@ -103,9 +109,10 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Charminar+Hyderabad",
         city: "Hyderabad",
         attraction: "Charminar",
-        description: "City of pearls with rich Nizam heritage - Visit the historic Charminar",
+        description:
+          "City of pearls with rich Nizam heritage - Visit the historic Charminar",
         price: "₹2,300",
-        rating: "4.4"
+        rating: "4.4",
       },
       {
         id: 7,
@@ -115,9 +122,10 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Shaniwar+Wada+Pune",
         city: "Pune",
         attraction: "Shaniwar Wada",
-        description: "Oxford of the East with educational excellence - Visit the historic Shaniwar Wada",
+        description:
+          "Oxford of the East with educational excellence - Visit the historic Shaniwar Wada",
         price: "₹1,900",
-        rating: "4.3"
+        rating: "4.3",
       },
       {
         id: 8,
@@ -127,10 +135,11 @@ app.get("/api/more-places", async (req, res) => {
         location: "https://maps.google.com/?q=Sabarmati+Ashram+Ahmedabad",
         city: "Ahmedabad",
         attraction: "Sabarmati Ashram",
-        description: "Manchester of India with rich textile heritage - Visit the historic Sabarmati Ashram",
+        description:
+          "Manchester of India with rich textile heritage - Visit the historic Sabarmati Ashram",
         price: "₹2,000",
-        rating: "4.6"
-      }
+        rating: "4.6",
+      },
     ];
 
     // Return different data based on page
@@ -140,12 +149,14 @@ app.get("/api/more-places", async (req, res) => {
 
     // Add some variety by shuffling and adding more items if needed
     if (pageData.length < parseInt(per_page)) {
-      const additionalItems = mockData.slice(0, parseInt(per_page) - pageData.length);
+      const additionalItems = mockData.slice(
+        0,
+        parseInt(per_page) - pageData.length
+      );
       pageData.push(...additionalItems);
     }
 
     res.json(pageData);
-    
   } catch (err) {
     console.error("❌ Mock API error:", err.message);
     res.status(500).json({ error: "Failed to fetch places" });
