@@ -213,7 +213,7 @@ const ChildNavbar: React.FC = () => {
           <Offcanvas.Body>
             <Nav className="flex-column">
               {categories.map((category, index) => (
-                <Nav.Item key={index} className="mb-2">
+                <Nav.Item key={`sidebar-${category.name}`} className="mb-2">
                   <Nav.Link
                     onClick={() => {
                       setSelectedCategory(category.name);
@@ -238,7 +238,7 @@ const ChildNavbar: React.FC = () => {
         {/* Horizontal Navbar (Hidden on Small Screens) */}
         <Nav className="d-none d-lg-flex flex-row flex-nowrap overflow-auto justify-content-center">
           {categories.map((category, index) => (
-            <Nav.Item key={index} className="px-3">
+            <Nav.Item key={`horizontal-${category.name}`} className="px-3">
               <Nav.Link
                 onClick={() => setSelectedCategory(category.name)}
                 onMouseEnter={(e) =>
@@ -268,7 +268,14 @@ const ChildNavbar: React.FC = () => {
               {categories
                 .find((category) => category.name === selectedCategory)
                 ?.items.map((item, index) => (
-                  <Col xs={12} sm={6} md={4} lg={3} key={item.id} className="d-flex justify-content-center">
+                  <Col
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={item.id}
+                    className="d-flex justify-content-center"
+                  >
                     <Card className="shadow-lg border-0 rounded-4 custom-card w-100 h-100 d-flex flex-column align-items-center">
                       <Card.Img
                         variant="top"

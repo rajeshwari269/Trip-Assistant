@@ -50,7 +50,7 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       }
     } catch (error) {
       setMessages((prev) => [...prev, { text: "Request failed", type: "bot" }]);
-      handleError(error)
+      handleError(error);
     }
   };
 
@@ -69,7 +69,7 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         ) : (
           messages.map((msg, index) => (
             <div
-              key={index}
+              key={`${msg.type}-${index}-${msg.text.substring(0, 10)}`}
               className={`chatbot-message p-2 rounded mb-1 ${
                 msg.type === "user" ? "user-message" : "bot-message"
               }`}
