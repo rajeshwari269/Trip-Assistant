@@ -100,10 +100,57 @@ npm start # or node server.js
 
 The backend will run at [http://localhost:5000](http://localhost:5000)
 
+### 5. Environment Configuration
+
+Create a `.env` file in the `server/` directory with the following configuration:
+
+```env
+PEXELS_API_KEY=r7JaSmHje1gI1FCme287SgDL5kDLinJRLsqRsXpurLy1gFmEFkSCFGJt
+# VITE_GEOAPIFY_API_KEY=https://api.geoapify.com/v2/place-details?id=id%3D514d368a517c511e40594bfd7b574ec84740f00103f90135335d1c00000000920313416e61746f6d697363686573204d757365756d&apiKey=ced9b848bc7e4de2a90ebdf6d8ece6ca
+
+
+<!-- # Database Configuration
+MONGODB_URI=your_mongodb_connection_string
+
+# API Keys
+PIXELS_API_KEY=your_pixels_api_key_here
+
+# Optional: JWT Secret for Authentication -->
+JWT_SECRET=your_jwt_secret_key
+```
+
+#### API Configuration
+
+**Pixels API Setup:**
+
+**For GSSoC Contributors:**
+
+**Option 1: Use Shared API Key (Recommended for GSSoC)**
+
+- Use the existing API key provided by the project maintainer
+- Add the shared API key to the `.env` file as `PIXELS_API_KEY`
+- This is the recommended approach for GSSoC contributors
+- Note: Rate limits are shared across all contributors
+
+**Option 2: Get Your Own API Key (Optional)**
+
+- Sign up at [Pixels API](https://pixels.com/api) to get your own API key
+- Add your personal API key to the `.env` file as `PIXELS_API_KEY`
+- Benefits: Higher rate limits, no sharing with other users
+- Free tier available with limited requests per month
+- Use this if you plan to work extensively on image-related features
+
+**API Usage:**
+
+- The API is used for high-quality travel destination images
+- Rate limits: Check Pixels API documentation for current limits
+- Images are cached to minimize API calls
+
 > **Note:**
 >
 > - Ensure your MongoDB server is running and update the backend connection string as needed (see `server/server.js`).
 > - The application uses a custom authentication system, no external auth provider setup required.
+> - Keep your API keys secure and never commit them to version control.
 
 ---
 
