@@ -58,7 +58,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/properties",
+        "http://localhost:5000/api/properties/add", //changed the api to '/properties/add'
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },

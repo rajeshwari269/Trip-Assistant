@@ -1,4 +1,4 @@
-import React from "react";
+
 import { useState, useEffect, FormEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,7 +29,7 @@ function Auth() {
       return;
     }
 
-    const url = isLogin ? "http://localhost:5000/login" : "http://localhost:5000/signup";
+    const url = isLogin ? "http://localhost:5000/entry-point/login" : "http://localhost:5000/entry-point/signup";
 
     isLogin ? console.log("Logging in...") : console.log("Signing up..." + userName + mobileNo);
     const payload = { email, password, mobileNo, userName};
@@ -47,9 +47,19 @@ function Auth() {
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
         console.log(data);
+        localStorage.setItem("user_id", data.user_id);//nd
         navigate("/places");
       } else {
         showError(data.message || "An error occurred");
+        //nd => if login failed, redirect to sign up page
+          if (isLogin && data.message.toLowerCase().includes("not registered")) {
+    setTimeout(() => {
+      navigate("/auth", { state: { isLogin: false } }); // switch to signup
+    }, 20); // give user time to see error toast
+    
+  }
+
+  return;//nd
       }
     } catch (error) {
       handleError(error, "Network error, please try again.");

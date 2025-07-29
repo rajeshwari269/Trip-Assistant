@@ -16,3 +16,6 @@ npm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+#added .env file that stores mongoDB connection string
+server/.env
