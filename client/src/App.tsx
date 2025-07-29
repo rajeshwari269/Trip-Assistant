@@ -17,6 +17,7 @@ import Dashboard from "./pages/Admin/admin";
 import MorePlaces from "./pages/MorePlaces";
 import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
+import TripBudgetEstimator from './components/TripBudgetEstimator';
 // Style and Configuration Imports
 import "./responsive.css";
 
@@ -55,6 +56,7 @@ function AppContent() {
           <Route path="/places/:placeName" element={<PlaceDetails />} />
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/help" element={<HelpCentre />} />
+          <Route path="/trip-budget" element={<TripBudgetEstimator />} />
         </Routes>
       </main>
 
