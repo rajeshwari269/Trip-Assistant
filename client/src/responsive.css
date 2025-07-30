@@ -106,3 +106,31 @@ h1, .title {
     display: none !important;
   }
 } 
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* For larger screens (tablet and above), align items in a row */
+@media (min-width: 768px) {
+  .controls {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.controls input,
+.controls select,
+.controls button {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .controls input,
+  .controls select,
+  .controls button {
+    width: auto;
+  }
+}

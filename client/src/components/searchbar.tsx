@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 import {
   Form,
   Button,
@@ -35,7 +36,37 @@ const SearchBar: React.FC = () => {
   const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
   const [locationType, setLocationType] = useState<string>("");
   const [where, setWhere] = useState("");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+ useEffect(() => {
+  const fetchSuggestions = async () => {
+    if (where.length < 3) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
 
+    try {
+      const res = await axios.get("https://nominatim.openstreetmap.org/search", {
+        params: {
+          q: where,
+          format: "json",
+          addressdetails: 1,
+          limit: 5,
+        },
+      });
+
+      const places = res.data.map((place: any) => place.display_name);
+      setSuggestions(places);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Error fetching location suggestions:", error);
+    }
+  };
+
+  const timeout = setTimeout(fetchSuggestions, 300); // debounce
+  return () => clearTimeout(timeout);
+}, [where]);
   const amenities = [
     { id: "wifi", name: "WiFi", icon: <FaWifi /> },
     { id: "pool", name: "Pool", icon: <FaSwimmingPool /> },
@@ -108,14 +139,52 @@ const SearchBar: React.FC = () => {
               <Form.Label className="fw-bold text-muted mb-2">
                 Where
               </Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Search places"
-                className="border-0 p-3 rounded-3"
-                value={where}
-                onChange={(e) => setWhere(e.target.value)}
-                style={{ fontSize: "0.95rem" }}
-              />
+              <div style={{ position: "relative" }}>
+           <Form.Control
+  type="text"
+  placeholder="Search places"
+  className="border-0 p-3 rounded-3"
+  value={where}
+  onChange={(e) => setWhere(e.target.value)}
+  onFocus={() => setShowSuggestions(true)}
+  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // close suggestions after click
+  style={{ fontSize: "0.95rem" }}
+/>
+
+{/* Suggestions Dropdown */}
+{showSuggestions && suggestions.length > 0 && (
+  <div
+    style={{
+      position: "absolute",
+      backgroundColor: "#fff",
+      border: "1px solid #ccc",
+      borderRadius: "4px",
+      zIndex: 1000,
+      marginTop: "4px",
+      width: "100%",
+      maxHeight: "150px",
+      overflowY: "auto",
+    }}
+  >
+    {suggestions.map((suggestion, index) => (
+      <div
+        key={index}
+        onMouseDown={() => {
+          setWhere(suggestion);
+          setShowSuggestions(false);
+        }}
+        style={{
+          padding: "8px 12px",
+          cursor: "pointer",
+          borderBottom: "1px solid #eee",
+        }}
+      >
+        {suggestion}
+      </div>
+    ))}
+  </div>
+)} </div>
+
             </Col>
 
             {/* Check In */}
