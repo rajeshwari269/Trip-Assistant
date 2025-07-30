@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaWallet } from "react-icons/fa";
 import { FaGlobeAmericas, FaBars, FaUser, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -439,6 +440,13 @@ function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* --- Nav Items --- */}
             <ul className="navbar-nav me-auto mb-3 mb-lg-0 d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2 gap-lg-3 ps-3 ps-lg-0">
+              <li className="nav-item">
+               <Link className="nav-link" to="/trip-budget" onClick={closeMobileNav}>
+                 <FaWallet className="me-2 d-lg-none" />
+                     Budget Estimator
+                </Link>
+              </li>
+
               <li className="nav-item">
                 <Link className="nav-link" to="/" onClick={closeMobileNav}>
                   <i className="fas fa-home me-2 d-lg-none"></i>Home
