@@ -75,3 +75,47 @@ def create_docx(weather, packing_list):
     doc.save(buffer)
     buffer.seek(0)
     return buffer
+
+
+def extract_items_from_suggestions(suggestions):
+    clean_list = []
+    for line in suggestions.split("\n"):
+        line = re.sub(r"[:•\-]+", "", line).strip()
+        if line and not line.isdigit():
+            clean_list.append(line)
+    return clean_list
+
+def get_packing_suggestions(location, activities, trip_type, trip_duration, people):
+    model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp")
+    chat_session = model.start_chat(history=[])
+
+    people_info = "; ".join(
+        [f"{p['name']} (Age: {p['age']}, Gender: {p['gender']}, Medical Needs: {p['medical_issues']})" for p in people]
+    )
+    activities = activities or "general activities"
+    prompt = (
+        f"Suggest a packing list for travelers going to {location} for {activities}. "
+        f"The trip type is {trip_type}. Include items based on the trip duration of "
+        f"{trip_duration} days and travelers' details: {people_info}."
+    )
+    try:
+        response = chat_session.send_message(prompt)
+        return extract_items_from_suggestions(response.text)
+    except Exception:
+        st.warning("❌ Gemini failed, falling back to LLaMA...")
+        try:
+            client = Groq(api_key=GROQ_API_KEY)
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "system", "content": prompt}],
+                temperature=1,
+                max_completion_tokens=200,
+                top_p=1,
+                stream=False
+            )
+            return extract_items_from_suggestions(
+                completion.choices[0].message.get("content", "")
+            )
+        except Exception as e:
+            st.error(f"❌ Error generating packing list from both models: {e}")
+            return []
