@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 import requests
+from dotenv import load_dotenv
 import google.generativeai as genai
 from groq import Groq
 import re
@@ -8,6 +9,7 @@ from datetime import datetime
 from io import BytesIO
 from docx import Document
 
+load_dotenv()
 # --- Config ---
 st.set_page_config(page_title="Smart Packing Assistant", page_icon="🎒", layout="wide")
 
@@ -156,17 +158,14 @@ def generate_minimalist_list(location, activities, trip_type, trip_duration, peo
             return []
 
 def filter_excessive_items(packing_list, trip_duration):
-    if isinstance(trip_duration, int):
-        max_clothes = min(trip_duration + 2, 10)
-    else:
-        max_clothes = 30
+    max_clothes = min(int(trip_duration) + 2, 10) if isinstance(trip_duration, int) else 30
     filtered_list = []
     for item in packing_list:
-        match = re.search(r"(\d+)", item)
-        if match and "TShirts" in item:
+        if "TShirt" in item or "t-shirt" in item:
             item = re.sub(r"\d+", str(max_clothes), item)
         filtered_list.append(item)
     return filtered_list
+
 
 # --- UI ---
 st.title("🎒 Personalized Packing List Generator")
