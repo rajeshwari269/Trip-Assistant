@@ -10,6 +10,7 @@ from io import BytesIO
 from docx import Document
 
 load_dotenv()
+
 # --- Config ---
 st.set_page_config(page_title="Smart Packing Assistant", page_icon="🎒", layout="wide")
 
@@ -31,7 +32,6 @@ if missing:
 
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Cache for storing location coordinates (in-memory)
 location_cache = {}
 
 def get_lat_lon_from_opencage(location):
@@ -51,20 +51,20 @@ def get_lat_lon_from_opencage(location):
         pass
     return None, None
 
-
-def get_weather(lat, lon, date):
+def get_weather(lat, lon):
     try:
         url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={WEATHER_API_KEY}&units=metric"
-        response = requests.get(url, timeout=20).json()
-        if "list" in response and response["list"]:
-            forecast = response["list"][0]
-            description = forecast["weather"][0]["description"].capitalize()
-            temperature = forecast["main"]["temp"]
-            return f"{description}, {temperature}°C"
-    except Exception:
+        response = requests.get(url, timeout=20)
+        response.raise_for_status()
+        data = response.json()
+        for forecast in data["list"]:
+            if "weather" in forecast and "main" in forecast:
+                description = forecast["weather"][0]["description"].capitalize()
+                temperature = forecast["main"]["temp"]
+                return f"{description}, {temperature}°C"
+    except:
         pass
     return "Weather data not available"
-
 
 def create_docx(weather, packing_list):
     buffer = BytesIO()
@@ -78,7 +78,6 @@ def create_docx(weather, packing_list):
     buffer.seek(0)
     return buffer
 
-
 def extract_items_from_suggestions(suggestions):
     clean_list = []
     for line in suggestions.split("\n"):
@@ -87,7 +86,7 @@ def extract_items_from_suggestions(suggestions):
             clean_list.append(line)
     return clean_list
 
-def get_packing_suggestions(location, activities, trip_type, trip_duration, people):
+def generate_packing_list(location, activities, trip_type, trip_duration, people, minimalist=False):
     model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp")
     chat_session = model.start_chat(history=[])
 
@@ -95,66 +94,28 @@ def get_packing_suggestions(location, activities, trip_type, trip_duration, peop
         [f"{p['name']} (Age: {p['age']}, Gender: {p['gender']}, Medical Needs: {p['medical_issues']})" for p in people]
     )
     activities = activities or "general activities"
+    list_style = "minimalist packing list" if minimalist else "packing list"
     prompt = (
-        f"Suggest a packing list for travelers going to {location} for {activities}. "
-        f"The trip type is {trip_type}. Include items based on the trip duration of "
-        f"{trip_duration} days and travelers' details: {people_info}."
-    )
-    try:
-        response = chat_session.send_message(prompt)
-        return extract_items_from_suggestions(response.text)
-    except Exception:
-        st.warning("❌ Gemini failed, falling back to LLaMA...")
-        try:
-            client = Groq(api_key=GROQ_API_KEY)
-            completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "system", "content": prompt}],
-                temperature=1,
-                max_completion_tokens=200,
-                top_p=1,
-                stream=False
-            )
-            return extract_items_from_suggestions(
-                completion.choices[0].message.get("content", "")
-            )
-        except Exception as e:
-            st.error(f"❌ Error generating packing list from both models: {e}")
-            return []
-        
-def generate_minimalist_list(location, activities, trip_type, trip_duration, people):
-    model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp")
-    chat_session = model.start_chat(history=[])
-    people_info = "; ".join(
-        [f"{p['name']} (Age: {p['age']}, Gender: {p['gender']}, Medical Needs: {p['medical_issues']})" for p in people]
-    )
-    activities = activities or "general activities"
-    prompt = (
-        f"Suggest a minimalist packing list for travelers going to {location} for {activities}. "
+        f"Suggest a {list_style} for travelers going to {location} for {activities}. "
         f"The trip type is {trip_type}. Include only essential items based on the trip duration "
         f"of {trip_duration} days and travelers' details: {people_info}. "
-        f"Make it lightweight and include only what is necessary."
+        f"Make it concise, clear, and avoid repetition."
     )
     try:
         response = chat_session.send_message(prompt)
         return extract_items_from_suggestions(response.text)
-    except Exception:
-        st.warning("❌ Gemini failed, falling back to LLaMA...")
+    except:
         try:
             client = Groq(api_key=GROQ_API_KEY)
             completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "system", "content": prompt}],
+                model="llama3-70b-8192",
+                messages=[{"role": "user", "content": prompt}],
                 temperature=1,
-                max_completion_tokens=200,
-                top_p=1,
-                stream=False
+                max_tokens=512,
             )
-            return extract_items_from_suggestions(
-                completion.choices[0].message.get("content", "")
-            )
-        except Exception as e:
-            st.error(f"❌ Error generating minimalist packing list from both models: {e}")
+            content = completion.choices[0].message.content
+            return extract_items_from_suggestions(content)
+        except:
             return []
 
 def filter_excessive_items(packing_list, trip_duration):
@@ -165,7 +126,6 @@ def filter_excessive_items(packing_list, trip_duration):
             item = re.sub(r"\d+", str(max_clothes), item)
         filtered_list.append(item)
     return filtered_list
-
 
 # --- UI ---
 st.title("🎒 Personalized Packing List Generator")
@@ -180,11 +140,9 @@ trip_type = st.sidebar.selectbox("Select Trip Type", [
     "Educational Trip", "Romantic Trip", "Adventure Trip"
 ])
 
-end_date_container = st.sidebar.empty()
+end_date = None
 if trip_type != "Permanent Relocation":
-    end_date = end_date_container.date_input("End Date", datetime.today())
-else:
-    end_date = None
+    end_date = st.sidebar.date_input("End Date", datetime.today())
 
 activities = st.sidebar.text_area("Enter your activities (comma-separated):", value="")
 list_type = st.sidebar.selectbox("Select Packing List Type", ["Detailed List", "Minimalist List"])
@@ -205,19 +163,17 @@ if st.sidebar.button("Generate Packing List 🧳"):
     else:
         lat, lon = get_lat_lon_from_opencage(location)
         if lat and lon:
-            if trip_type != "Permanent Relocation":
-                trip_duration = 1
+            trip_duration = 1
+            if trip_type != "Permanent Relocation" and end_date:
                 try:
                     trip_duration = max(1, (end_date - start_date).days)
-                except Exception:
+                except:
                     pass
             else:
                 trip_duration = "Permanent"
 
-            weather = get_weather(lat, lon, start_date)
-            packing_list = generate_minimalist_list(location, activities, trip_type, trip_duration, people) \
-                if list_type == "Minimalist List" \
-                else get_packing_suggestions(location, activities, trip_type, trip_duration, people)
+            weather = get_weather(lat, lon)
+            packing_list = generate_packing_list(location, activities, trip_type, trip_duration, people, minimalist=(list_type == "Minimalist List"))
             packing_list = filter_excessive_items(packing_list, trip_duration)
 
             st.success("✅ Packing list generated successfully!")
@@ -229,10 +185,10 @@ if st.sidebar.button("Generate Packing List 🧳"):
 
             docx_file = create_docx(weather, packing_list)
             st.download_button(
-                "📥 Download Packing List",
+                "📅 Download Packing List",
                 data=docx_file,
                 file_name="Packing_List.docx",
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             )
         else:
-            st.error("❌ Unable to retrieve location coordinates.")
+            st.error("Unable to retrieve location coordinates.")
