@@ -1,41 +1,99 @@
-# 🎒 Smart Packing Assistant (Streamlit)
+# Smart Packing Assistant
 
-## 📖 Overview
-The **Smart Packing Assistant** is an AI-powered tool that generates personalized packing lists based on:
-
-- 🌦️ Weather forecasts of your destination  
-- ✈️ Trip type & duration  
-- 🏞️ Activities planned  
-- 👨‍👩‍👧‍👦 Number of travelers & their needs  
-
-It uses **Google Gemini**, **Groq (LLaMA fallback)**, **OpenCage**, and **OpenWeather** APIs to create accurate suggestions.  
-Users can also download the packing list as a **Word document (.docx)**.  
-
-This module is an **optional AI tool** for the main [Trip Assistant](../../README.md) project but can run independently.
+The **Smart Packing Assistant** is a weather-aware travel companion that generates personalized packing lists for multiple travelers based on location, travel dates, weather conditions, and medical needs. It uses AI to provide smart suggestions and automates the process of building detailed, user-specific packing checklists.
 
 ---
 
 ## 🚀 Features
-- Weather-based packing recommendations  
-- Multiple **trip types** supported (business, solo, relocation, adventure, etc.)  
-- Handles multiple travelers with personal details (age, gender, medical needs)  
-- Choose between **detailed** or **minimalist** packing lists  
-- Download the final list as a Word document  
-- Automatic fallback to **Groq LLaMA** if Gemini fails  
+
+* ✅ Multi-person packing list generation
+* 🌤 Weather-integrated suggestions (OpenWeatherMap API)
+* 💊 Medical needs consideration
+* 🧳 Trip duration-aware item calculation
+* 🤖 LLM-powered packing logic (Gemini/Groq fallback)
+* 📦 Categorized output: Essentials, Clothing, Toiletries, Electronics, Miscellaneous
+* 🧼 Clean Streamlit UI with logging for debugging
 
 ---
 
-## 🛠️ Installation & Setup
+## 🧰 Tech Stack
 
-### 1️⃣ Clone the repository
-If you haven’t already cloned the full project:
+* **Frontend**: Streamlit
+* **Backend**: Python 3
+* **LLMs**: Gemini (via Gemini Pro API), Groq (LLaMA fallback)
+* **Weather**: OpenWeatherMap API
+
+---
+
+## 🗂 Folder Structure
+
+```
+Trip_assistant/
+├── client/                         # (Optional) Frontend/client-related files (if any)
+├── server/                         # (Optional) Backend/server-side logic (if extended)
+├── tools/
+│   └── packing-assistant/         # Main app folder
+│       ├── .env                   # Environment variables
+│       ├── .env.example           # Sample env file for reference
+│       ├── app.py                 # Main Streamlit app logic
+│       ├── requirements.txt       # Python dependencies
+│       └── README.md              # Project documentation
+├── .gitignore                     # Git ignored files
+
+```
+
+---
+
+## 🔧 Setup Instructions
+
+### 1. Clone the repository
+
 ```bash
-git clone https://github.com/<your-username>/Trip_assistant.git
-cd Trip_assistant/tools/packing-assistant
+git clone https://github.com/your-username/smart-packing-assistant.git
+cd smart-packing-assistant
+```
 
-### 2️⃣ Create and activate a virtual environment
+### 2. Create virtual environment
 
 ```bash
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-source .venv/bin/activate
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Add API keys
+
+Create a `.env` file with the following variables (see `.env.example`):
+
+```
+GEMINI_API_KEY=your-gemini-api-key
+GROQ_API_KEY=your-groq-api-key
+OPENCAGE_API_KEY=your-opencage-api-key
+WEATHER_API_KEY=your-weather-api-key
+
+```
+
+---
+
+## ▶️ Run the App
+
+```bash
+streamlit run main.py
+```
+
+---
+
+## 🛠 To Do / Improvements
+
+* [ ] Add support for international trips (visa, currency converter, etc.)
+* [ ] Add download/export as PDF
+* [ ] UI enhancements (date picker, progress bar)
+* [ ] Save previous trips locally
+
+---
+
