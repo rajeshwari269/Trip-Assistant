@@ -119,3 +119,121 @@ def get_packing_suggestions(location, activities, trip_type, trip_duration, peop
         except Exception as e:
             st.error(f"❌ Error generating packing list from both models: {e}")
             return []
+        
+def generate_minimalist_list(location, activities, trip_type, trip_duration, people):
+    model = genai.GenerativeModel(model_name="gemini-2.0-flash-exp")
+    chat_session = model.start_chat(history=[])
+    people_info = "; ".join(
+        [f"{p['name']} (Age: {p['age']}, Gender: {p['gender']}, Medical Needs: {p['medical_issues']})" for p in people]
+    )
+    activities = activities or "general activities"
+    prompt = (
+        f"Suggest a minimalist packing list for travelers going to {location} for {activities}. "
+        f"The trip type is {trip_type}. Include only essential items based on the trip duration "
+        f"of {trip_duration} days and travelers' details: {people_info}. "
+        f"Make it lightweight and include only what is necessary."
+    )
+    try:
+        response = chat_session.send_message(prompt)
+        return extract_items_from_suggestions(response.text)
+    except Exception:
+        st.warning("❌ Gemini failed, falling back to LLaMA...")
+        try:
+            client = Groq(api_key=GROQ_API_KEY)
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "system", "content": prompt}],
+                temperature=1,
+                max_completion_tokens=200,
+                top_p=1,
+                stream=False
+            )
+            return extract_items_from_suggestions(
+                completion.choices[0].message.get("content", "")
+            )
+        except Exception as e:
+            st.error(f"❌ Error generating minimalist packing list from both models: {e}")
+            return []
+
+def filter_excessive_items(packing_list, trip_duration):
+    if isinstance(trip_duration, int):
+        max_clothes = min(trip_duration + 2, 10)
+    else:
+        max_clothes = 30
+    filtered_list = []
+    for item in packing_list:
+        match = re.search(r"(\d+)", item)
+        if match and "TShirts" in item:
+            item = re.sub(r"\d+", str(max_clothes), item)
+        filtered_list.append(item)
+    return filtered_list
+
+# --- UI ---
+st.title("🎒 Personalized Packing List Generator")
+st.markdown("### Plan your trip smarter with weather-based personalized packing lists!")
+
+st.sidebar.header("🌍 Trip Details")
+location = st.sidebar.text_input("Enter a location:")
+start_date = st.sidebar.date_input("Start Date", datetime.today())
+
+trip_type = st.sidebar.selectbox("Select Trip Type", [
+    "Business Trip", "Permanent Relocation", "Solo Trip",
+    "Educational Trip", "Romantic Trip", "Adventure Trip"
+])
+
+end_date_container = st.sidebar.empty()
+if trip_type != "Permanent Relocation":
+    end_date = end_date_container.date_input("End Date", datetime.today())
+else:
+    end_date = None
+
+activities = st.sidebar.text_area("Enter your activities (comma-separated):", value="")
+list_type = st.sidebar.selectbox("Select Packing List Type", ["Detailed List", "Minimalist List"])
+num_people = st.sidebar.number_input("Number of people:", min_value=1, step=1)
+
+people = []
+for i in range(num_people):
+    with st.expander(f"👤 Person {i + 1} Details"):
+        name = st.text_input(f"Name", key=f"name_{i}")
+        gender = st.selectbox("Gender", ["Male", "Female", "Other"], key=f"gender_{i}")
+        age = st.number_input("Age", min_value=0, step=1, key=f"age_{i}")
+        medical_issues = st.text_area("Any medical issues", key=f"medical_{i}")
+        people.append({"name": name, "gender": gender, "age": age, "medical_issues": medical_issues})
+
+if st.sidebar.button("Generate Packing List 🧳"):
+    if not location or not people:
+        st.error("🚨 Please enter all required fields.")
+    else:
+        lat, lon = get_lat_lon_from_opencage(location)
+        if lat and lon:
+            if trip_type != "Permanent Relocation":
+                trip_duration = 1
+                try:
+                    trip_duration = max(1, (end_date - start_date).days)
+                except Exception:
+                    pass
+            else:
+                trip_duration = "Permanent"
+
+            weather = get_weather(lat, lon, start_date)
+            packing_list = generate_minimalist_list(location, activities, trip_type, trip_duration, people) \
+                if list_type == "Minimalist List" \
+                else get_packing_suggestions(location, activities, trip_type, trip_duration, people)
+            packing_list = filter_excessive_items(packing_list, trip_duration)
+
+            st.success("✅ Packing list generated successfully!")
+            st.subheader("🌤 Weather Forecast")
+            st.info(weather)
+            st.subheader(f"📦 {list_type}")
+            for item in packing_list:
+                st.write(f"- {item}")
+
+            docx_file = create_docx(weather, packing_list)
+            st.download_button(
+                "📥 Download Packing List",
+                data=docx_file,
+                file_name="Packing_List.docx",
+                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            )
+        else:
+            st.error("❌ Unable to retrieve location coordinates.")
