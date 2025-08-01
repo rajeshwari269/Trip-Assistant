@@ -10,6 +10,8 @@ npm-debug.log*
 .vscode/
 .DS_Store
 .env
+.env.*
+.venv
 # OS/IDE files
 *.suo
 *.ntvs*
