@@ -36,7 +36,6 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
     input.value = "";
 
     try {
-      const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
       const res = await fetch(`${apiBaseUrl}/query`, {
         method: "POST",
         headers: {
