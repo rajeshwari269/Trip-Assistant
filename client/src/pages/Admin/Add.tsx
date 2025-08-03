@@ -47,7 +47,6 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
   };
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form...", formData); // Debugging line
 
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -64,8 +63,6 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
-      console.log("Server Response:", response.data); // Debugging line
 
       refreshProperties(); // Refresh Dashboard
       handleClose();

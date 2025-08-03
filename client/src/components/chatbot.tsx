@@ -1,12 +1,30 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import "./chatbot.css";
 import { handleError } from "../utils/errorHandlerToast";
 
-const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [messages, setMessages] = useState<
-    { text: string; type: "user" | "bot" }[]
-  >([]);
+interface Message {
+  text: string;
+  type: "user" | "bot";
+}
+
+interface ChatbotProps {
+  onClose: () => void;
+}
+
+// Extend Vite's ImportMeta interface
+declare global {
+  interface ImportMetaEnv {
+    readonly VITE_API_BASE_URL?: string;
+  }
+
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
+}
+
+const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -18,17 +36,19 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleSendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const input = event.currentTarget.message;
-    const userMessage = input.value.trim();
+    const form = event.currentTarget;
+    const input = form.elements.namedItem('message') as HTMLInputElement;
+    const userMessage = input?.value?.trim();
 
     if (!userMessage) return;
 
     // Add user message
-    setMessages((prev) => [...prev, { text: userMessage, type: "user" }]);
+    setMessages((prev: Message[]) => [...prev, { text: userMessage, type: "user" }]);
     input.value = "";
 
     try {
-      const res = await fetch("http://localhost:3000/query", {
+      const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
+      const res = await fetch(`${apiBaseUrl}/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,18 +58,18 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
       const data = await res.json();
       if (data.error) {
-        setMessages((prev) => [
+        setMessages((prev: Message[]) => [
           ...prev,
           { text: `Error: ${data.error}`, type: "bot" },
         ]);
       } else {
-        setMessages((prev) => [
+        setMessages((prev: Message[]) => [
           ...prev,
           { text: JSON.stringify(data, null, 2), type: "bot" },
         ]);
       }
     } catch (error) {
-      setMessages((prev) => [...prev, { text: "Request failed", type: "bot" }]);
+      setMessages((prev: Message[]) => [...prev, { text: "Request failed", type: "bot" }]);
       handleError(error);
     }
   };
@@ -67,7 +87,7 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {messages.length === 0 ? (
           <p className="text-muted">Hello! How can I assist you?</p>
         ) : (
-          messages.map((msg, index) => (
+          messages.map((msg: Message, index: number) => (
             <div
               key={`${msg.type}-${index}-${msg.text.substring(0, 10)}`}
               className={`chatbot-message p-2 rounded mb-1 ${
