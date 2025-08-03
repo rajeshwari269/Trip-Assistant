@@ -12,17 +12,6 @@ interface ChatbotProps {
   onClose: () => void;
 }
 
-// Extend Vite's ImportMeta interface
-declare global {
-  interface ImportMetaEnv {
-    readonly VITE_API_BASE_URL?: string;
-  }
-
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-}
-
 const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
