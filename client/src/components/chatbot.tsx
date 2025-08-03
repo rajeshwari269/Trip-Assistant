@@ -53,7 +53,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
       } else {
         setMessages((prev: Message[]) => [
           ...prev,
-          { text: JSON.stringify(data, null, 2), type: "bot" },
+          { text: data.message || "No response from bot.", type: "bot" },
         ]);
       }
     } catch (error) {
