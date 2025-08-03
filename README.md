@@ -165,6 +165,12 @@ VITE_API_BASE_URL=http://localhost:5000
 - Update database credentials in `server/.env`
 
 > **🔐 Security Note:** Never commit `.env` files to version control. The `.env.sample` files are templates - your actual `.env` files with real credentials should remain local only.
+>
+> **Add `.env` to your `.gitignore` file to prevent accidental commits:**
+> ```gitignore
+> # Ignore environment variable files
+> .env
+> ```
 
 **For GSSoC Contributors:**
 
