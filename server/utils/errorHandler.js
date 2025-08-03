@@ -9,20 +9,33 @@
  * @param {Object} res - Express response object
  * @param {number} statusCode - HTTP status code (default: 500)
  */
-function handleServerError(error, operation, res = null, statusCode = 500) {
+/**
+ * Sends standardized error response for API endpoints
+ * @param {Error|unknown} error - The error object
+ * @param {string} operation - Description of the operation that failed
+ * @param {Object} res - Express response object (required)
+ * @param {number} statusCode - HTTP status code (default: 500)
+ */
+function handleServerErrorResponse(error, operation, res, statusCode = 500) {
   const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
   const logMessage = `❌ ${operation} failed: ${errorMessage}`;
-  
+
   console.error(logMessage);
-  
-  if (res) {
-    return res.status(statusCode).json({
-      success: false,
-      error: errorMessage,
-      operation: operation
-    });
-  }
-  
+
+  return res.status(statusCode).json({
+    success: false,
+    error: errorMessage,
+    operation: operation
+  });
+}
+
+/**
+ * Returns standardized error object (for non-API or internal use)
+ * @param {Error|unknown} error - The error object
+ * @param {string} operation - Description of the operation that failed
+ */
+function getStandardizedErrorObject(error, operation) {
+  const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
   return {
     success: false,
     error: errorMessage,
