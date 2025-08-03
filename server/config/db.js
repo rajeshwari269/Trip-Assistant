@@ -1,4 +1,5 @@
 //this db.js is used in controller can be changes if needed, another db is alreay in server.js file
+// Updated database configuration for Trip Assistant
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
