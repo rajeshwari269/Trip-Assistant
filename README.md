@@ -102,26 +102,69 @@ The backend will run at [http://localhost:5000](http://localhost:5000)
 
 ### 5. Environment Configuration
 
-Create a `.env` file in the `server/` directory with the following configuration:
+**⚠️ IMPORTANT:** Environment variables are required for the application to work properly.
 
-```env
-PEXELS_API_KEY=r7JaSmHje1gI1FCme287SgDL5kDLinJRLsqRsXpurLy1gFmEFkSCFGJt
-# VITE_GEOAPIFY_API_KEY=https://api.geoapify.com/v2/place-details?id=id%3D514d368a517c511e40594bfd7b574ec84740f00103f90135335d1c00000000920313416e61746f6d697363686573204d757365756d&apiKey=ced9b848bc7e4de2a90ebdf6d8ece6ca
+#### Step 1: Copy Sample Files
 
+Both `client` and `server` directories contain `.env.sample` files with all required variables:
 
-<!-- # Database Configuration
-MONGODB_URI=your_mongodb_connection_string
-
-# API Keys
-PIXELS_API_KEY=your_pixels_api_key_here
-
-# Optional: JWT Secret for Authentication -->
-JWT_SECRET=your_jwt_secret_key
+```bash
+# Copy sample files to create your environment configuration
+cp client/.env.sample client/.env
+cp server/.env.sample server/.env
 ```
 
-#### API Configuration
+#### Step 2: Configure Server Environment Variables
 
-**Pixels API Setup:**
+Edit `server/.env` with your actual values:
+
+```env
+# Database Configuration (Required)
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_database_password_here
+DB_NAME=tripPlannerDB
+
+# API Keys (Required for full functionality)
+PEXELS_API_KEY=your_pexels_api_key_here
+
+# Server Configuration
+PORT=5000
+NODE_ENV=development
+```
+
+#### Step 3: Configure Client Environment Variables
+
+Edit `client/.env` with your actual values:
+
+```env
+# Weather API (Required for weather functionality)
+VITE_WEATHER_API_KEY=your_openweather_api_key_here
+
+# Backend API URL
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+#### API Keys Setup Guide
+
+**📸 Pexels API (Required for Images):**
+1. Visit [Pexels API](https://www.pexels.com/api/)
+2. Sign up for a free account
+3. Get your API key from the dashboard
+4. Add to `server/.env` as `PEXELS_API_KEY`
+
+**🌤️ OpenWeatherMap API (Required for Weather):**
+1. Visit [OpenWeatherMap API](https://openweathermap.org/api)
+2. Sign up for a free account
+3. Get your API key from the dashboard
+4. Add to `client/.env` as `VITE_WEATHER_API_KEY`
+
+**🗄️ Database Setup:**
+- Install MySQL locally or use a cloud service
+- Create a database named `tripPlannerDB`
+- Update database credentials in `server/.env`
+
+> **🔐 Security Note:** Never commit `.env` files to version control. The `.env.sample` files are templates - your actual `.env` files with real credentials should remain local only.
 
 **For GSSoC Contributors:**
 
