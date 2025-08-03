@@ -1,164 +1,398 @@
 import React from 'react';
-import {
-  Plane,
-  Compass,
-  Heart,
-  Linkedin,
-  Twitter,
-  Github,
-  Globe,
-  Wallet,
-  Users,
-  BookOpen,
-  CheckCircle
-} from 'lucide-react';
 
-
-const AboutUsPage = () => {
+const App = ({ isDarkMode, toggleDarkMode }) => {
   return (
-    <div className="bg-slate-950 text-white font-inter min-h-screen">
-      <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+    <>
+      {/*
+        This style block contains all the CSS rules for the component.
+        This makes the component self-contained and easy to copy and paste.
+      */}
+      <style>
+        {`
+          :root {
+            --primary-color: #0077b6;
+            --secondary-color: #eaf4f4;
+            --text-color: #2a2a2a;
+            --subtle-gray: #f8f9fa;
+            --card-background: #ffffff;
+            --cta-background: #eef2ff;
+            --dark-blue: #023e8a;
+          }
+
+          /* Dark Mode specific color variables */
+          .dark-mode {
+            --primary-color: #90e0ef;
+            --secondary-color: #1a1a1a;
+            --text-color: #f5f5f5;
+            --subtle-gray: #0d0d0d;
+            --card-background: #2c2c2c;
+            --cta-background: #2c2c2c;
+            --dark-blue: #e0f7fa;
+          }
+
+          .about-us-container {
+            background-color: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+          }
+          
+          .header {
+            position: relative;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+            padding: 0 1rem;
+            box-shadow: inset 0 -50px 50px -50px rgba(0, 0, 0, 0.5);
+          }
+
+          @media (min-width: 768px) {
+            .header {
+              height: 50vh;
+            }
+          }
+
+          .dark-mode-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            z-index: 20;
+          }
+
+          .dark-mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+          }
+
+          .header-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-image: url('https://images.unsplash.com/photo-1549488344-71286e709088?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+          }
+
+          .header-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7));
+            transition: background-color 0.3s ease;
+          }
+
+          .header-subtitle {
+            position: relative;
+            font-size: 1.25rem;
+            color: #d1d5db;
+            z-index: 10;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+          }
+
+          .header-title {
+            position: relative;
+            font-size: 2.25rem;
+            line-height: 1.2;
+            font-weight: 800;
+            color: #fff;
+            z-index: 10;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+          }
+
+          @media (min-width: 640px) {
+            .header-title {
+              font-size: 3rem;
+            }
+          }
+
+          @media (min-width: 768px) {
+            .header-title {
+              font-size: 3.75rem;
+            }
+          }
+          
+          .main-content {
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4rem 1rem;
+          }
+          
+          @media (min-width: 640px) {
+            .main-content {
+              padding-left: 1.5rem;
+              padding-right: 1.5rem;
+            }
+          }
+
+          .section-block {
+            margin-bottom: 5rem;
+          }
+
+          .section-heading {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--dark-blue);
+            margin-bottom: 1.5rem;
+            text-align: center;
+          }
+
+          .section-text {
+            font-size: 1.125rem;
+            color: var(--text-color);
+            max-width: 48rem;
+            margin: 0 auto;
+            text-align: center;
+          }
+
+          .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem auto 0;
+            display: grid;
+            gap: 1.5rem;
+            max-width: 48rem;
+          }
+
+          @media (min-width: 640px) {
+            .feature-list {
+              grid-template-columns: repeat(2, 1fr);
+            }
+          }
+          @media (min-width: 1024px) {
+            .feature-list {
+              grid-template-columns: repeat(3, 1fr);
+            }
+          }
+
+          .feature-item {
+            display: flex;
+            align-items: flex-start;
+            background-color: var(--card-background);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+          }
+
+          .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+          }
+          
+          .feature-item-icon {
+            font-size: 1.75rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            line-height: 1;
+          }
+
+          .cta-section {
+            background-color: var(--cta-background);
+            border-radius: 1.5rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 4rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          }
+
+          .cta-text {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            max-width: 42rem;
+            margin: 0 auto 2rem;
+            transition: color 0.3s ease;
+          }
+          
+          .cta-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-size: 1.125rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(0, 119, 182, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+          }
+
+          .cta-button:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 119, 182, 0.4);
+          }
+          
+          .cta-button:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.3);
+          }
+
+          .footer {
+            background-color: var(--dark-blue);
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem;
+            transition: background-color 0.3s ease;
+          }
+        `}
+      </style>
+
+      {/*
+        This is the main container for the "About Us" page.
+        Apply the 'dark-mode' class conditionally based on your state.
+      */}
+      <div className={`about-us-container ${isDarkMode ? 'dark-mode' : ''}`}>
 
         {/* Hero Section */}
-        <header className="text-center max-w-4xl mx-auto mb-16">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-800 to-yellow-400">
-            🌍 About Us — PlanTrip.com
-          </h1>
-          <p className="text-lg sm:text-xl lg:text-2xl text-slate-300">
-            Welcome to PlanTrip.com, your trusted travel companion!
-          </p>
-          <p className="mt-4 text-lg text-slate-300">
-            We’re here to make your travel dreams a reality — whether you’re planning a weekend getaway, a family vacation, or an adventure across countries.
-          </p>
+        <header className="header">
+          <div className="header-bg"></div>
+          <div className="header-overlay"></div>
+          <p className="header-subtitle">Welcome to PlanTrip.com</p>
+          <h1 className="header-title">Your Trusted Travel Companion!</h1>
         </header>
 
-        {/* Who We Are Section */}
-        <section className="bg-slate-800 rounded-2xl shadow-xl p-8 sm:p-12 lg:p-16 mb-16 transition-transform duration-300 hover:scale-105">
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-            <div className="md:w-1/2">
-              <img
-                src="https://placehold.co/800x600/6B7280/F3F4F6?text=Our+Story"
-                alt="Our Company Story"
-                className="rounded-xl w-full h-auto object-cover"
-              />
-            </div>
-            <div className="md:w-1/2">
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                <span className="text-yellow-400">🧭</span> Who We Are
-              </h2>
-              <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-4">
-                PlanTrip is a smart trip planning platform that helps travelers like you:
-              </p>
-              <ul className="text-base sm:text-lg text-slate-300 space-y-2">
-                <li><span className="font-semibold">Discover top-rated destinations</span></li>
-                <li><span className="font-semibold">Estimate travel budgets</span></li>
-                <li><span className="font-semibold">Connect with fellow explorers</span></li>
-                <li><span className="font-semibold">Plan customized itineraries with ease</span></li>
-              </ul>
-              <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-                We believe travel should be simple, affordable, and unforgettable.
-              </p>
-            </div>
-          </div>
-        </section>
+        <main className="main-content">
+          {/* Who We Are Section */}
+          <section className="section-block">
+            <h2 className="section-heading">🧭 Who We Are</h2>
+            <p className="section-text">
+              PlanTrip is a smart trip planning platform that helps travelers like you:
+            </p>
+            <ul className="feature-list">
+              <li className="feature-item">
+                <span className="feature-item-icon">🗺️</span>
+                <span>Discover top-rated destinations</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">💰</span>
+                <span>Estimate travel budgets</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">🧑‍🤝‍🧑</span>
+                <span>Connect with fellow explorers</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">📝</span>
+                <span>Plan customized itineraries with ease</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">🌐</span>
+                <span>Explore destinations across India, Nepal, Bangladesh, and more</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">📍</span>
+                <span>Find most-visited and hidden gem locations</span>
+              </li>
+            </ul>
+            <p className="section-text" style={{ marginTop: '2rem' }}>
+              We believe travel should be simple, affordable, and unforgettable.
+            </p>
+          </section>
 
-        {/* Mission and What We Offer Section */}
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-          <div className="bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col items-center text-center transition-transform duration-300 hover:scale-105">
-            <Plane className="w-12 h-12 text-yellow-400 mb-4" />
-            <h3 className="text-xl sm:text-2xl font-bold mb-2">
-              <span className="text-yellow-400">🎯</span> Our Mission
-            </h3>
-            <p className="text-sm sm:text-base text-slate-400">
+          {/* Our Mission Section */}
+          <section className="section-block">
+            <h2 className="section-heading">🎯 Our Mission</h2>
+            <p className="section-text">
               To provide a seamless and personalized trip planning experience that saves you time, reduces stress, and maximizes your enjoyment — from booking to exploring.
             </p>
-          </div>
-          <div className="bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 text-center transition-transform duration-300 hover:scale-105">
-            <h3 className="text-xl sm:text-2xl font-bold mb-4">
-              <span className="text-yellow-400">💡</span> What We Offer
-            </h3>
-            <ul className="space-y-4 text-left">
-              <li className="flex items-start">
-                <Globe className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
-                <span className="text-sm sm:text-base text-slate-400">
-                  🌐 Explore destinations across India, Nepal, Bangladesh, and more
-                </span>
+          </section>
+
+          {/* What We Offer Section */}
+          <section className="section-block">
+            <h2 className="section-heading">💡 What We Offer</h2>
+            <ul className="feature-list">
+              <li className="feature-item">
+                <span className="feature-item-icon">🌐</span>
+                <span>Explore destinations across India, Nepal, Bangladesh, and more</span>
               </li>
-              <li className="flex items-start">
-                <Wallet className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
-                <span className="text-sm sm:text-base text-slate-400">
-                  📍 Find most-visited and hidden gem locations
-                </span>
+              <li className="feature-item">
+                <span className="feature-item-icon">📍</span>
+                <span>Find most-visited and hidden gem locations</span>
               </li>
-              <li className="flex items-start">
-                <Users className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
-                <span className="text-sm sm:text-base text-slate-400">
-                  💸 Use our built-in Budget Estimator
-                </span>
+              <li className="feature-item">
+                <span className="feature-item-icon">💸</span>
+                <span>Use our built-in Budget Estimator</span>
               </li>
-              <li className="flex items-start">
-                <BookOpen className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
-                <span className="text-sm sm:text-base text-slate-400">
-                  🧑‍🤝‍🧑 Meet new people with the Find Friends feature
-                </span>
+              <li className="feature-item">
+                <span className="feature-item-icon">🧑‍🤝‍🧑</span>
+                <span>Meet new people with the Find Friends feature</span>
               </li>
-              <li className="flex items-start">
-                <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
-                <span className="text-sm sm:text-base text-slate-400">
-                  📚 Read about famous places and plan easily
-                </span>
+              <li className="feature-item">
+                <span className="feature-item-icon">📚</span>
+                <span>Read about famous places and plan easily</span>
+              </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">☁️</span>
+                <span>Real-time weather updates and local travel tips</span>
               </li>
             </ul>
-          </div>
-        </section>
+          </section>
 
-        {/* Why Choose Us Section */}
-        <section className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            <span className="text-yellow-400">🤝</span> Why Choose Us?
-          </h2>
-          <div className="max-w-2xl mx-auto">
-            <ul className="space-y-4 text-left text-lg text-slate-300">
-              <li className="flex items-center">
-                <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
+          {/* Why Choose Us Section */}
+          <section className="section-block">
+            <h2 className="section-heading">🤝 Why Choose Us?</h2>
+            <ul className="feature-list">
+              <li className="feature-item">
+                <span className="feature-item-icon">✨</span>
                 <span>User-friendly design and interactive features</span>
               </li>
-              <li className="flex items-center">
-                <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
+              <li className="feature-item">
+                <span className="feature-item-icon">🤝</span>
                 <span>Tailored travel solutions for all types of travelers</span>
               </li>
-              <li className="flex items-center">
-                <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
+              <li className="feature-item">
+                <span className="feature-item-icon">❤️</span>
                 <span>Passionate team focused on your journey</span>
               </li>
-              <li className="flex items-center">
-                <CheckCircle className="w-6 h-6 text-yellow-400 flex-shrink-0 mr-3" />
+              <li className="feature-item">
+                <span className="feature-item-icon">🚀</span>
                 <span>Regular updates and support</span>
               </li>
+              <li className="feature-item">
+                <span className="feature-item-icon">📈</span>
+                <span>Committed to continuous improvement and user feedback</span>
+              </li>
+               <li className="feature-item">
+                <span className="feature-item-icon">🧑‍🤝‍🧑</span>
+                <span>A community of passionate travelers sharing their stories</span>
+              </li>
             </ul>
-          </div>
-        </section>
+          </section>
 
-        {/* CTA Section */}
-        <section className="text-center">
-          <div className="bg-gradient-to-r from-purple-800 to-yellow-400 text-white rounded-2xl shadow-xl p-8 sm:p-12 lg:p-16">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-              ✨ Let’s Travel Smarter
-            </h2>
-            <p className="text-lg sm:text-xl mb-6">
+          {/* Call to Action (CTA) Section */}
+          <section className="cta-section">
+            <h2 className="section-heading">✨ Let’s Travel Smarter</h2>
+            <p className="cta-text">
               At PlanTrip.com, we believe every trip is a story waiting to be written. Let us help you write yours.
             </p>
-            <a
-              href="#"
-              className="bg-white text-purple-600 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition-all duration-300 hover:scale-105"
-            >
-              Plan a Trip
+            <a href="/places" className="cta-button">
+              Start Planning Your Trip
             </a>
-          </div>
-        </section>
+          </section>
+        </main>
       </div>
-    </div>
+    </>
   );
 };
 
-export default AboutUsPage;
+export default App;

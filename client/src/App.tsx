@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 // Component & Page Imports
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import Home from "./pages/home";
