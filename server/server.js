@@ -9,6 +9,7 @@ dotenv.config();
 
 // Database connection
 const db = require("./config/db");
+const { handleServerError, logError, sendSuccess } = require("./utils/errorHandler");
 const app = express();
 
 // ✅ CORS and JSON middleware
@@ -627,8 +628,7 @@ app.post("/api/properties", upload.array("images", 5), (req, res) => {
 
   db.query(sql, values, (err, result) => {
     if (err) {
-      console.error("❌ Property insert failed:", err.message);
-      return res.status(500).json({ error: "Failed to add property" });
+      return handleServerError(err, "Property insert", res, 500);
     }
 
     const propertyId = result.insertId;
@@ -638,11 +638,10 @@ app.post("/api/properties", upload.array("images", 5), (req, res) => {
 
     db.query(imageSql, [imageValues], (imgErr) => {
       if (imgErr) {
-        console.error("❌ Image insert failed:", imgErr.message);
-        return res.status(500).json({ error: "Failed to save images" });
+        return handleServerError(imgErr, "Image insert", res, 500);
       }
 
-      res.status(201).json({ message: "✅ Property added successfully" });
+      return sendSuccess(res, { propertyId: propertyId }, "Property added successfully", 201);
     });
   });
 });
@@ -663,8 +662,7 @@ app.get("/api/properties", (req, res) => {
 
   db.query(sql, (err, results) => {
     if (err) {
-      console.error("❌ Fetch properties failed:", err.message);
-      return res.status(500).json({ error: "Failed to fetch properties" });
+      return handleServerError(err, "Fetch properties", res, 500);
     }
 
     // Split image URLs string into array
@@ -673,7 +671,7 @@ app.get("/api/properties", (req, res) => {
       images: row.images ? row.images.split(",") : [],
     }));
 
-    res.json(formatted);
+    return sendSuccess(res, formatted, "Properties fetched successfully");
   });
 });
 
