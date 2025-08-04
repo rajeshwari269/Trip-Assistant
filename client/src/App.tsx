@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 // Component & Page Imports
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import Home from "./pages/home";
@@ -18,6 +20,8 @@ import MorePlaces from "./pages/MorePlaces";
 import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 import TripBudgetEstimator from './components/TripBudgetEstimator';
+import AboutUsPage from "./components/AboutUsPage"
+
 // Style and Configuration Imports
 import "./responsive.css";
 
@@ -57,6 +61,7 @@ function AppContent() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/help" element={<HelpCentre />} />
           <Route path="/trip-budget" element={<TripBudgetEstimator />} />
+          <Route path="/about" element={<AboutUsPage />} />
         </Routes>
       </main>
 
