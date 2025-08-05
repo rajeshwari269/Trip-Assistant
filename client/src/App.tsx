@@ -20,7 +20,7 @@ import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 import TripBudgetEstimator from './components/TripBudgetEstimator';
 import NetworkStatusBar from './components/NetworkStatusBar';
-import AboutUsPage from "./components/AboutUsPage";
+import AboutUsPage from "./components/AboutUsPage.jsx";
 // Style and Configuration Imports
 import "./responsive.css";
 
