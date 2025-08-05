@@ -17,7 +17,6 @@ import "./responsive.css";
 
 // Loading skeleton component
 import LoadingState from "./components/LoadingState";
-
 // Route configuration and lazy loading
 import { routes, prefetchCriticalRoutes } from './utils/routeConfig';
 
