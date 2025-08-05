@@ -1,6 +1,6 @@
 import React from 'react';
 
-const App = ({ isDarkMode, toggleDarkMode }) => {
+const AboutUsPage = ({ isDarkMode, toggleDarkMode }) => {
   return (
     <>
       {/*
@@ -395,4 +395,4 @@ const App = ({ isDarkMode, toggleDarkMode }) => {
   );
 };
 
-export default App;
+export default AboutUsPage;

@@ -475,6 +475,15 @@ function Navbar() {
                   <i className="fas fa-star me-2 d-lg-none"></i>Famous Places
                 </Link>
               </li>
+
+            <li className="nav-item">
+               <Link className="nav-link" to="/currency" onClick={closeMobileNav}>
+                 <FaWallet className="me-2 d-lg-none" />
+                     Currency Converter
+                </Link>
+              </li>
+
+
               <li className="nav-item">
                 <Link
                   className="nav-link"

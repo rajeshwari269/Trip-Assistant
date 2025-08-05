@@ -20,10 +20,12 @@ import MorePlaces from "./pages/MorePlaces";
 import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 import TripBudgetEstimator from './components/TripBudgetEstimator';
-import AboutUsPage from "./components/AboutUsPage"
+// import AboutUsPage from "./components/AboutUsPage"
 
 // Style and Configuration Imports
 import "./responsive.css";
+import Currency from "./components/Currency";
+import AboutUsPage from "./components/AboutUsPage";
 
 function AppContent() {
   const location = useLocation(); // Get the current route
@@ -61,7 +63,9 @@ function AppContent() {
           <Route path="/admin" element={<Dashboard />} />
           <Route path="/help" element={<HelpCentre />} />
           <Route path="/trip-budget" element={<TripBudgetEstimator />} />
+          <Route path="/currency" element={<Currency />} />
           <Route path="/about" element={<AboutUsPage />} />
+         
         </Routes>
       </main>
 
