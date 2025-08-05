@@ -1,14 +1,16 @@
-import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
 } from "react-router-dom";
+import { Toaster } from 'sonner';
 
 // Component & Page Imports
 import "./App.css";
+
 import "bootstrap/dist/css/bootstrap.min.css";
+
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import Home from "./pages/home";
@@ -20,7 +22,11 @@ import MorePlaces from "./pages/MorePlaces";
 import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 import TripBudgetEstimator from './components/TripBudgetEstimator';
+
+import NetworkStatusBar from './components/NetworkStatusBar';
+import AboutUsPage from "./components/AboutUsPage.jsx";
 import AboutUsPage from "./components/AboutUsPage"
+
 
 // Style and Configuration Imports
 import "./responsive.css";
@@ -38,6 +44,15 @@ function AppContent() {
 
   return (
     <>
+      <NetworkStatusBar />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          className: "toast-notification"
+        }} 
+      />
+      
       {/* Show Navbar only if NOT on the Auth or Admin page */}
       {showHeaderFooter && <Navbar />}
 

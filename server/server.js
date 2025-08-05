@@ -22,12 +22,36 @@ app.use(
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // Serve image uploads
 
+// Import routes
+const userRoutes = require('./routes/userRoutes');
+const propertyRoutes = require('./routes/propertyRoutes');
+
 const pexelsClient = createClient(process.env.PEXELS_API_KEY);
 
 // Test route to verify server is working
 app.get("/api/test", (req, res) => {
   res.json({ message: "Server is working!" });
 });
+
+// Root route
+app.get("/", (req, res) => {
+  res.json({
+    message: "Trip Assistant API is running",
+    endpoints: {
+      auth: {
+        login: "POST /login",
+        signup: "POST /signup"
+      },
+      properties: "GET /api/properties"
+    }
+  });
+});
+
+// Use routes
+app.use('/', userRoutes); // This will handle /login and /signup routes
+app.use('/api/properties', propertyRoutes);
+
+const { successResponse, errorResponse } = require("./utils/responseUtils");
 
 // Route to get famous or user-searched places from Pexels
 app.get("/api/more-places", async (req, res) => {
@@ -528,18 +552,29 @@ app.get("/api/more-places", async (req, res) => {
       id: startIndex + index + 1, // Ensure unique IDs across pages
     }));
 
-    console.log(
-      `✅ API Response: Query="${query}", Found ${finalData.length} places, Page ${page}`
-    );
-    console.log(`🔍 Filtered data length: ${filteredData.length}`);
-    console.log(
-      `🏙️ Cities in filtered data:`,
-      filteredData.map((p) => p.city)
-    );
-    res.json(finalData);
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(
+        `✅ API Response: Query="${query}", Found ${finalData.length} places, Page ${page}`
+      );
+      console.log(`🔍 Filtered data length: ${filteredData.length}`);
+      console.log(
+        `🏙️ Cities in filtered data:`,
+        filteredData.map((p) => p.city)
+      );
+    }
+    
+    return res.json(successResponse(
+      finalData,
+      `Successfully retrieved ${finalData.length} places`,
+      200
+    ));
   } catch (err) {
-    console.error("❌ Mock API error:", err.message);
-    res.status(500).json({ error: "Failed to fetch places" });
+    console.error("Failed to fetch places:", err);
+    return res.status(500).json(errorResponse(
+      "Failed to fetch places. Please try again later.",
+      500,
+      "PLACES_FETCH_ERROR"
+    ));
   }
 });
 
@@ -676,7 +711,8 @@ app.get("/api/properties", (req, res) => {
 });
 
 // Start server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`💻 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

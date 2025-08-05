@@ -1,9 +1,11 @@
-import React from "react";
 import { useState, useEffect, FormEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { handleError } from "../utils/errorHandlerToast";
 import { showError, showSuccess } from "../utils/toastUtils";
+import { isOnline } from "../utils/networkUtils";
+import LoadingState from "../components/LoadingState";
+import ErrorState from "../components/ErrorState";
 
 function Auth() {
   const location = useLocation();
@@ -13,6 +15,8 @@ function Auth() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mobileNo, setMobileNO] = useState("");
   const [userName, setUserName] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,17 +27,25 @@ function Auth() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setAuthError(null);
     
     if (!isLogin && password !== confirmPassword) {
       showError("Passwords do not match!");
       return;
     }
+    
+    // Check network connectivity
+    if (!isOnline()) {
+      setAuthError("No internet connection. Please check your network.");
+      return;
+    }
 
-    const url = isLogin ? "http://localhost:5000/login" : "http://localhost:5000/signup";
-
-    isLogin ? console.log("Logging in...") : console.log("Signing up..." + userName + mobileNo);
-    const payload = { email, password, mobileNo, userName};
-
+    const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
+    const url = isLogin ? `${apiBaseUrl}/login` : `${apiBaseUrl}/signup`;
+    const payload = { email, password, mobileNo, userName };
+    
+    setIsSubmitting(true);
+    
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -41,18 +53,29 @@ function Auth() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        // Set a reasonable timeout
+        signal: AbortSignal.timeout(10000),
       });
       
       const data = await response.json();
+      
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
-        console.log(data);
         navigate("/places");
       } else {
-        showError(data.message || "An error occurred");
+        const errorMsg = data.message || "Authentication failed. Please check your credentials.";
+        setAuthError(errorMsg);
+        showError(errorMsg);
       }
     } catch (error) {
-      handleError(error, "Network error, please try again.");
+      const errorMsg = isLogin 
+        ? "Unable to log in at this time. Please try again later." 
+        : "Unable to create your account at this time. Please try again later.";
+      
+      setAuthError(errorMsg);
+      handleError(error, errorMsg);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -145,9 +168,28 @@ function Auth() {
             </div>
           )}
           
+          {authError && (
+            <div className="mb-3">
+              <div className="alert alert-danger d-flex align-items-center" role="alert">
+                <div className="me-2">⚠️</div>
+                <div>{authError}</div>
+              </div>
+            </div>
+          )}
 
-          <button type="submit" className="btn btn-danger w-100 fw-bold">
-            {isLogin ? "Login" : "Sign Up"}
+          <button 
+            type="submit" 
+            className="btn btn-danger w-100 fw-bold" 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {isLogin ? "Logging in..." : "Signing up..."}
+              </>
+            ) : (
+              isLogin ? "Login" : "Sign Up"
+            )}
           </button>
         </form>
 

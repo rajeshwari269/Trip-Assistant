@@ -5,13 +5,18 @@ const mysql = require("mysql2");
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "richa@2006",
+  password: "123",
   database: "tripPlannerDB",
 });
 
 db.connect((err) => {
-  if (err) console.error("Database connection failed:", err);
-  else console.log("MySQL Database connected!");
+  if (err) {
+    console.error("Database connection failed:", err.message);
+    console.error("Please check your MySQL credentials and make sure the database exists.");
+    // Don't exit the process, allow the server to start even if DB connection fails
+  } else {
+    console.log("✅ MySQL Database connected successfully!");
+  }
 });
 
 module.exports = db;
