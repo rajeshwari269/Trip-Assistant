@@ -11,7 +11,7 @@ const preloadStylesheets = () => {
   const preloadLink = document.createElement('link');
   preloadLink.rel = 'preload';
   preloadLink.as = 'style';
-  preloadLink.href = 'bootstrap-icons/font/bootstrap-icons.css';
+  preloadLink.href = bootstrapIconsCssUrl;
   document.head.appendChild(preloadLink);
 };
 
