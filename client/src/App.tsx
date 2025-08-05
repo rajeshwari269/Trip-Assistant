@@ -8,6 +8,9 @@ import { Toaster } from 'sonner';
 
 // Component & Page Imports
 import "./App.css";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import Home from "./pages/home";
@@ -19,8 +22,12 @@ import MorePlaces from "./pages/MorePlaces";
 import PlaceDetails from "./pages/PlaceDetails";
 import HelpCentre from "./pages/HelpCentre";
 import TripBudgetEstimator from './components/TripBudgetEstimator';
+
 import NetworkStatusBar from './components/NetworkStatusBar';
 import AboutUsPage from "./components/AboutUsPage.jsx";
+import AboutUsPage from "./components/AboutUsPage"
+
+
 // Style and Configuration Imports
 import "./responsive.css";
 
