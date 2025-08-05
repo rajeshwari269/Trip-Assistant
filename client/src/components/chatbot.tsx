@@ -6,6 +6,8 @@ import { handleError } from "../utils/errorHandlerToast";
 interface Message {
   text: string;
   type: "user" | "bot";
+  isLoading?: boolean;
+  isError?: boolean;
 }
 
 interface ChatbotProps {
@@ -44,11 +46,21 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
         body: JSON.stringify({ prompt: userMessage }),
       });
 
+      // Add loading state for UI feedback
+      setMessages((prev: Message[]) => [
+        ...prev,
+        { text: "Thinking...", type: "bot", isLoading: true }
+      ]);
+
       const data = await res.json();
+      
+      // Remove the loading message
+      setMessages((prev: Message[]) => prev.filter(msg => !msg.isLoading));
+      
       if (data.error) {
         setMessages((prev: Message[]) => [
           ...prev,
-          { text: `Error: ${data.error}`, type: "bot" },
+          { text: `Sorry, I couldn't process your request: ${data.error}`, type: "bot" },
         ]);
       } else {
         setMessages((prev: Message[]) => [
@@ -57,8 +69,19 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
         ]);
       }
     } catch (error) {
-      setMessages((prev: Message[]) => [...prev, { text: "Request failed", type: "bot" }]);
-      handleError(error);
+      // Remove the loading message if it exists
+      setMessages((prev: Message[]) => prev.filter(msg => !msg.isLoading));
+      
+      // Get a user-friendly error message
+      const errorMsg = handleError(
+        error, 
+        "Sorry, I couldn't connect to my brain right now. Please try again in a moment."
+      );
+      
+      setMessages((prev: Message[]) => [
+        ...prev, 
+        { text: errorMsg, type: "bot", isError: true }
+      ]);
     }
   };
 
@@ -80,9 +103,23 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
               key={`${msg.type}-${index}-${msg.text.substring(0, 10)}`}
               className={`chatbot-message p-2 rounded mb-1 ${
                 msg.type === "user" ? "user-message" : "bot-message"
-              }`}
+              } ${msg.isError ? "error-message" : ""} ${msg.isLoading ? "loading-message" : ""}`}
             >
-              {msg.text}
+              {msg.isLoading ? (
+                <div className="d-flex align-items-center">
+                  <div className="spinner-border spinner-border-sm me-2" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  {msg.text}
+                </div>
+              ) : msg.isError ? (
+                <div className="d-flex align-items-center text-danger">
+                  <span className="me-2">⚠️</span>
+                  {msg.text}
+                </div>
+              ) : (
+                msg.text
+              )}
             </div>
           ))
         )}
