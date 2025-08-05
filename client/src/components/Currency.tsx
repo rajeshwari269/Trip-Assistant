@@ -1,32 +1,62 @@
 import React, { useState, useEffect } from 'react';
 
-// Helper component for displaying an icon with text
-const InfoPill = ({ icon, text }) => {
-  const pillStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    backgroundColor: '#f3f4f6', // bg-gray-100
-    color: '#4b5563', // text-gray-600
-    fontSize: '0.75rem', // text-xs
-    fontWeight: '600', // font-semibold
-    padding: '0.375rem 0.75rem', // px-3 py-1.5
-    borderRadius: '9999px', // rounded-full
-  };
-
-  const iconStyle = {
-    marginRight: '0.5rem', // ml-2 on the span
-  };
-
-  return (
-    <div style={pillStyle}>
-      <span style={iconStyle}>{icon}</span>
-      <span>{text}</span>
-    </div>
-  );
+// --- DATA FOR TIPPING GUIDE ---
+const tippingData = {
+    'USD': { country: 'United States', restaurant: '15-20%', taxi: '10-15%', hotel: '$2-5 per night for housekeeping.' },
+    'EUR': { country: 'Eurozone Countries', restaurant: '5-10%, often included as "service compris". Check the bill.', taxi: 'Round up to the nearest euro or 5-10%.', hotel: '€1-2 for porters and housekeeping.' },
+    'GBP': { country: 'United Kingdom', restaurant: '10-15%, but check if a service charge is already included.', taxi: 'Round up to the nearest pound.', hotel: 'Optional, £1-2 for staff.' },
+    'JPY': { country: 'Japan', restaurant: 'Not expected and can be considered rude.', taxi: 'Not expected.', hotel: 'Not expected.' },
+    'CAD': { country: 'Canada', restaurant: '15-20%', taxi: '10-15%', hotel: '$2-5 per night for housekeeping.' },
+    'AUD': { country: 'Australia', restaurant: '10% for good service is common, but not required.', taxi: 'Round up to the nearest dollar.', hotel: 'Optional.' },
+    'CHF': { country: 'Switzerland', restaurant: 'Service is always included by law. Rounding up is appreciated.', taxi: 'Service included, rounding up is common.', hotel: 'Service included.' },
+    'default': { country: 'the selected region', restaurant: 'Varies widely. 10-15% is a safe bet in many places.', taxi: 'Rounding up the fare is usually appreciated.', hotel: 'Small tips for housekeeping and porters are common.' }
 };
 
+// --- HELPER & CHILD COMPONENTS ---
 
-// Main Application Component
+const InfoPill = ({ icon, text }) => {
+  const pillStyle = { display: 'flex', alignItems: 'center', backgroundColor: '#f3f4f6', color: '#4b5563', fontSize: '0.75rem', fontWeight: '600', padding: '0.375rem 0.75rem', borderRadius: '9999px' };
+  const iconStyle = { marginRight: '0.5rem' };
+  return ( <div style={pillStyle}><span style={iconStyle}>{icon}</span><span>{text}</span></div> );
+};
+
+const TippingGuide = ({ currency, onClose }) => {
+    const guide = tippingData[currency] || tippingData['default'];
+
+    const styles = {
+        backdrop: { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 20 },
+        modal: { backgroundColor: 'white', padding: '2rem', borderRadius: '1rem', width: '90%', maxWidth: '32rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' },
+        header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e5e7eb', paddingBottom: '1rem' },
+        title: { fontSize: '1.25rem', fontWeight: '600', color: '#1f2937' },
+        closeButton: { background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#9ca3af' },
+        content: { marginTop: '1rem', color: '#374151' },
+        listItem: { marginBottom: '0.75rem' },
+        strong: { fontWeight: '600', color: '#111827' },
+    };
+
+    return (
+        <div style={styles.backdrop} onClick={onClose}>
+            <div style={styles.modal} onClick={e => e.stopPropagation()}>
+                <div style={styles.header}>
+                    <h2 style={styles.title}>Tipping Guide for {guide.country} ({currency})</h2>
+                    <button onClick={onClose} style={styles.closeButton}>&times;</button>
+                </div>
+                <div style={styles.content}>
+                    <ul>
+                        <li style={styles.listItem}><strong style={styles.strong}>Restaurants:</strong> {guide.restaurant}</li>
+                        <li style={styles.listItem}><strong style={styles.strong}>Taxis:</strong> {guide.taxi}</li>
+                        <li style={styles.listItem}><strong style={styles.strong}>Hotels:</strong> {guide.hotel}</li>
+                    </ul>
+                    <p style={{marginTop: '1rem', fontSize: '0.875rem', color: '#6b7280'}}>
+                        *This is a general guide. Tipping customs can vary by location and establishment.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+// --- MAIN APPLICATION COMPONENT ---
 const Currency = () => {
   // State management for the application
   const [amount, setAmount] = useState('1');
@@ -42,6 +72,7 @@ const Currency = () => {
   const [error, setError] = useState(null);
   const [baseInfo, setBaseInfo] = useState(null);
   const [isResultVisible, setIsResultVisible] = useState(false);
+  const [showTippingGuide, setShowTippingGuide] = useState(false);
 
   // useEffect hook to fetch the list of available currencies
   useEffect(() => {
@@ -108,28 +139,9 @@ const Currency = () => {
   };
 
   // --- STYLES ---
-  // Using inline styles instead of Tailwind CSS classes
   const styles = {
-    mainContainer: {
-      fontFamily: 'sans-serif',
-      backgroundColor: '#f9fafb',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '1rem',
-      overflow: 'hidden',
-      position: 'relative',
-    },
-    card: {
-      width: '100%',
-      maxWidth: '28rem',
-      backgroundColor: 'white',
-      borderRadius: '1rem',
-      boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-      padding: '2rem',
-      zIndex: 10,
-    },
+    mainContainer: { fontFamily: 'sans-serif', backgroundColor: '#f9fafb', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', overflow: 'hidden', position: 'relative' },
+    card: { width: '100%', maxWidth: '28rem', backgroundColor: 'white', borderRadius: '1rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', padding: '2rem', zIndex: 10 },
     header: { textAlign: 'center', marginBottom: '2rem' },
     h1: { fontSize: '1.875rem', fontWeight: 'bold', color: '#1f2937' },
     p: { color: '#6b7280', marginTop: '0.5rem' },
@@ -137,84 +149,24 @@ const Currency = () => {
     label: { display: 'block', fontSize: '0.875rem', fontWeight: 500, color: '#374151', marginBottom: '0.25rem' },
     inputGroup: { position: 'relative' },
     dollarSign: { position: 'absolute', top: '50%', transform: 'translateY(-50%)', left: '0.75rem', color: '#6b7280', pointerEvents: 'none' },
-    input: {
-      width: '100%',
-      padding: '0.75rem',
-      paddingLeft: '1.75rem',
-      backgroundColor: '#f9fafb',
-      border: '1px solid #d1d5db',
-      borderRadius: '0.5rem',
-      color: '#111827',
-      transition: 'border-color 0.2s, box-shadow 0.2s',
-      boxSizing: 'border-box',
-    },
-    select: {
-      width: '100%',
-      padding: '0.75rem',
-      backgroundColor: '#f9fafb',
-      border: '1px solid #d1d5db',
-      borderRadius: '0.5rem',
-      color: '#111827',
-      boxSizing: 'border-box',
-    },
+    input: { width: '100%', padding: '0.75rem', paddingLeft: '1.75rem', backgroundColor: '#f9fafb', border: '1px solid #d1d5db', borderRadius: '0.5rem', color: '#111827', transition: 'border-color 0.2s, box-shadow 0.2s', boxSizing: 'border-box' },
+    select: { width: '100%', padding: '0.75rem', backgroundColor: '#f9fafb', border: '1px solid #d1d5db', borderRadius: '0.5rem', color: '#111827', boxSizing: 'border-box' },
     currencyRow: { display: 'flex', alignItems: 'flex-end', gap: '0.5rem' },
-    swapButton: {
-      padding: '0.75rem',
-      borderRadius: '9999px',
-      backgroundColor: '#e5e7eb',
-      color: '#4b5563',
-      border: 'none',
-      cursor: 'pointer',
-      marginBottom: '0.25rem',
-      transition: 'background-color 0.2s, transform 0.3s',
-    },
-    submitButton: {
-      width: '100%',
-      padding: '0.875rem 1rem',
-      backgroundColor: isLoading ? '#93c5fd' : '#2563eb',
-      color: 'white',
-      fontWeight: '600',
-      borderRadius: '0.5rem',
-      border: 'none',
-      cursor: isLoading ? 'not-allowed' : 'pointer',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '0.5rem',
-      transition: 'background-color 0.2s, transform 0.2s',
-    },
-    resultsContainer: { 
-        marginTop: '1.5rem', 
-        textAlign: 'center', 
-        minHeight: '9rem' // Use minHeight instead of height
-    },
+    swapButton: { padding: '0.75rem', borderRadius: '9999px', backgroundColor: '#e5e7eb', color: '#4b5563', border: 'none', cursor: 'pointer', marginBottom: '0.25rem', transition: 'background-color 0.2s, transform 0.3s' },
+    submitButton: { width: '100%', padding: '0.875rem 1rem', backgroundColor: isLoading ? '#93c5fd' : '#2563eb', color: 'white', fontWeight: '600', borderRadius: '0.5rem', border: 'none', cursor: isLoading ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', transition: 'background-color 0.2s, transform 0.2s' },
+    resultsContainer: { marginTop: '1.5rem', textAlign: 'center', minHeight: '9rem' },
     errorBox: { backgroundColor: '#fee2e2', border: '1px solid #fca5a5', color: '#b91c1c', padding: '0.75rem', borderRadius: '0.5rem' },
-    resultBox: {
-      backgroundColor: '#dcfce7',
-      border: '1px solid #86efac',
-      color: '#166534',
-      padding: '1rem',
-      borderRadius: '0.5rem',
-      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-      transition: 'opacity 0.5s, transform 0.5s',
-      opacity: isResultVisible ? 1 : 0,
-      transform: isResultVisible ? 'translateY(0)' : 'translateY(1rem)',
-    },
+    resultBox: { backgroundColor: '#dcfce7', border: '1px solid #86efac', color: '#166534', padding: '1rem', borderRadius: '0.5rem', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', transition: 'opacity 0.5s, transform 0.5s', opacity: isResultVisible ? 1 : 0, transform: isResultVisible ? 'translateY(0)' : 'translateY(1rem)' },
     resultText: { fontSize: '1.125rem', color: '#4b5563' },
     resultAmount: { fontWeight: 'bold', fontSize: '1.5rem', color: '#1f2937' },
     resultConverted: { fontSize: '2.25rem', fontWeight: '800', color: '#15803d' },
+    tippingButton: { background: 'none', border: 'none', color: '#2563eb', textDecoration: 'underline', cursor: 'pointer', marginTop: '1rem' }
   };
 
   return (
     <div style={styles.mainContainer}>
-      {/* The style tag is still the best way to handle keyframe animations in a self-contained component */}
       <style>{`
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-        }
+        @keyframes blob { 0% { transform: translate(0px, 0px) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } 100% { transform: translate(0px, 0px) scale(1); } }
         .animate-blob { animation: blob 7s infinite; }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
@@ -266,12 +218,7 @@ const Currency = () => {
           </div>
 
           <button type="submit" disabled={isLoading} style={styles.submitButton} onMouseOver={(e) => { if(!isLoading) e.currentTarget.style.backgroundColor = '#1d4ed8';}} onMouseOut={(e) => { if(!isLoading) e.currentTarget.style.backgroundColor = '#2563eb';}}>
-            {isLoading ? (
-              <>
-                <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="20" width="20"><circle style={{opacity: 0.25}} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path style={{opacity: 0.75}} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                <span>Converting...</span>
-              </>
-            ) : ( 'Convert' )}
+            {isLoading ? ( <> <svg className="animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="20" width="20"><circle style={{opacity: 0.25}} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path style={{opacity: 0.75}} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> <span>Converting...</span> </> ) : ( 'Convert' )}
           </button>
         </form>
 
@@ -280,23 +227,22 @@ const Currency = () => {
           <div style={styles.resultBox}>
             {convertedAmount && baseInfo && !error && (
               <div>
-                <p style={styles.resultText}>
-                  <span style={styles.resultAmount}>{baseInfo.amount.toLocaleString()} {baseInfo.base}</span> is equal to
-                </p>
-                <p style={styles.resultConverted}>
-                  {convertedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} {toCurrency}
-                </p>
+                <p style={styles.resultText}> <span style={styles.resultAmount}>{baseInfo.amount.toLocaleString()} {baseInfo.base}</span> is equal to </p>
+                <p style={styles.resultConverted}> {convertedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 })} {toCurrency} </p>
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.75rem' }}>
-                   <InfoPill 
-                      icon={<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
-                      text={`Date: ${baseInfo.date}`}
-                   />
+                   <InfoPill icon={<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>} text={`Date: ${baseInfo.date}`} />
                 </div>
               </div>
             )}
           </div>
+           {isResultVisible && !error && (
+                <button onClick={() => setShowTippingGuide(true)} style={styles.tippingButton}>
+                    Show Tipping Guide for {toCurrency}
+                </button>
+            )}
         </div>
       </div>
+      {showTippingGuide && <TippingGuide currency={toCurrency} onClose={() => setShowTippingGuide(false)} />}
     </div>
   );
 };
