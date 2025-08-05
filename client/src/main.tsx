@@ -8,10 +8,12 @@ import App from "./App";
 // Preload critical resources
 const preloadStylesheets = () => {
   // Add preload links for critical resources
+  // Using absolute path to ensure correct resolution
+  const bootstrapIconsCssUrl = '/node_modules/bootstrap-icons/font/bootstrap-icons.css';
   const preloadLink = document.createElement('link');
   preloadLink.rel = 'preload';
   preloadLink.as = 'style';
-  preloadLink.href = 'bootstrap-icons/font/bootstrap-icons.css';
+  preloadLink.href = bootstrapIconsCssUrl;
   document.head.appendChild(preloadLink);
 };
 
