@@ -7,6 +7,7 @@ import {
 import { Toaster } from 'sonner';
 
 // Component & Page Imports
+import "./App.css";
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import Home from "./pages/home";

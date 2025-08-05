@@ -17,6 +17,7 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     // Scroll to the bottom when messages update
