@@ -1,36 +1,61 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { FaMapMarkerAlt, FaStar, FaSearch } from "react-icons/fa";
-// Import the CSS from your existing placeCard component for consistent styling
 import "../components/placeCard.css";
+import { handleError } from "../utils/errorHandlerToast";
+import LoadingState from "../components/LoadingState";
+import ErrorState from "../components/ErrorState";
+import { isOnline } from "../utils/networkUtils";
+
+interface Place {
+  id: number;
+  src: string;
+  alt: string;
+  photographer: string;
+  location: string;
+  city: string;
+  attraction: string;
+  description: string;
+  price: string;
+  rating: string;
+}
 
 const MorePlaces = () => {
-  const [places, setPlaces] = useState([]);
+  const [places, setPlaces] = useState<Place[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("famous places");
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [darkMode] = useState(document.body.classList.contains("dark-mode"));
+  const [error, setError] = useState<string | null>(null);
+  
+  const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
 
   const fetchPlaces = async (query = searchTerm, currentPage = 1) => {
+    // Reset error state
+    setError(null);
+    
+    // Check network connectivity first
+    if (!isOnline()) {
+      setError("No internet connection. Please check your network and try again.");
+      setLoading(false);
+      return;
+    }
+    
     try {
       if (currentPage === 1) {
         setLoading(true);
       }
+      
       const res = await axios.get(
-        `http://localhost:5000/api/more-places?query=${encodeURIComponent(
-          query
-        )}&page=${currentPage}&per_page=12`
+        `${apiBaseUrl}/api/more-places?query=${encodeURIComponent(query)}&page=${currentPage}&per_page=12`,
+        { timeout: 10000 } // Set a reasonable timeout
       );
 
       if (res.data.length === 0) {
         setHasMore(false);
       }
-
-      console.log(
-        `✅ React: Received ${res.data.length} places for query "${query}"`
-      );
 
       if (currentPage === 1) {
         setPlaces(res.data);
@@ -40,7 +65,9 @@ const MorePlaces = () => {
 
       setLoading(false);
     } catch (err) {
-      console.error("Failed to fetch places:", err);
+      const errorMessage = "Failed to load places. Please try again.";
+      setError(errorMessage);
+      handleError(err, errorMessage);
       setLoading(false);
     }
   };
@@ -51,7 +78,7 @@ const MorePlaces = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPage(1);
     setHasMore(true);
@@ -65,7 +92,7 @@ const MorePlaces = () => {
     fetchPlaces(searchTerm, nextPage);
   };
 
-  const getCleanPlaceName = (description) => {
+  const getCleanPlaceName = (description: string): string => {
     if (!description) return "Beautiful Destination";
     const parts = description.split(
       /,| featuring| with| in| at sunset| spanning/
@@ -73,7 +100,7 @@ const MorePlaces = () => {
     return parts[0].trim();
   };
 
-  const handleShowDetails = (placeName) => {
+  const handleShowDetails = (placeName: string): void => {
     const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(
       placeName
     )}`;
@@ -110,10 +137,18 @@ const MorePlaces = () => {
           </form>
         </div>
 
-        {loading && places.length === 0 ? (
-          <div className="text-center py-5">
-            <h4>Loading...</h4>
-          </div>
+        {error ? (
+          <ErrorState 
+            message={error} 
+            onRetry={() => fetchPlaces(searchTerm, 1)}
+            className="py-5" 
+          />
+        ) : loading && places.length === 0 ? (
+          <LoadingState 
+            message="Loading destinations..." 
+            size="lg"
+            className="py-5"
+          />
         ) : (
           <div
             className={
