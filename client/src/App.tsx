@@ -1,3 +1,4 @@
+import { Suspense, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,30 +7,21 @@ import {
 } from "react-router-dom";
 import { Toaster } from 'sonner';
 
-// Component & Page Imports
+// Core components that should be loaded immediately
 import "./App.css";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
-import Home from "./pages/home";
-import Places from "./pages/Places";
-import FindFriends from "./pages/FindFriends";
-import Auth from "./pages/Auth";
-import Dashboard from "./pages/Admin/admin";
-import MorePlaces from "./pages/MorePlaces";
-import PlaceDetails from "./pages/PlaceDetails";
-import HelpCentre from "./pages/HelpCentre";
-import TripBudgetEstimator from './components/TripBudgetEstimator';
-
 import NetworkStatusBar from './components/NetworkStatusBar';
-import AboutUsPage from "./components/AboutUsPage.jsx";
-import AboutUsPage from "./components/AboutUsPage"
-
-
 // Style and Configuration Imports
 import "./responsive.css";
+
+// Loading skeleton component
+import LoadingState from "./components/LoadingState";
+// Route configuration and lazy loading
+import { routes, prefetchCriticalRoutes } from './utils/routeConfig';
+
+// Prefetch critical routes after initial render
+setTimeout(prefetchCriticalRoutes, 1000);
 
 function AppContent() {
   const location = useLocation(); // Get the current route
@@ -66,18 +58,17 @@ function AppContent() {
             showHeaderFooter && location.pathname !== "/help" ? "80px" : "0",
         }}
       >
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/places" element={<Places />} />
-          <Route path="/find-friends" element={<FindFriends />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/more-places" element={<MorePlaces />} />
-          <Route path="/places/:placeName" element={<PlaceDetails />} />
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/help" element={<HelpCentre />} />
-          <Route path="/trip-budget" element={<TripBudgetEstimator />} />
-          <Route path="/about" element={<AboutUsPage />} />
-        </Routes>
+        <Suspense fallback={<LoadingState size="lg" />}>
+          <Routes>
+            {routes.map(route => (
+              <Route 
+                key={route.path}
+                path={route.path}
+                element={<route.component />}
+              />
+            ))}
+          </Routes>
+        </Suspense>
       </main>
 
       {/* Conditionally render the Footer */}
@@ -86,7 +77,25 @@ function AppContent() {
   );
 }
 
+// Performance monitoring hook for functional components
+function useRenderLogger(componentName: string) {
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      const start = performance.now();
+      return () => {
+        const end = performance.now();
+        console.log(`[Performance] ${componentName} rendered in ${(end - start).toFixed(2)}ms`);
+      };
+    }
+  });
+}
+
 function App() {
+  // Apply performance monitoring in development only
+  if (process.env.NODE_ENV !== 'production') {
+    useRenderLogger('App');
+  }
+  
   return (
     <Router>
       <AppContent />
