@@ -4,8 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { handleError } from "../utils/errorHandlerToast";
 import { showError, showSuccess } from "../utils/toastUtils";
 import { isOnline } from "../utils/networkUtils";
-import LoadingState from "../components/LoadingState";
-import ErrorState from "../components/ErrorState";
 
 function Auth() {
   const location = useLocation();
@@ -63,14 +61,36 @@ function Auth() {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
         navigate("/places");
       } else {
-        const errorMsg = data.message || "Authentication failed. Please check your credentials.";
-        setAuthError(errorMsg);
+        let errorMsg = data.message || "Authentication failed. Please check your credentials.";
+        
+        // Add helpful hints for common login issues
+        if (!isLogin) {
+          // For signup, show the specific error
+          setAuthError(errorMsg);
+        } else {
+          // For login, provide helpful demo credentials info
+          if (errorMsg.includes("Invalid email or password")) {
+            errorMsg = `Invalid credentials. Try demo account:\nEmail: test@example.com\nPassword: password123`;
+          } else if (errorMsg.includes("User not found") || response.status === 404) {
+            errorMsg = `Account not found. Use demo account:\nEmail: test@example.com\nPassword: password123`;
+          }
+          setAuthError(errorMsg);
+        }
         showError(errorMsg);
       }
     } catch (error) {
-      const errorMsg = isLogin 
+      let errorMsg = isLogin 
         ? "Unable to log in at this time. Please try again later." 
         : "Unable to create your account at this time. Please try again later.";
+      
+      // More specific error messages
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMsg = "Request timed out. Please check your internet connection and try again.";
+        } else if (error.message.includes('fetch')) {
+          errorMsg = `Cannot connect to server. Make sure the backend is running on ${apiBaseUrl}.\n\nFor demo, try:\nEmail: test@example.com\nPassword: password123`;
+        }
+      }
       
       setAuthError(errorMsg);
       handleError(error, errorMsg);
@@ -80,13 +100,14 @@ function Auth() {
   };
 
   return (
-    <div
+    <main
       className="vh-100 d-flex justify-content-center align-items-center bg-image"
       style={{
         backgroundImage: "url('src/images/bg-auth.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
+      role="main"
     >
       <div
         className="card p-4 rounded-4 shadow-lg bg-light"
@@ -96,82 +117,136 @@ function Auth() {
           border: "2px solid #ff4081",
           background: "linear-gradient(135deg, #d3be52ff 0%, #d4527bff 100%)" // changed background
         }}
+        role="region"
+        aria-labelledby="auth-heading"
       >
-        <h2 className="text-center mb-4 text-dark">{isLogin ? "Login" : "Sign Up"}</h2>
+        <h1 className="text-center mb-4 text-dark" id="auth-heading">
+          {isLogin ? "Login" : "Sign Up"}
+        </h1>
         
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
         
         {!isLogin && (
             <div className="mb-3">
-              <label className="form-label text-dark">User Name</label>
+              <label className="form-label text-dark" htmlFor="userName">
+                User Name
+              </label>
               <input
+                id="userName"
                 type="text"
                 className="form-control border-danger"
                 placeholder="Enter your UserName"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
                 required
+                aria-describedby={!isLogin ? "userName-help" : undefined}
+                aria-invalid={authError ? "true" : "false"}
               />
+              {!isLogin && (
+                <div id="userName-help" className="form-text text-dark">
+                  Choose a unique username for your account.
+                </div>
+              )}
             </div>
           )}
 
 
           <div className="mb-3">
-            <label className="form-label text-dark">Email address</label>
+            <label className="form-label text-dark" htmlFor="email">
+              Email address
+            </label>
             <input
+              id="email"
               type="email"
               className="form-control border-danger"
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              aria-describedby="email-help"
+              aria-invalid={authError ? "true" : "false"}
             />
+            <div id="email-help" className="form-text text-dark">
+              We'll never share your email with anyone else.
+            </div>
           </div>
 
           {!isLogin && (
             <div className="mb-3">
-              <label className="form-label text-dark">Phone No.</label>
+              <label className="form-label text-dark" htmlFor="phone">
+                Phone No.
+              </label>
               <input
+                id="phone"
                 type="tel"
                 className="form-control border-danger"
                 placeholder="Enter You Mobile number"
                 value={mobileNo}
                 onChange={(e) => setMobileNO(e.target.value)}
                 required
+                aria-describedby="phone-help"
+                aria-invalid={authError ? "true" : "false"}
               />
+              <div id="phone-help" className="form-text text-dark">
+                Include country code if calling internationally.
+              </div>
             </div>
           )}
 
           <div className="mb-3">
-            <label className="form-label text-dark">Password</label>
+            <label className="form-label text-dark" htmlFor="password">
+              Password
+            </label>
             <input
+              id="password"
               type="password"
               className="form-control border-danger"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              aria-describedby="password-help"
+              aria-invalid={authError ? "true" : "false"}
             />
+            <div id="password-help" className="form-text text-dark">
+              {!isLogin 
+                ? "Password must be at least 8 characters long." 
+                : "Enter your account password."
+              }
+            </div>
           </div>
 
           {!isLogin && (
             <div className="mb-3">
-              <label className="form-label text-dark">Confirm Password</label>
+              <label className="form-label text-dark" htmlFor="confirmPassword">
+                Confirm Password
+              </label>
               <input
+                id="confirmPassword"
                 type="password"
                 className="form-control border-danger"
                 placeholder="Confirm your password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                aria-describedby="confirmPassword-help"
+                aria-invalid={authError || (password !== confirmPassword && confirmPassword) ? "true" : "false"}
               />
+              <div id="confirmPassword-help" className="form-text text-dark">
+                Re-enter your password to confirm.
+              </div>
             </div>
           )}
           
           {authError && (
-            <div className="mb-3">
-              <div className="alert alert-danger d-flex align-items-center" role="alert">
-                <div className="me-2">⚠️</div>
+            <div 
+              className="mb-3" 
+              role="alert" 
+              aria-live="polite"
+              aria-atomic="true"
+            >
+              <div className="alert alert-danger d-flex align-items-center">
+                <div className="me-2" aria-hidden="true">⚠️</div>
                 <div>{authError}</div>
               </div>
             </div>
@@ -181,26 +256,42 @@ function Auth() {
             type="submit" 
             className="btn btn-danger w-100 fw-bold" 
             disabled={isSubmitting}
+            aria-describedby="submit-help"
           >
             {isSubmitting ? (
               <>
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                <span 
+                  className="spinner-border spinner-border-sm me-2" 
+                  role="status" 
+                  aria-hidden="true"
+                ></span>
                 {isLogin ? "Logging in..." : "Signing up..."}
               </>
             ) : (
               isLogin ? "Login" : "Sign Up"
             )}
           </button>
+          <div id="submit-help" className="form-text text-dark text-center mt-2">
+            {isLogin 
+              ? "Click to access your account." 
+              : "Click to create your new account."
+            }
+          </div>
         </form>
 
         <p className="mt-3 text-center">
           {isLogin ? "Don't have an account?" : "Already have an account?"} {" "}
-          <button className="btn btn-link text-danger fw-bold" onClick={() => setIsLogin(!isLogin)}>
+          <button 
+            className="btn btn-link text-danger fw-bold" 
+            onClick={() => setIsLogin(!isLogin)}
+            type="button"
+            aria-label={isLogin ? "Switch to sign up form" : "Switch to login form"}
+          >
             {isLogin ? "Sign Up" : "Login"}
           </button>
         </p>
       </div>
-    </div>
+    </main>
   );
 }
 

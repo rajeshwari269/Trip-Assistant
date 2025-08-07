@@ -1,4 +1,4 @@
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,6 +9,7 @@ import { Toaster } from 'sonner';
 
 // Core components that should be loaded immediately
 import "./App.css";
+import "./accessibility.css"; // Global accessibility styles
 import Navbar from "./components/Navigation";
 import Footer from "./components/footer";
 import NetworkStatusBar from './components/NetworkStatusBar';
@@ -17,6 +18,7 @@ import "./responsive.css";
 
 // Loading skeleton component
 import LoadingState from "./components/LoadingState";
+
 // Route configuration and lazy loading
 import { routes, prefetchCriticalRoutes } from './utils/routeConfig';
 
@@ -36,6 +38,11 @@ function AppContent() {
 
   return (
     <>
+      {/* Skip link for keyboard users */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      
       <NetworkStatusBar />
       <Toaster 
         position="top-right"
@@ -53,10 +60,13 @@ function AppContent() {
           This prevents the page content from being hidden underneath the fixed navbar. 
       */}
       <main
+        id="main-content"
         style={{
           paddingTop:
             showHeaderFooter && location.pathname !== "/help" ? "80px" : "0",
         }}
+        role="main"
+        tabIndex={-1}
       >
         <Suspense fallback={<LoadingState size="lg" />}>
           <Routes>
@@ -77,30 +87,25 @@ function AppContent() {
   );
 }
 
-// Performance monitoring hook for functional components
-function useRenderLogger(componentName: string) {
-  useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      const start = performance.now();
-      return () => {
-        const end = performance.now();
-        console.log(`[Performance] ${componentName} rendered in ${(end - start).toFixed(2)}ms`);
-      };
-    }
-  });
-}
-
 function App() {
-  // Apply performance monitoring in development only
-  if (process.env.NODE_ENV !== 'production') {
-    useRenderLogger('App');
-  }
-  
   return (
     <Router>
       <AppContent />
     </Router>
   );
+}
+
+// Add performance measurement
+if (process.env.NODE_ENV !== 'production') {
+  // Only in development - measure and log component render times
+  const actualRender = App.prototype.render || App;
+  App.prototype.render = function() {
+    const start = performance.now();
+    const result = actualRender.apply(this, arguments);
+    const end = performance.now();
+    console.log(`[Performance] App rendered in ${(end - start).toFixed(2)}ms`);
+    return result;
+  };
 }
 
 export default App;

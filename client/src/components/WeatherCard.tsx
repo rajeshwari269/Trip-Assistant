@@ -35,9 +35,28 @@ fetch(
   }, [city]);
 
   return (
-    <p className="weather-text">
-      🌤️ {loading ? "Loading weather..." : weather}
-    </p>
+    <div 
+      className="weather-text"
+      role="status"
+      aria-live="polite"
+      aria-label={loading 
+        ? `Loading weather information for ${city}`
+        : `Current weather in ${city}: ${weather}`
+      }
+    >
+      <span aria-hidden="true">🌤️</span>{" "}
+      {loading ? (
+        <>
+          <span className="sr-only">Loading weather information for {city}</span>
+          Loading weather...
+        </>
+      ) : (
+        <>
+          <span className="sr-only">Current weather in {city}: </span>
+          {weather}
+        </>
+      )}
+    </div>
   );
 };
 
