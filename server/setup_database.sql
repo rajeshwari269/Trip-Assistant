@@ -39,8 +39,24 @@ CREATE TABLE IF NOT EXISTS property_images (
 );
 
 -- Insert a test user (for testing properties)
+-- Using ON DUPLICATE KEY UPDATE to avoid errors if user already exists
 INSERT INTO users (userName, email, password, mobileNo)
-VALUES ('Test User', 'test@example.com', 'password123', '1234567890');
+VALUES ('Test User', 'test@example.com', 'password123', '1234567890')
+ON DUPLICATE KEY UPDATE 
+  userName = VALUES(userName),
+  mobileNo = VALUES(mobileNo);
+
+-- Insert additional demo users for testing
+INSERT INTO users (userName, email, password, mobileNo)
+VALUES 
+  ('Demo User', 'demo@tripassistant.com', 'demo123', '9876543210'),
+  ('Admin User', 'admin@tripassistant.com', 'admin123', '5555555555')
+ON DUPLICATE KEY UPDATE 
+  userName = VALUES(userName),
+  mobileNo = VALUES(mobileNo);
+
+-- Verify users were created
+SELECT id, userName, email, mobileNo, created_at FROM users;
 
 -- Show tables
 SHOW TABLES;

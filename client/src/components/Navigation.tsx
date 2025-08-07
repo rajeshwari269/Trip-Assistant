@@ -51,9 +51,86 @@ function Navbar() {
           boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
           zIndex: "1030",
         }}
+        role="navigation"
+        aria-label="Main navigation"
       >
         <style>
           {`
+          /* Screen reader only class for accessibility */
+          .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+          }
+
+          /* Enhanced focus management for keyboard navigation */
+          .navbar-nav .nav-link:focus,
+          .action-btn:focus,
+          .dropdown-toggle:focus,
+          .dropdown-item:focus,
+          .navbar-brand:focus {
+            outline: 2px solid #FAD700 !important;
+            outline-offset: 2px !important;
+            box-shadow: 0 0 0 0.2rem rgba(250, 215, 0, 0.25) !important;
+          }
+
+          /* Skip to main content link for screen readers */
+          .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 9999;
+          }
+          
+          .skip-link:focus {
+            top: 6px;
+          }
+
+          /* High contrast mode support */
+          @media (prefers-contrast: high) {
+            .navbar {
+              background: #000 !important;
+              border-bottom: 2px solid #fff !important;
+            }
+            .navbar-nav .nav-link {
+              color: #fff !important;
+              background: transparent !important;
+            }
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link:focus {
+              background: #fff !important;
+              color: #000 !important;
+            }
+          }
+
+          /* Reduced motion support */
+          @media (prefers-reduced-motion: reduce) {
+            .navbar,
+            .logo-icon,
+            .nav-link,
+            .action-btn {
+              animation: none !important;
+              transition: none !important;
+            }
+            .logo-container:hover {
+              transform: none !important;
+            }
+            .place-card:hover {
+              transform: none !important;
+            }
+          }
+
           .logo-container {
             display: flex;
             align-items: center;
@@ -165,6 +242,8 @@ function Navbar() {
             padding: 0.6rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            min-height: 44px;
+            min-width: 44px;
           }
           .action-btn:hover {
             background: rgba(255,255,255,0.25);
@@ -193,6 +272,9 @@ function Navbar() {
             border-radius: 8px;
             margin: 0.2rem 0;
             transition: all 0.2s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
           }
           .dropdown-item:hover {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -311,7 +393,7 @@ function Navbar() {
         </style>
 
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/">
+          <Link className="navbar-brand" to="/" aria-label="Trip Assistant - Go to homepage">
             <div className="logo-container">
               <div className="logo-icon">
                 <svg
@@ -320,6 +402,8 @@ function Navbar() {
                   viewBox="0 0 40 40"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                  focusable="false"
                 >
                   <defs>
                     <linearGradient
@@ -439,49 +523,77 @@ function Navbar() {
 
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             {/* --- Nav Items --- */}
-            <ul className="navbar-nav me-auto mb-3 mb-lg-0 d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2 gap-lg-3 ps-3 ps-lg-0">
-              <li className="nav-item">
-               <Link className="nav-link" to="/trip-budget" onClick={closeMobileNav}>
-                 <FaWallet className="me-2 d-lg-none" />
+            <ul 
+              className="navbar-nav me-auto mb-3 mb-lg-0 d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-2 gap-lg-3 ps-3 ps-lg-0"
+              role="menubar"
+              aria-label="Main menu"
+            >
+              <li className="nav-item" role="none">
+               <Link 
+                 className="nav-link" 
+                 to="/trip-budget" 
+                 onClick={closeMobileNav}
+                 role="menuitem"
+                 aria-label="Trip Budget Estimator"
+               >
+                 <FaWallet className="me-2 d-lg-none" aria-hidden="true" />
                      Budget Estimator
                 </Link>
               </li>
 
-              <li className="nav-item">
-                <Link className="nav-link" to="/" onClick={closeMobileNav}>
-                  <i className="fas fa-home me-2 d-lg-none"></i>Home
+              <li className="nav-item" role="none">
+                <Link 
+                  className="nav-link" 
+                  to="/" 
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Home page"
+                >
+                  <i className="fas fa-home me-2 d-lg-none" aria-hidden="true"></i>Home
                 </Link>
               </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/about" onClick={closeMobileNav}>
-                  <i className="fas fa-info-circle me-2 d-lg-none"></i>About Us
+              <li className="nav-item" role="none">
+                <a 
+                  className="nav-link" 
+                  href="/about" 
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="About Us"
+                >
+                  <i className="fas fa-info-circle me-2 d-lg-none" aria-hidden="true"></i>About Us
                 </a>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" role="none">
                 <Link
                   className="nav-link"
                   to="/find-friends"
                   onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Find Friends"
                 >
-                  <i className="fas fa-users me-2 d-lg-none"></i>Find Friends
+                  <i className="fas fa-users me-2 d-lg-none" aria-hidden="true"></i>Find Friends
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" role="none">
                 <Link
                   className="nav-link"
                   to="/more-places"
                   onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Famous Places"
                 >
-                  <i className="fas fa-star me-2 d-lg-none"></i>Famous Places
+                  <i className="fas fa-star me-2 d-lg-none" aria-hidden="true"></i>Famous Places
                 </Link>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" role="none">
                 <Link
                   className="nav-link"
                   to="/places"
                   onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Places to visit"
                 >
-                  <i className="fas fa-map-marker-alt me-2 d-lg-none"></i>Places
+                  <i className="fas fa-map-marker-alt me-2 d-lg-none" aria-hidden="true"></i>Places
                 </Link>
               </li>
             </ul>
@@ -494,11 +606,15 @@ function Navbar() {
                 title={
                   darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
                 }
+                aria-label={
+                  darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
+                }
+                type="button"
               >
                 {darkMode ? (
-                  <FaSun className="text-warning" size={18} />
+                  <FaSun className="text-warning" size={18} aria-hidden="true" />
                 ) : (
-                  <FaMoon className="text-light" size={18} />
+                  <FaMoon className="text-light" size={18} aria-hidden="true" />
                 )}
               </button>
 
@@ -508,47 +624,64 @@ function Navbar() {
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
-                  title="User Menu"
+                  aria-label="User menu"
+                  aria-haspopup="true"
                 >
                   <FaBars
                     className="text-light me-2 d-none d-lg-inline"
                     size={16}
+                    aria-hidden="true"
                   />
-                  <div className="rounded-circle d-flex align-items-center justify-content-center profile-icon">
-                    <FaUser className="text-white" size={16} />
+                  <div 
+                    className="rounded-circle d-flex align-items-center justify-content-center profile-icon"
+                    role="img"
+                    aria-label="User profile"
+                  >
+                    <FaUser className="text-white" size={16} aria-hidden="true" />
                   </div>
                 </button>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li>
+                <ul 
+                  className="dropdown-menu dropdown-menu-end"
+                  role="menu"
+                  aria-label="User account menu"
+                >
+                  <li role="none">
                     <button
                       className="dropdown-item fw-bold"
                       onClick={() => {
                         closeMobileNav();
                         navigate("/auth", { state: { isLogin: false } });
                       }}
+                      role="menuitem"
+                      type="button"
                     >
-                      <i className="fas fa-user-plus me-2"></i>Sign up
+                      <i className="fas fa-user-plus me-2" aria-hidden="true"></i>Sign up
                     </button>
                   </li>
-                  <li>
+                  <li role="none">
                     <button
                       className="dropdown-item"
                       onClick={() => {
                         closeMobileNav();
                         navigate("/auth", { state: { isLogin: true } });
                       }}
+                      role="menuitem"
+                      type="button"
                     >
-                      <i className="fas fa-sign-in-alt me-2"></i>Log in
+                      <i className="fas fa-sign-in-alt me-2" aria-hidden="true"></i>Log in
                     </button>
                   </li>
-                  <hr className="my-2" />
-                  <li>
+                  <li role="separator">
+                    <hr className="my-2" />
+                  </li>
+                  <li role="none">
                     <Link
                       className="dropdown-item"
                       to="/help"
                       onClick={closeMobileNav}
+                      role="menuitem"
                     >
-                      <i className="fas fa-question-circle me-2"></i>Help Centre
+                      <i className="fas fa-question-circle me-2" aria-hidden="true"></i>Help Centre
                     </Link>
                   </li>
                 </ul>

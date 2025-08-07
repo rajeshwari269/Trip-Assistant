@@ -39,7 +39,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
     input.value = "";
 
     try {
-      const res = await fetch(`${apiBaseUrl}/query`, {
+      const res = await fetch(`/api/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +53,24 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
         { text: "Thinking...", type: "bot", isLoading: true }
       ]);
 
-      const data = await res.json();
+      // Check if response is ok and has content
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status} ${res.statusText}`);
+      }
+
+      const responseText = await res.text();
+      if (!responseText) {
+        throw new Error("Empty response from server");
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        console.error("Response text:", responseText);
+        throw new Error("Invalid response format from server");
+      }
       
       // Remove the loading message
       setMessages((prev: Message[]) => prev.filter(msg => !msg.isLoading));
@@ -87,17 +104,36 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
   };
 
   return (
-    <div className="chatbot-container card shadow">
-      <div className="chatbot-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-        <h6 className="m-0">Travel Assistant</h6>
-        <button className="btn btn-sm btn-light" onClick={onClose}>
-          <FaTimes />
+    <aside 
+      className="chatbot-container card shadow"
+      role="complementary"
+      aria-labelledby="chatbot-title"
+      aria-live="polite"
+    >
+      <header className="chatbot-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
+        <h2 id="chatbot-title" className="m-0 h6">Travel Assistant</h2>
+        <button 
+          className="btn btn-sm btn-light" 
+          onClick={onClose}
+          aria-label="Close chat assistant"
+          type="button"
+        >
+          <FaTimes aria-hidden="true" />
         </button>
-      </div>
+      </header>
 
-      <div className="chatbot-body p-2" ref={chatRef}>
+      <main 
+        className="chatbot-body p-2" 
+        ref={chatRef}
+        role="log"
+        aria-label="Chat conversation"
+        aria-live="polite"
+        aria-atomic="false"
+      >
         {messages.length === 0 ? (
-          <p className="text-muted">Hello! How can I assist you?</p>
+          <p className="text-muted" role="status">
+            Hello! How can I assist you with your travel plans?
+          </p>
         ) : (
           messages.map((msg: Message, index: number) => (
             <div
@@ -105,17 +141,23 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
               className={`chatbot-message p-2 rounded mb-1 ${
                 msg.type === "user" ? "user-message" : "bot-message"
               } ${msg.isError ? "error-message" : ""} ${msg.isLoading ? "loading-message" : ""}`}
+              role={msg.type === "user" ? "presentation" : "status"}
+              aria-label={msg.type === "user" ? `You said: ${msg.text}` : `Assistant response: ${msg.text}`}
             >
               {msg.isLoading ? (
                 <div className="d-flex align-items-center">
-                  <div className="spinner-border spinner-border-sm me-2" role="status">
+                  <div 
+                    className="spinner-border spinner-border-sm me-2" 
+                    role="status"
+                    aria-label="Assistant is thinking"
+                  >
                     <span className="visually-hidden">Loading...</span>
                   </div>
                   {msg.text}
                 </div>
               ) : msg.isError ? (
-                <div className="d-flex align-items-center text-danger">
-                  <span className="me-2">⚠️</span>
+                <div className="d-flex align-items-center text-danger" role="alert">
+                  <span className="me-2" aria-hidden="true">⚠️</span>
                   {msg.text}
                 </div>
               ) : (
@@ -124,20 +166,38 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
             </div>
           ))
         )}
-      </div>
+      </main>
 
-      <form className="chatbot-footer p-2 d-flex" onSubmit={handleSendMessage}>
+      <form 
+        className="chatbot-footer p-2 d-flex" 
+        onSubmit={handleSendMessage}
+        role="form"
+        aria-label="Send message to travel assistant"
+      >
+        <label htmlFor="chat-message-input" className="sr-only">
+          Type your travel question or message
+        </label>
         <input
+          id="chat-message-input"
           type="text"
           name="message"
           className="form-control"
           placeholder="Type a message..."
+          aria-describedby="chat-help"
+          required
         />
-        <button type="submit" className="btn btn-primary ms-2">
+        <div id="chat-help" className="sr-only">
+          Ask me about travel destinations, booking tips, or any travel-related questions.
+        </div>
+        <button 
+          type="submit" 
+          className="btn btn-primary ms-2"
+          aria-label="Send message"
+        >
           Send
         </button>
       </form>
-    </div>
+    </aside>
   );
 };
 

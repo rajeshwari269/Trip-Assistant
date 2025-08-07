@@ -33,6 +33,68 @@ app.get("/api/test", (req, res) => {
   res.json({ message: "Server is working!" });
 });
 
+// Chatbot query endpoint
+app.post("/api/query", (req, res) => {
+  console.log("📩 Received chatbot query:", req.body);
+  
+  try {
+    const { prompt } = req.body;
+    
+    if (!prompt || typeof prompt !== 'string') {
+      console.log("❌ Invalid prompt provided");
+      return res.status(400).json({
+        success: false,
+        error: "Please provide a valid question."
+      });
+    }
+
+    // Simple travel-related responses based on keywords
+    const lowerPrompt = prompt.toLowerCase();
+    let response = "";
+
+    if (lowerPrompt.includes('delhi') || lowerPrompt.includes('red fort')) {
+      response = "Delhi is India's historic capital! Visit the magnificent Red Fort, India Gate, and Qutub Minar. The city offers rich Mughal architecture and vibrant street food.";
+    } else if (lowerPrompt.includes('mumbai') || lowerPrompt.includes('gateway of india')) {
+      response = "Mumbai, the city of dreams! Don't miss the Gateway of India, Marine Drive, and Elephanta Caves. It's perfect for experiencing Bollywood culture and beautiful beaches.";
+    } else if (lowerPrompt.includes('agra') || lowerPrompt.includes('taj mahal')) {
+      response = "Agra is home to the iconic Taj Mahal, one of the Seven Wonders of the World! The best time to visit is during sunrise or sunset for magical views.";
+    } else if (lowerPrompt.includes('jaipur') || lowerPrompt.includes('pink city')) {
+      response = "Jaipur, the Pink City, offers royal heritage with Hawa Mahal, City Palace, and Amber Fort. Don't forget to shop for traditional handicrafts!";
+    } else if (lowerPrompt.includes('goa') || lowerPrompt.includes('beach')) {
+      response = "Goa is perfect for beach lovers! Enjoy beautiful beaches, water sports, Portuguese architecture, and vibrant nightlife. Try the local seafood!";
+    } else if (lowerPrompt.includes('kerala') || lowerPrompt.includes('backwater')) {
+      response = "Kerala, God's Own Country, offers serene backwaters, hill stations like Munnar, and beautiful beaches. Don't miss a houseboat experience!";
+    } else if (lowerPrompt.includes('budget') || lowerPrompt.includes('cost') || lowerPrompt.includes('price')) {
+      response = "For budget travel in India: Local transport costs ₹20-50, meals ₹100-300, budget hotels ₹800-2000/night. Book in advance for better deals!";
+    } else if (lowerPrompt.includes('best time') || lowerPrompt.includes('weather') || lowerPrompt.includes('season')) {
+      response = "Best time to visit India: October to March for pleasant weather. Avoid monsoons (June-September) unless you enjoy rain. Hill stations are great in summer!";
+    } else if (lowerPrompt.includes('food') || lowerPrompt.includes('cuisine')) {
+      response = "Indian cuisine varies by region! Try biryani in Hyderabad, street food in Delhi, seafood in coastal areas, and don't miss local specialties in each city!";
+    } else if (lowerPrompt.includes('transport') || lowerPrompt.includes('travel') || lowerPrompt.includes('train')) {
+      response = "Indian Railways connects major cities efficiently. Book tickets in advance. For short distances, try local buses or app-based cabs like Ola/Uber.";
+    } else if (lowerPrompt.includes('help') || lowerPrompt.includes('hi') || lowerPrompt.includes('hello')) {
+      response = "Hello! I'm your travel assistant. I can help you with information about Indian destinations, budget planning, best travel times, food recommendations, and more. What would you like to know?";
+    } else {
+      response = "That's an interesting question! I'd recommend exploring our featured destinations like Delhi, Mumbai, Agra, Jaipur, and more. Each city offers unique experiences - from historical monuments to delicious cuisine. What specific type of travel experience are you looking for?";
+    }
+
+    const responseData = {
+      success: true,
+      message: response
+    };
+
+    console.log("✅ Sending response:", responseData);
+    res.json(responseData);
+
+  } catch (error) {
+    console.error('❌ Chatbot error:', error);
+    res.status(500).json({
+      success: false,
+      error: "Sorry, I'm having trouble processing your request right now. Please try again."
+    });
+  }
+});
+
 // Root route
 app.get("/", (req, res) => {
   res.json({
@@ -42,7 +104,8 @@ app.get("/", (req, res) => {
         login: "POST /login",
         signup: "POST /signup"
       },
-      properties: "GET /api/properties"
+      properties: "GET /api/properties",
+      chatbot: "POST /query"
     }
   });
 });
