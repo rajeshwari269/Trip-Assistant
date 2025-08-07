@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   Form,
   Button,
-  InputGroup,
   Row,
   Col,
   Dropdown,
@@ -121,10 +120,19 @@ const SearchBar: React.FC = () => {
     locationType;
 
   return (
-    <div className="search-container" style={{ marginTop: "100px", padding: "0 20px" }}>
+    <section 
+      className="search-container" 
+      style={{ marginTop: "100px", padding: "0 20px" }}
+      role="search"
+      aria-labelledby="search-heading"
+    >
+      <h2 id="search-heading" className="sr-only">
+        Search for places and accommodations
+      </h2>
+      
       {/* Main Search Bar */}
       <div className="d-flex justify-content-center mb-4">
-        <div
+        <form
           className="p-4 rounded-4 shadow-lg bg-white"
           style={{ 
             maxWidth: "1000px", 
@@ -132,15 +140,25 @@ const SearchBar: React.FC = () => {
             border: "2px solid #45526e",
             transition: "all 0.3s ease"
           }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+          role="search"
+          aria-label="Main search form"
         >
           <Row className="w-100 align-items-end g-3">
             {/* Where Input */}
             <Col xs={12} sm={6} md={3}>
-              <Form.Label className="fw-bold text-muted mb-2">
+              <Form.Label 
+                className="fw-bold text-muted mb-2"
+                htmlFor="search-location"
+              >
                 Where
               </Form.Label>
               <div style={{ position: "relative" }}>
            <Form.Control
+  id="search-location"
   type="text"
   placeholder="Search places"
   className="border-0 p-3 rounded-3"
@@ -149,11 +167,20 @@ const SearchBar: React.FC = () => {
   onFocus={() => setShowSuggestions(true)}
   onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // close suggestions after click
   style={{ fontSize: "0.95rem" }}
+  aria-describedby="location-help"
+  aria-expanded={showSuggestions && suggestions.length > 0}
+  aria-haspopup="listbox"
+  aria-autocomplete="list"
 />
+<div id="location-help" className="sr-only">
+  Type to search for locations. Use arrow keys to navigate suggestions.
+</div>
 
 {/* Suggestions Dropdown */}
 {showSuggestions && suggestions.length > 0 && (
-  <div
+  <ul
+    role="listbox"
+    aria-label="Location suggestions"
     style={{
       position: "absolute",
       backgroundColor: "#fff",
@@ -164,73 +191,103 @@ const SearchBar: React.FC = () => {
       width: "100%",
       maxHeight: "150px",
       overflowY: "auto",
+      listStyle: "none",
+      padding: 0,
+      margin: 0,
     }}
   >
     {suggestions.map((suggestion, index) => (
-      <div
+      <li
         key={index}
+        role="option"
+        aria-selected="false"
         onMouseDown={() => {
           setWhere(suggestion);
           setShowSuggestions(false);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setWhere(suggestion);
+            setShowSuggestions(false);
+          }
         }}
         style={{
           padding: "8px 12px",
           cursor: "pointer",
           borderBottom: "1px solid #eee",
         }}
+        tabIndex={0}
       >
         {suggestion}
-      </div>
+      </li>
     ))}
-  </div>
+  </ul>
 )} </div>
 
             </Col>
 
             {/* Check In */}
             <Col xs={6} sm={3} md={2}>
-              <Form.Label className="fw-bold text-dark mb-2">
+              <Form.Label 
+                className="fw-bold text-dark mb-2"
+                htmlFor="check-in-date"
+              >
                 Check in
               </Form.Label>
               <DatePicker
+                id="check-in-date"
                 selected={checkIn}
                 onChange={(date) => setCheckIn(date)}
                 placeholderText="Add dates"
                 className="border-0 w-100 p-3 rounded-3"
+                aria-label="Select check-in date"
               />
             </Col>
 
             {/* Check Out */}
             <Col xs={6} sm={3} md={2}>
-              <Form.Label className="fw-bold text-dark mb-2">
+              <Form.Label 
+                className="fw-bold text-dark mb-2"
+                htmlFor="check-out-date"
+              >
                 Check out
               </Form.Label>
               <DatePicker
+                id="check-out-date"
                 selected={checkOut}
                 onChange={(date) => setCheckOut(date)}
                 placeholderText="Add dates"
                 className="border-0 w-100 p-3 rounded-3"
+                aria-label="Select check-out date"
               />
             </Col>
 
             {/* Guests */}
             <Col xs={12} sm={6} md={3}>
-              <Form.Label className="fw-bold text-dark mb-2">
+              <Form.Label 
+                className="fw-bold text-dark mb-2"
+                htmlFor="guests-select"
+              >
                 Guests
               </Form.Label>
               <Dropdown>
                 <Dropdown.Toggle
+                  id="guests-select"
                   variant="light"
                   className="border-0 w-100 text-muted p-3 text-start rounded-3"
                   style={{ fontSize: "0.95rem" }}
+                  aria-label={`${guests} ${guests === 1 ? "Guest" : "Guests"} selected`}
                 >
                   {guests} {guests === 1 ? "Guest" : "Guests"}
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="w-100">
+                <Dropdown.Menu className="w-100" role="listbox">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
                     <Dropdown.Item
                       key={`guest-${num}`}
                       onClick={() => setGuests(num)}
+                      role="option"
+                      aria-selected={guests === num}
                     >
                       {num} {num === 1 ? "Guest" : "Guests"}
                     </Dropdown.Item>
@@ -254,8 +311,12 @@ const SearchBar: React.FC = () => {
                     height: "45px",
                     transition: "all 0.3s ease"
                   }}
+                  aria-label={`${showAdvancedFilters ? 'Hide' : 'Show'} advanced filters`}
+                  aria-expanded={showAdvancedFilters}
+                  aria-controls="advanced-filters"
+                  type="button"
                 >
-                  <FaFilter size={16} />
+                  <FaFilter size={16} aria-hidden="true" />
                   {hasActiveFilters && (
                     <Badge 
                       bg="danger" 
@@ -269,6 +330,13 @@ const SearchBar: React.FC = () => {
                         alignItems: "center",
                         justifyContent: "center"
                       }}
+                      aria-label={`${[
+                        priceRange.min,
+                        priceRange.max,
+                        rating,
+                        selectedAmenities.length,
+                        locationType,
+                      ].filter(Boolean).length} active filters`}
                     >
                       {
                         [
@@ -292,6 +360,7 @@ const SearchBar: React.FC = () => {
               </Form.Label>
               <div className="d-flex justify-content-center">
                 <Button
+                  type="submit"
                   variant="danger"
                   className="rounded-circle d-flex align-items-center justify-content-center"
                   style={{
@@ -307,26 +376,28 @@ const SearchBar: React.FC = () => {
                   onMouseOut={(e) =>
                     (e.currentTarget.style.backgroundColor = "#45526e")
                   }
-                  onClick={handleSearch}
+                  aria-label="Search for places"
                 >
-                  <FaSearch size={18} className="text-white" />
+                  <FaSearch size={18} className="text-white" aria-hidden="true" />
                 </Button>
               </div>
             </Col>
           </Row>
-        </div>
+        </form>
       </div>
 
       {/* Advanced Filters Section */}
       {showAdvancedFilters && (
         <div className="d-flex justify-content-center mb-4">
-          <div
+          <section
+            id="advanced-filters"
             className="p-4 rounded-4 shadow-lg bg-white w-100"
             style={{ 
               maxWidth: "1000px", 
               border: "2px solid #45526e",
               animation: "slideDown 0.3s ease-out"
             }}
+            aria-label="Advanced search filters"
           >
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h6 className="mb-0 fw-bold text-dark">
@@ -564,11 +635,59 @@ const SearchBar: React.FC = () => {
                 </div>
               </div>
             )}
-          </div>
+          </section>
         </div>
       )}
 
       <style>{`
+        /* Screen reader only class for accessibility */
+        .sr-only {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0, 0, 0, 0);
+          white-space: nowrap;
+          border: 0;
+        }
+
+        /* Focus management for better keyboard navigation */
+        .form-control:focus,
+        .btn:focus,
+        .dropdown-toggle:focus {
+          outline: 2px solid #FAD700;
+          outline-offset: 2px;
+          box-shadow: 0 0 0 0.2rem rgba(250, 215, 0, 0.25);
+        }
+
+        /* Minimum touch target size for mobile accessibility */
+        .btn {
+          min-height: 44px;
+          min-width: 44px;
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+          .bg-white {
+            background: #fff !important;
+            border: 2px solid #000 !important;
+          }
+          .text-muted {
+            color: #000 !important;
+          }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
+        }
+        
         @keyframes slideDown {
           from {
             opacity: 0;
@@ -597,7 +716,7 @@ const SearchBar: React.FC = () => {
           }
         }
       `}</style>
-    </div>
+    </section>
   );
 };
 

@@ -7,7 +7,7 @@ import { FaMapMarkerAlt, FaStar, FaCloudSun } from "react-icons/fa"; // added ic
 
 const PlaceCard: React.FC = () => {
 
-    const [darkMode, setDarkMode] = useState(false);
+    const [darkMode] = useState(() => localStorage.getItem("darkMode") === "true");
     const [selectedPlaceId, setSelectedPlaceId] = useState<number | null>(null);
 
 
@@ -138,54 +138,98 @@ const PlaceCard: React.FC = () => {
   ]
 
   return (
-    <div className="place bg-black">
+    <main className="place bg-black" role="main">
       
       <div className={darkMode ? "places-container bg-dark text-light":"places-container"}>
-        <h2 className={darkMode ? "title bg-dark text-light":"title"}>Our Top Rated Tours and Adventures</h2>
-        <div className={darkMode ? "places-grid bg-dark text-light":"places-grid"} >
+        <h1 className={darkMode ? "title bg-dark text-light":"title"} id="places-heading">
+          Our Top Rated Tours and Adventures
+        </h1>
+        <section 
+          className={darkMode ? "places-grid bg-dark text-light":"places-grid"}
+          aria-labelledby="places-heading"
+          role="region"
+        >
           {places.map((place) => (
-            <div key={place.id} className="place-card">
-              <a href="/agra">
+            <article 
+              key={place.id} 
+              className="place-card"
+              role="article"
+              aria-labelledby={`place-title-${place.id}`}
+              tabIndex={0}
+            >
+              <a 
+                href="/agra"
+                aria-label={`View details for ${place.name}`}
+                tabIndex={0}
+              >
                 <img
                   src={place.image}
-                  alt={place.location}
+                  alt={`Beautiful view of ${place.name}, showing the main attraction in ${place.location}`}
                   className="place-image"
+                  loading="lazy"
                 />
               </a>
               <div className="place-info">
-                <h3>
+                <h3 id={`place-title-${place.id}`}>
                   {place.location}{" "}
                   <a
                     href={place.mapLink}
                     target="_blank"
                     rel="noopener noreferrer"
+                    aria-label={`View ${place.location} on map (opens in new tab)`}
+                    title={`View ${place.location} on map`}
+                    tabIndex={0}
                   >
-                    <FaMapMarkerAlt className="map-icon" />
+                    <FaMapMarkerAlt 
+                      className="map-icon" 
+                      aria-hidden="true"
+                      role="img"
+                    />
                   </a>
                 </h3>
-                <p className="price">{place.price}</p>
-                <p className="rating">
-                  <FaStar /> {place.rating}
+                <p className="price" aria-label={`Price: ${place.price}`}>
+                  {place.price}
+                </p>
+                <p className="rating" aria-label={`Rating: ${place.rating} stars`}>
+                  <FaStar aria-hidden="true" /> 
+                  <span className="sr-only">Rating: </span>
+                  {place.rating}
                 </p>
 
               <button
-        onClick={() =>
-          setSelectedPlaceId(selectedPlaceId === place.id ? null : place.id)
-        }
-        className="weather-btn"
-      >
-        <FaCloudSun style={{ marginRight: "6px" }} />
-        {selectedPlaceId === place.id ? "Hide Weather" : "Show Weather"}
-      </button>
+                onClick={() =>
+                  setSelectedPlaceId(selectedPlaceId === place.id ? null : place.id)
+                }
+                className="weather-btn"
+                aria-expanded={selectedPlaceId === place.id}
+                aria-controls={`weather-info-${place.id}`}
+                aria-label={selectedPlaceId === place.id ? `Hide weather information for ${place.location}` : `Show weather information for ${place.location}`}
+                type="button"
+              >
+                <FaCloudSun 
+                  style={{ marginRight: "6px" }} 
+                  aria-hidden="true"
+                />
+                {selectedPlaceId === place.id ? "Hide Weather" : "Show Weather"}
+              </button>
 
-      {selectedPlaceId === place.id && <WeatherCard city={place.location} />}
+              {selectedPlaceId === place.id && (
+                <div 
+                  id={`weather-info-${place.id}`}
+                  aria-live="polite"
+                  role="region"
+                  aria-label={`Weather information for ${place.location}`}
+                >
+                  <WeatherCard city={place.location} />
+                </div>
+              )}
 
               </div>
-            </div>
+            </article>
           ))}
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 
