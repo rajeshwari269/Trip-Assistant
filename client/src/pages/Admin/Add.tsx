@@ -56,7 +56,7 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
     images.forEach((file) => formDataToSend.append("images", file));
 
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/properties",
         formDataToSend,
         {

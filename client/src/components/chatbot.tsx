@@ -39,7 +39,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
     input.value = "";
 
     try {
-      const res = await fetch(`/api/query`, {
+      const res = await fetch(`${apiBaseUrl}/api/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

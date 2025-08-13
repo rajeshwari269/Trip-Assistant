@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaWallet, FaGlobeAmericas, FaBars, FaUser, FaSun, FaMoon } from "react-icons/fa";
+import { FaWallet } from "react-icons/fa";
+import { FaBars, FaUser, FaSun, FaMoon } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 

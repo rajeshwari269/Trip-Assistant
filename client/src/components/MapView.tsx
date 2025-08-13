@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -12,7 +12,10 @@ const MapView = ({ lat, lon }: { lat: number; lon: number }) => {
 
     L.marker([lat, lon]).addTo(map).bindPopup('Location').openPopup();
 
-    return () => map.remove(); // clean up
+    // Cleanup function
+    return () => {
+      void map.remove();
+    };
   }, [lat, lon]);
 
   return <div id="map" className="h-64 w-full rounded shadow mb-4" />;
