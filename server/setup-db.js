@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const bcrypt = require('bcryptjs');
 
 // Database configuration
 const dbConfig = {
@@ -51,15 +52,6 @@ async function setupDatabase() {
         image_url VARCHAR(255) NOT NULL,
         FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
       );
-
-      INSERT INTO users (userName, email, password, mobileNo)
-      VALUES 
-        ('Test User', 'test@example.com', 'password123', '1234567890'),
-        ('Demo User', 'demo@tripassistant.com', 'demo123', '9876543210'),
-        ('Admin User', 'admin@tripassistant.com', 'admin123', '5555555555')
-      ON DUPLICATE KEY UPDATE 
-        userName = VALUES(userName),
-        mobileNo = VALUES(mobileNo);
     `;
 
     await new Promise((resolve, reject) => {
@@ -71,6 +63,46 @@ async function setupDatabase() {
 
     console.log('✅ Database and tables created successfully!');
 
+    // Create demo users with securely hashed passwords
+    console.log('🔒 Creating demo users with secure passwords...');
+    
+    const demoUsers = [
+      { userName: 'Test User', email: 'test@example.com', password: 'password123', mobileNo: '1234567890' },
+      { userName: 'Demo User', email: 'demo@tripassistant.com', password: 'demo123', mobileNo: '9876543210' },
+      { userName: 'Admin User', email: 'admin@tripassistant.com', password: 'admin123', mobileNo: '5555555555' }
+    ];
+
+    for (const user of demoUsers) {
+      // Check if user already exists
+      const existingUser = await new Promise((resolve, reject) => {
+        connection.query('SELECT id FROM users WHERE email = ?', [user.email], (err, results) => {
+          if (err) reject(err);
+          else resolve(results);
+        });
+      });
+
+      if (existingUser.length === 0) {
+        // Hash password before storing with salt rounds of 12 for high security
+        const hashedPassword = await bcrypt.hash(user.password, 12);
+        
+        // Insert new user with hashed password
+        await new Promise((resolve, reject) => {
+          connection.query(
+            'INSERT INTO users (userName, email, password, mobileNo) VALUES (?, ?, ?, ?)',
+            [user.userName, user.email, hashedPassword, user.mobileNo],
+            (err, results) => {
+              if (err) reject(err);
+              else resolve(results);
+            }
+          );
+        });
+        
+        console.log(`   ✅ Created secure user: ${user.email}`);
+      } else {
+        console.log(`   ⚠️  User already exists: ${user.email}`);
+      }
+    }
+
     // Verify demo users
     const verifySQL = 'SELECT id, userName, email, mobileNo FROM users';
     const users = await new Promise((resolve, reject) => {
@@ -80,7 +112,7 @@ async function setupDatabase() {
       });
     });
 
-    console.log('👥 Demo users created:');
+    console.log('\n👥 Demo users available:');
     users.forEach(user => {
       console.log(`   - ${user.userName} (${user.email})`);
     });
@@ -91,6 +123,7 @@ async function setupDatabase() {
     console.log('\n   Alternative demo accounts:');
     console.log('   Email: demo@tripassistant.com');
     console.log('   Password: demo123');
+    console.log('\n🔒 All passwords are securely hashed with bcrypt (salt rounds: 12)');
 
   } catch (error) {
     console.error('❌ Database setup failed:', error.message);

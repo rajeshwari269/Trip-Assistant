@@ -14,7 +14,7 @@ const login = (req, res) => {
     });
   }
 
-  // In production, we would hash passwords. For now, using plain text for test user
+  // Secure password verification with bcrypt
   const query = 'SELECT * FROM users WHERE email = ?';
   
   db.query(query, [email], async (err, results) => {
@@ -31,9 +31,8 @@ const login = (req, res) => {
 
     const user = results[0];
 
-    // For now, direct password comparison for the test user
-    // In production, use: const isMatch = await bcrypt.compare(password, user.password);
-    const isMatch = password === user.password;
+    // Secure password comparison using bcrypt
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -80,12 +79,10 @@ const register = (req, res) => {
       });
     }
 
-    // In production, hash the password
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // For now, using plain text
-    const hashedPassword = password;
+    // Hash the password securely before storing
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Insert new user
+    // Insert new user with hashed password
     const insertQuery = 'INSERT INTO users (userName, email, password, mobileNo) VALUES (?, ?, ?, ?)';
     
     db.query(insertQuery, [userName, email, hashedPassword, mobileNo], (err, results) => {
