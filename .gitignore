@@ -1,14 +1,47 @@
 # Dependency directories
 node_modules/
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+**/dist/
+**/build/
+
+# Dependency lock files (optional - you may want to keep package-lock.json)
+# package-lock.json
+# yarn.lock
 
 # Log files
 logs/
 *.log
 npm-debug.log*
 
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Environment variables
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Editor files
 .vscode/
 .DS_Store
+.venv
 
 # OS/IDE files
 *.suo
@@ -19,3 +52,11 @@ npm-debug.log*
 
 #added .env file that stores mongoDB connection string
 server/.env
+Thumbs.db
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Cache directories
+.cache/
+.parcel-cache/

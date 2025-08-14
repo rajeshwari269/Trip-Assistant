@@ -4,6 +4,9 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
+// Database connection
+const db = require("./config/db");
+const { handleServerError, logError, sendSuccess } = require("./utils/errorHandler");
 const app = express();
 
 // Middleware

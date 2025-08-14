@@ -1,16 +1,7 @@
-@import "tailwindcss";
-
 /* Smooth transition for theme switching */
 .place {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-
-/* 🌙 Dark Mode Base Styling 
-body.dark-mode {
-  background-color: #1a202c !important;
-  color: #f7fafc !important;
-}
-*/
 
 body.dark-mode h1,
 body.dark-mode h2,
@@ -31,7 +22,7 @@ body.dark-mode a {
 }
 
 .nav-link:hover {
-  color: #FAD700 !important;
+  color: #fad700 !important;
 }
 
 /* 🌙 Navbar Hover Links in Dark Mode */
@@ -40,16 +31,16 @@ body.dark-mode .nav-link {
 }
 
 body.dark-mode .nav-link:hover {
-  color: #FFD700 !important;
+  color: #ffd700 !important;
 }
 .nav-link.active-link {
-  border-bottom: 2px solid #FFD700;
+  border-bottom: 2px solid #ffd700;
   font-weight: bold;
-  color: #FFD700 !important;
+  color: #ffd700 !important;
 }
 .nav-link-custom.active-link {
   font-weight: bold;
-  color: #FFD700 !important;
+  color: #ffd700 !important;
 }
 
 /* 👤 Profile Button Round Icon Fix */
@@ -71,16 +62,6 @@ body.dark-mode {
   color: white;
 }
 
-/* Active link highlighting */
-.nav-link.active-link {
-  border-bottom: 2px solid #FFD700;
-  font-weight: bold;
-  color: #FFD700 !important;
-}
-
-/* Hover effect for nav links */
-/* --- Enhancements for navbar link animation --- */
-
 /* Navigation link underline on hover */
 .nav-link-custom {
   position: relative;
@@ -97,36 +78,14 @@ body.dark-mode {
   position: absolute;
   width: 0%;
   height: 2px;
-  background-color: #FFD700;
+  background-color: #ffd700;
   left: 0;
   bottom: 0;
   transition: width 0.3s ease;
 }
 
-/* Active link (bold + yellow underline) */
-.active-link {
-  font-weight: bold;
-  color: #FFD700 !important;
-}
-.nav-link:hover {
-  color: #FFD700 !important;
-  transform: scale(1.05);
-  transition: 0.3s;
-}
-
-/* Profile icon size */
-.profile-icon {
-  width: 32px;
-  height: 32px;
-}
-
-/* Optional: Navbar background */
-.custom-navbar {
-  background-color: rgba(0, 0, 0, 0.85); /* transparent dark background */
-  backdrop-filter: blur(8px);
-}
-
 /* Optional: Smooth transition */
-body, .nav-link {
+body,
+.nav-link {
   transition: all 0.3s ease-in-out;
 }

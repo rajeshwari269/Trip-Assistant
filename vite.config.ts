@@ -10,7 +10,14 @@ export default defineConfig({
     strictPort: true,
     allowedHosts: [
       "88b39973-a5f8-43c2-b1af-e0eacbc85c99-00-2welbeymh8max.pike.replit.dev"
-    ]
+    ],
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
   plugins: [react(), tailwindcss()]
 });

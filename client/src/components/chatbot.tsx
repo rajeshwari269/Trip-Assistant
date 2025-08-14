@@ -1,13 +1,23 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaTimes } from "react-icons/fa";
 import "./chatbot.css";
 import { handleError } from "../utils/errorHandlerToast";
 
-const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const [messages, setMessages] = useState<
-    { text: string; type: "user" | "bot" }[]
-  >([]);
+interface Message {
+  text: string;
+  type: "user" | "bot";
+  isLoading?: boolean;
+  isError?: boolean;
+}
+
+interface ChatbotProps {
+  onClose: () => void;
+}
+
+const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
+  const [messages, setMessages] = useState<Message[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   useEffect(() => {
     // Scroll to the bottom when messages update
@@ -18,17 +28,18 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleSendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const input = event.currentTarget.message;
-    const userMessage = input.value.trim();
+    const form = event.currentTarget;
+    const input = form.elements.namedItem('message') as HTMLInputElement;
+    const userMessage = input?.value?.trim();
 
     if (!userMessage) return;
 
     // Add user message
-    setMessages((prev) => [...prev, { text: userMessage, type: "user" }]);
+    setMessages((prev: Message[]) => [...prev, { text: userMessage, type: "user" }]);
     input.value = "";
 
     try {
-      const res = await fetch("http://localhost:3000/query", {
+      const res = await fetch(`${apiBaseUrl}/api/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,62 +47,157 @@ const Chatbot: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         body: JSON.stringify({ prompt: userMessage }),
       });
 
-      const data = await res.json();
+      // Add loading state for UI feedback
+      setMessages((prev: Message[]) => [
+        ...prev,
+        { text: "Thinking...", type: "bot", isLoading: true }
+      ]);
+
+      // Check if response is ok and has content
+      if (!res.ok) {
+        throw new Error(`Server error: ${res.status} ${res.statusText}`);
+      }
+
+      const responseText = await res.text();
+      if (!responseText) {
+        throw new Error("Empty response from server");
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error("JSON parse error:", parseError);
+        console.error("Response text:", responseText);
+        throw new Error("Invalid response format from server");
+      }
+      
+      // Remove the loading message
+      setMessages((prev: Message[]) => prev.filter(msg => !msg.isLoading));
+      
       if (data.error) {
-        setMessages((prev) => [
+        setMessages((prev: Message[]) => [
           ...prev,
-          { text: `Error: ${data.error}`, type: "bot" },
+          { text: `Sorry, I couldn't process your request: ${data.error}`, type: "bot" },
         ]);
       } else {
-        setMessages((prev) => [
+        setMessages((prev: Message[]) => [
           ...prev,
-          { text: JSON.stringify(data, null, 2), type: "bot" },
+          { text: data.message || "No response from bot.", type: "bot" },
         ]);
       }
     } catch (error) {
-      setMessages((prev) => [...prev, { text: "Request failed", type: "bot" }]);
-      handleError(error)
+      // Remove the loading message if it exists
+      setMessages((prev: Message[]) => prev.filter(msg => !msg.isLoading));
+      
+      // Get a user-friendly error message
+      const errorMsg = handleError(
+        error, 
+        "Sorry, I couldn't connect to my brain right now. Please try again in a moment."
+      );
+      
+      setMessages((prev: Message[]) => [
+        ...prev, 
+        { text: errorMsg, type: "bot", isError: true }
+      ]);
     }
   };
 
   return (
-    <div className="chatbot-container card shadow">
-      <div className="chatbot-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
-        <h6 className="m-0">Travel Assistant</h6>
-        <button className="btn btn-sm btn-light" onClick={onClose}>
-          <FaTimes />
+    <aside 
+      className="chatbot-container card shadow"
+      role="complementary"
+      aria-labelledby="chatbot-title"
+      aria-live="polite"
+    >
+      <header className="chatbot-header bg-primary text-white p-2 d-flex justify-content-between align-items-center">
+        <h2 id="chatbot-title" className="m-0 h6">Travel Assistant</h2>
+        <button 
+          className="btn btn-sm btn-light" 
+          onClick={onClose}
+          aria-label="Close chat assistant"
+          type="button"
+        >
+          <FaTimes aria-hidden="true" />
         </button>
-      </div>
+      </header>
 
-      <div className="chatbot-body p-2" ref={chatRef}>
+      <main 
+        className="chatbot-body p-2" 
+        ref={chatRef}
+        role="log"
+        aria-label="Chat conversation"
+        aria-live="polite"
+        aria-atomic="false"
+      >
         {messages.length === 0 ? (
-          <p className="text-muted">Hello! How can I assist you?</p>
+          <p className="text-muted" role="status">
+            Hello! How can I assist you with your travel plans?
+          </p>
         ) : (
-          messages.map((msg, index) => (
+          messages.map((msg: Message, index: number) => (
             <div
-              key={index}
+              key={`${msg.type}-${index}-${msg.text.substring(0, 10)}`}
               className={`chatbot-message p-2 rounded mb-1 ${
                 msg.type === "user" ? "user-message" : "bot-message"
-              }`}
+              } ${msg.isError ? "error-message" : ""} ${msg.isLoading ? "loading-message" : ""}`}
+              role={msg.type === "user" ? "presentation" : "status"}
+              aria-label={msg.type === "user" ? `You said: ${msg.text}` : `Assistant response: ${msg.text}`}
             >
-              {msg.text}
+              {msg.isLoading ? (
+                <div className="d-flex align-items-center">
+                  <div 
+                    className="spinner-border spinner-border-sm me-2" 
+                    role="status"
+                    aria-label="Assistant is thinking"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  {msg.text}
+                </div>
+              ) : msg.isError ? (
+                <div className="d-flex align-items-center text-danger" role="alert">
+                  <span className="me-2" aria-hidden="true">⚠️</span>
+                  {msg.text}
+                </div>
+              ) : (
+                msg.text
+              )}
             </div>
           ))
         )}
-      </div>
+      </main>
 
-      <form className="chatbot-footer p-2 d-flex" onSubmit={handleSendMessage}>
+      <form 
+        className="chatbot-footer p-2 d-flex" 
+        onSubmit={handleSendMessage}
+        role="form"
+        aria-label="Send message to travel assistant"
+      >
+        <label htmlFor="chat-message-input" className="sr-only">
+          Type your travel question or message
+        </label>
         <input
+          id="chat-message-input"
           type="text"
           name="message"
           className="form-control"
           placeholder="Type a message..."
+          aria-describedby="chat-help"
+          required
         />
-        <button type="submit" className="btn btn-primary ms-2">
+        <div id="chat-help" className="sr-only">
+          Ask me about travel destinations, booking tips, or any travel-related questions.
+        </div>
+        <button 
+          type="submit" 
+          className="btn btn-primary ms-2"
+          aria-label="Send message"
+        >
           Send
         </button>
       </form>
-    </div>
+    </aside>
   );
 };
 

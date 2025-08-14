@@ -47,7 +47,6 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
   };
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting form...", formData); // Debugging line
 
     const formDataToSend = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
@@ -57,15 +56,13 @@ const PropertyForm: React.FC<PropertyFormProps> = ({
     images.forEach((file) => formDataToSend.append("images", file));
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/properties/add", //changed the api to '/properties/add'
+      await axios.post(
+        "http://localhost:5000/api/properties",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
-      console.log("Server Response:", response.data); // Debugging line
 
       refreshProperties(); // Refresh Dashboard
       handleClose();
