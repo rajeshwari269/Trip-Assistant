@@ -38,25 +38,13 @@ CREATE TABLE IF NOT EXISTS property_images (
   FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
 );
 
--- Insert a test user (for testing properties)
--- Using ON DUPLICATE KEY UPDATE to avoid errors if user already exists
-INSERT INTO users (userName, email, password, mobileNo)
-VALUES ('Test User', 'test@example.com', 'password123', '1234567890')
-ON DUPLICATE KEY UPDATE 
-  userName = VALUES(userName),
-  mobileNo = VALUES(mobileNo);
-
--- Insert additional demo users for testing
-INSERT INTO users (userName, email, password, mobileNo)
-VALUES 
-  ('Demo User', 'demo@tripassistant.com', 'demo123', '9876543210'),
-  ('Admin User', 'admin@tripassistant.com', 'admin123', '5555555555')
-ON DUPLICATE KEY UPDATE 
-  userName = VALUES(userName),
-  mobileNo = VALUES(mobileNo);
-
--- Verify users were created
-SELECT id, userName, email, mobileNo, created_at FROM users;
+-- NOTE: Demo users should be created using setup-db.js script which properly hashes passwords
+-- DO NOT insert plain text passwords directly into the database
+-- 
+-- For security reasons, use the Node.js setup script instead:
+-- Run: node setup-db.js
+--
+-- This ensures all passwords are properly hashed with bcrypt before storage
 
 -- Show tables
 SHOW TABLES;
