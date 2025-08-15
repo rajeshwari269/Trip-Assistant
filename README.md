@@ -80,17 +80,6 @@
 
 [GSSoC](https://gssoc.girlscript.tech/) is a 3-month long Open Source program conducted by GirlScript Foundation. It brings together students, developers, and organizations to contribute to meaningful open-source projects while promoting diversity in tech.
 
-<style>
-  .program-banner {
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
-    border-radius: 8px;
-  }
-  .program-banner:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-  }
-</style>
-
 ### OSCI 2025 - Open Source Connect India
 
 <div align="center">
