@@ -1,26 +1,13 @@
 <div align="center">
-
-<img src="client/src/assets/logo.png" alt="Trip Planner Logo" width="180" height="180"/> <h2>Trip Planner </h2>
-
+<div style="display:flex;justify-content:center;flex-direction:row">
+<img src="client/src/assets/logo.png" alt="Trip Planner Logo" width="18" height="18"/> <h2>Trip Planner </h2>
+</div>
 <!-- Animation for GitHub Markdown -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=61DAFB&center=true&vCenter=true&width=435&lines=Your+Journey+Companion;AI-Powered+Travel+Planning;Discover%2C+Plan%2C+Experience;Travel+Smarter%2C+Together">
   <source media="(prefers-color-scheme: light)" srcset="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=1F6FEB&center=true&vCenter=true&width=435&lines=Your+Journey+Companion;AI-Powered+Travel+Planning;Discover%2C+Plan%2C+Experience;Travel+Smarter%2C+Together">
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=61DAFB&center=true&vCenter=true&width=435&lines=Your+Journey+Companion;AI-Powered+Travel+Planning;Discover%2C+Plan%2C+Experience;Travel+Smarter%2C+Together" alt="Typing SVG" />
 </picture>
-
-<style>
-  .badge-animation {
-    display: inline-block;
-    transition: all 0.3s ease;
-    margin: 5px;
-  }
-  .badge-animation:hover {
-    transform: translateY(-5px);
-    filter: brightness(1.1);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-</style>
 
 > **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!**
 >
