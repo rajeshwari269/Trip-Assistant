@@ -11,11 +11,56 @@ function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [mobileNo, setMobileNO] = useState("");
+  const [mobileNo, setMobileNo] = useState("");
   const [userName, setUserName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Phone number validation function
+  const validatePhoneNumber = (phone: string): { isValid: boolean; error: string | null } => {
+    // Remove all non-digit characters for validation
+    const cleanPhone = phone.replace(/\D/g, '');
+    
+    // Check if empty
+    if (!phone.trim()) {
+      return { isValid: false, error: "Phone number is required" };
+    }
+    
+    // Check minimum length (10 digits for most countries)
+    if (cleanPhone.length < 10) {
+      return { isValid: false, error: "Phone number must be at least 10 digits" };
+    }
+    
+    // Check maximum length (15 digits according to ITU-T E.164)
+    if (cleanPhone.length > 15) {
+      return { isValid: false, error: "Phone number cannot exceed 15 digits" };
+    }
+    
+    // Enhanced pattern for international phone numbers
+    // Supports: +country code, area codes with various separators, and different formats
+    const phonePattern = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
+    
+    if (!phonePattern.test(phone)) {
+      return { isValid: false, error: "Please enter a valid phone number format" };
+    }
+    
+    return { isValid: true, error: null };
+  };
+
+  // Handle phone number input with real-time validation
+  const handlePhoneChange = (value: string) => {
+    setMobileNo(value);
+    
+    // Only validate if user has started typing
+    if (value.trim().length > 0) {
+      const validation = validatePhoneNumber(value);
+      setPhoneError(validation.error);
+    } else {
+      setPhoneError(null);
+    }
+  };
 
   useEffect(() => {
     if (location.state?.isLogin !== undefined) {
@@ -26,6 +71,17 @@ function Auth() {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setAuthError(null);
+    setPhoneError(null);
+    
+    // Validate phone number for signup
+    if (!isLogin) {
+      const phoneValidation = validatePhoneNumber(mobileNo);
+      if (!phoneValidation.isValid) {
+        setPhoneError(phoneValidation.error);
+        showError(phoneValidation.error || "Please enter a valid phone number");
+        return;
+      }
+    }
     
     if (!isLogin && password !== confirmPassword) {
       showError("Passwords do not match!");
@@ -181,22 +237,36 @@ let errorMsg = data.message || "Authentication failed. Please check your credent
           {!isLogin && (
             <div className="mb-3">
               <label className="form-label text-dark" htmlFor="phone">
-                Phone No.
+                Phone Number
               </label>
               <input
                 id="phone"
                 type="tel"
-                className="form-control border-danger"
-                placeholder="Enter You Mobile number"
+                className={`form-control border-danger ${phoneError ? 'is-invalid' : mobileNo && !phoneError ? 'is-valid' : ''}`}
+                placeholder="Enter your phone number (e.g., +1-234-567-8900)"
                 value={mobileNo}
-                onChange={(e) => setMobileNO(e.target.value)}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                pattern="^(\+?\d{1,3}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$"
                 required
-                aria-describedby="phone-help"
-                aria-invalid={authError ? "true" : "false"}
+                aria-describedby="phone-help phone-error"
+                aria-invalid={phoneError ? "true" : "false"}
+                maxLength={20}
               />
               <div id="phone-help" className="form-text text-dark">
-                Include country code if calling internationally.
+                Enter with country code (e.g., +1-234-567-8900, +91 98765 43210)
               </div>
+              {phoneError && (
+                <div id="phone-error" className="invalid-feedback d-block" role="alert">
+                  <span className="me-1" aria-hidden="true">⚠️</span>
+                  {phoneError}
+                </div>
+              )}
+              {!phoneError && mobileNo && (
+                <div className="valid-feedback d-block">
+                  <span className="me-1" aria-hidden="true">✅</span>
+                  Phone number format looks good!
+                </div>
+              )}
             </div>
           )}
 
