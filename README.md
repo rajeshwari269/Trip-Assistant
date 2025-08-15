@@ -22,7 +22,8 @@
   }
 </style>
 
-> **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!** > <a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
+> **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!**
+> <a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
 
     <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
 
