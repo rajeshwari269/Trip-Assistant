@@ -5,7 +5,6 @@
 blank_issues_enabled: true
 
 # Default settings for blank issues
-blank_issue_title: "Please provide a descriptive title for your issue"
 blank_issue_body: |
   <!-- 
   Thank you for creating an issue! 
