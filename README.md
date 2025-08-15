@@ -23,9 +23,9 @@
 </style>
 
 > **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!**
-> 
-<a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
- <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
+>
+> <a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
+>  <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
 
   </a>
   &nbsp;
@@ -367,11 +367,14 @@ cp server/.env.sample server/.env
 Edit `server/.env` with your actual values:
 
 ```env
-# Database Configuration (Required)
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=your_database_password_here
-DB_NAME=tripPlannerDB
+# MongoDB Database Configuration (Required)
+MONGODB_URI=mongodb://localhost:27017/tripPlannerDB
+# Or for MongoDB Atlas:
+# MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/tripPlannerDB
+
+# JWT Secret for Authentication
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRES_IN=7d
 
 # API Keys (Required for full functionality)
 PEXELS_API_KEY=your_pexels_api_key_here
@@ -409,11 +412,20 @@ VITE_API_BASE_URL=http://localhost:5000
 3. Get your API key from the dashboard
 4. Add to `client/.env` as `VITE_WEATHER_API_KEY`
 
-**🗄️ Database Setup:**
+**🗄️ MongoDB Database Setup:**
 
-- Install MongoDB locally or use MongoDB Atlas cloud service
-- Create a database named `tripPlannerDB`
-- Update database credentials in `server/.env`
+- **Option 1: Local MongoDB Installation**
+
+  - Install MongoDB Community Edition from [MongoDB Download Center](https://www.mongodb.com/try/download/community)
+  - Start the MongoDB service
+  - Create a database named `tripPlannerDB`
+  - Set `MONGODB_URI=mongodb://localhost:27017/tripPlannerDB` in `server/.env`
+
+- **Option 2: MongoDB Atlas (Cloud Service)**
+  - Create a free account on [MongoDB Atlas](https://www.mongodb.com/atlas)
+  - Set up a new cluster
+  - Create a database user and get your connection string
+  - Set `MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/tripPlannerDB` in `server/.env`
 
 > **🔐 Security Note:** Never commit `.env` files to version control. The `.env.sample` files are templates - your actual `.env` files with real credentials should remain local only.
 >
@@ -449,9 +461,11 @@ VITE_API_BASE_URL=http://localhost:5000
 
 > **Note:**
 >
-> - Ensure your MongoDB server is running and update the backend connection string as needed (see `server/server.js`).
-> - The application uses a custom authentication system, no external auth provider setup required.
-> - Keep your API keys secure and never commit them to version control.
+> - For MongoDB connection: The application uses `server/config/db.js` to connect to your MongoDB database using the connection string in your `.env` file.
+> - For local development: Ensure your MongoDB server is running before starting the application.
+> - For MongoDB Atlas: Make sure your IP address is whitelisted in the Atlas dashboard.
+> - The application uses a custom JWT-based authentication system, no external auth provider setup required.
+> - Keep your API keys and database credentials secure and never commit them to version control.
 
 ---
 
