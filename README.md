@@ -23,9 +23,9 @@
 </style>
 
 > **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!**
-> <a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
-
-    <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
+> 
+<a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
+ <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
 
   </a>
   &nbsp;
@@ -120,20 +120,6 @@
     <img src="https://img.shields.io/badge/OSCI-India%202025-orange?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEEklEQVR4nO1ZXWhcRRT+dmaTmE22u4kWrfQHpEVtKYJYUFuwVkGkICgUBUVFwQfBRyHgg4IvUl980V8UQa0g+KIi+KQoVsQKolCrxR+qpa3aaNNsNtkke+/MmZljbnY32ey9m91Na0oODOydc2fO+ebMnTlzLtDS0vLfg1itD7766qsaAGUAGc75BDVijLUkEolRIvq81Wp9w8PhWs3Pz2cAaJzzAoAqgDEAdQDf09+ZKtVq1e8bxlq5XI4AhAbwzm8R/TsA/taQiSClvE3TNFv1L5hZWFjIDcPfC8B7AOoATkspbyMiZ1GU0um0DSADoBBFEb0fXhCdnd3Cx3H8fCKRsHVdJyK6o+OzyWRyqFKplOI4/sXzvA9qtdqLw8PDrk7tTqQQq9Xqy91ut7PQjy1h8+bNRVVnx7J2b2pqqp5Op+kpTaVS6UlFH6adbrdbtCzryO7duz/csWPHU5qmuYlE4nkpJWiatrPvf2pqalTXdS4ej59UNOp0OkVaEJqm2aZpXgcwsXHjxkpfxzTNk4ZhzPI7kpZl3UiaVCr10rZt2/YEQUCxLaXk1Ncg0qrV6lDMACjEcVxUHQ+RQUopePr06Tc2bdpEMDce06PFYvHzTCbjct5PZAmFQqHc13V/V4wxtyhsCf1uRjKZLPTnxDGaBI71XzIMY7Cvk0wmf3Vd15JSakEQnOqPuZ7HwjA8rarN0zKKouPkpK4bnpOKaLPZLNdqNSsMww9V9dscx28pejZwoYhaoyhapaRpmidjLhaLrSAI5gBoUkpqHwTQ4pz/pPT7TdcnqqbwH4KAJelT8+7zGMnx8fEP4zi+U9f1W+bn55/M5XIfc87v0XX9+vn5+S+FEJeTyeQrQohLQ9h8krDr+/7PnucdBzAbx/FsHMd/qSV4CQB2XfeeKIpuaDabB9vtdrrdbtfc3l5PrVYbhGEIDmjaO2EYHmi322fCMPzO9/0vfN//0nXdY0qOkdjjAOw4jh8JgmC60+nkdV03iMjglm1GRARE9KthGMdt2z6Vz+cPbd++/UWuM3JZt97r9XZJKSdSqdQlmqaRJvCbYEbTtLO6rteEEEV+a1rv9Xp7lxs/0ebEsszXCSH2Oj1iczurxpYt9x8hIrhcv4CU0lwAWIui6Lwgq5JEawbggiDr70CLxY8wPp7+pOveFYTBLLSoI0QGbM3s5uJ4FuCXmOZ5Lvr09AuH6vXjh9W8rxnrALbgS4eeGFJW9qmUJ/w4x4XDn9Hk5JUHC4Xrnjz/gvCtAzrXsQDARRFcEMzw77eV44I2DJP3/XM/nTlz7FPXbb/kecFuqjpHmYG7ePCxUjav04bNr9t09D5iTdPE1NToRUrIVIK7LwT3iGIzYc+eB9gmjp6vxws0MZE+QPN67pILmZaW1hL4Gwdx0I0e5lCfAAAAAElFTkSuQmCC" class="animated-badge"/>
   </a>
 </div>
-
-<style>
-  .animated-badge {
-    display: inline-block;
-    transition: all 0.3s ease;
-    margin: 0 5px;
-    margin-top: 15px;
-  }
-  .animated-badge:hover {
-    transform: translateY(-5px);
-    filter: brightness(1.1);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-  }
-</style>
 
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
