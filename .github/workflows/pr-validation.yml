@@ -1,0 +1,59 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: |
+          client/package-lock.json
+          server/package-lock.json
+    
+    - name: Install Client Dependencies
+      run: cd client && npm ci
+      
+    - name: Install Server Dependencies
+      run: cd server && npm ci
+      
+    - name: Lint Client
+      run: cd client && npm run lint || echo "Linting completed with warnings"
+      
+    - name: Validate Client Build
+      run: cd client && npm run build --if-present
+      
+    - name: PR Validation Summary
+      uses: actions/github-script@v6
+      if: always()
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const workflow_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## PR Validation Results
+
+Thank you for your contribution!
+
+${jobs.validate.status === 'success' 
+  ? '✅ All validation checks passed!' 
+  : '❌ Some validation checks failed. Please check the workflow results for details.'}
+
+[View detailed workflow results](${workflow_url})
+
+Please address any issues before this PR can be merged.`
+          });

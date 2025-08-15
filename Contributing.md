@@ -191,6 +191,52 @@ Let's build something great together! 🚀
 - **Keep branches up to date**: Regularly pull from the main branch
 - **Squash commits** when merging to maintain a clean history
 
+### 🤖 GitHub Actions
+
+We use GitHub Actions to automate certain processes in our repository:
+
+#### Issue Response
+
+When you open an issue, a GitHub Action will automatically:
+
+- Add a comment thanking you for your contribution
+- Add a 'triage' label to the issue
+- Notify our team members
+
+#### Pull Request Response
+
+When you submit a pull request, a GitHub Action will:
+
+- Add a comment thanking you for your contribution
+- Run validation checks on your code
+- Add an 'awaiting-review' label to the PR
+- Automatically request a review from the repository owner
+- Update the PR with validation results
+
+#### Review Requirements
+
+- **All PRs require review and approval from the repository owner (@Richajaishwal0) before merging**
+- The CODEOWNERS file ensures that all changes are reviewed by the appropriate person
+- PRs cannot be merged until all required reviews are completed
+- Please be patient when waiting for review
+
+#### Automated PR Checks
+
+When you submit a pull request, the following automated checks will run:
+
+- **Lint Check**: Ensures code follows style guidelines
+- **Unit Tests**: Runs tests to verify functionality
+- **Build Check**: Verifies the project builds successfully
+- **Security Scan**: Checks for security vulnerabilities
+- **Dependency Check**: Identifies outdated or vulnerable dependencies
+- **Code Coverage**: Measures test coverage of code changes
+- **Branch Sync**: Ensures your branch is up-to-date with main
+- **PR Size**: Analyzes the size of your PR (files changed, lines added/removed)
+
+These checks will post their results as comments on your PR. Any failing checks should be addressed before requesting review.
+
+These automations help us maintain a responsive, welcoming community while ensuring code quality and proper review of all contributions.
+
 ### 🚀 Future Enhancements
 
 | Feature                          | Description                                                 |

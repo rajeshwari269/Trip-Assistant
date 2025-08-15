@@ -1,0 +1,39 @@
+name: Issue Response
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  issue-response:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Thank user for the issue
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `👋 Hello @${context.payload.issue.user.login}! 
+
+Thank you for raising this issue! Our team will review it as soon as possible.
+
+Please make sure you've included:
+- A clear description of the problem
+- Steps to reproduce (if applicable)
+- Expected behavior
+- Current behavior
+
+We appreciate your contribution to making Travel Planner better!`
+            });
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['triage']
+            });

@@ -1,0 +1,75 @@
+name: Dependency Checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "**/package.json"
+      - "**/package-lock.json"
+      - "**/yarn.lock"
+  schedule:
+    # Run weekly on Monday at 9:00 AM
+    - cron: "0 9 * * 1"
+
+jobs:
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v3
+        with:
+          fail-on-severity: critical
+
+  outdated-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Check client dependencies
+        run: |
+          cd client
+          echo "## Client Dependencies Status" > ../dep-report.md
+          echo "\`\`\`" >> ../dep-report.md
+          npm outdated >> ../dep-report.md || true
+          echo "\`\`\`" >> ../dep-report.md
+
+      - name: Check server dependencies
+        run: |
+          cd server
+          echo -e "\n## Server Dependencies Status" >> ../dep-report.md
+          echo "\`\`\`" >> ../dep-report.md
+          npm outdated >> ../dep-report.md || true
+          echo "\`\`\`" >> ../dep-report.md
+
+      - name: Post dependency report
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('dep-report.md', 'utf8');
+
+            const body = `# Dependency Report
+
+            This PR modifies package dependencies. Here's a summary of current dependency statuses:
+
+            ${report}
+
+            Please review any outdated packages and consider updating them.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

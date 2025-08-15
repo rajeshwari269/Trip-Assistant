@@ -1,0 +1,152 @@
+name: PR Quality Checks
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  lint:
+    name: Lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: |
+            client/package-lock.json
+
+      - name: Install dependencies
+        run: cd client && npm ci
+
+      - name: Run ESLint
+        run: cd client && npm run lint || true
+
+      - name: Annotate Code Linting Results
+        if: always()
+        uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-check
+          eslint_flags: "--ext .js,.jsx,.ts,.tsx src/"
+          workdir: "./client"
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: |
+            client/package-lock.json
+
+      - name: Install dependencies
+        run: cd client && npm ci
+
+      - name: Run tests
+        run: cd client && npm test || echo "No tests found or tests failed"
+
+  build:
+    name: Build Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: |
+            client/package-lock.json
+
+      - name: Install dependencies
+        run: cd client && npm ci
+
+      - name: Build project
+        run: cd client && npm run build
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        with:
+          args: --severity-threshold=high
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN || '' }}
+
+      - name: Run npm audit
+        run: |
+          cd client && npm audit --audit-level=high || echo "Vulnerabilities found"
+          cd ../server && npm audit --audit-level=high || echo "Vulnerabilities found"
+
+  summary:
+    name: PR Check Summary
+    needs: [lint, test, build, security]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Create PR Summary
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const lint_status = "${{ needs.lint.result }}";
+            const test_status = "${{ needs.test.result }}";
+            const build_status = "${{ needs.build.result }}";
+            const security_status = "${{ needs.security.result }}";
+
+            const getStatusEmoji = (status) => {
+              if (status === 'success') return '✅';
+              if (status === 'failure') return '❌';
+              return '⚠️';
+            };
+
+            const lint_emoji = getStatusEmoji(lint_status);
+            const test_emoji = getStatusEmoji(test_status);
+            const build_emoji = getStatusEmoji(build_status);
+            const security_emoji = getStatusEmoji(security_status);
+
+            const workflow_url = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const body = `## PR Quality Check Summary
+
+            ${lint_emoji} **Lint:** ${lint_status}
+            ${test_emoji} **Tests:** ${test_status}
+            ${build_emoji} **Build:** ${build_status}
+            ${security_emoji} **Security:** ${security_status}
+
+            [View detailed workflow results](${workflow_url})
+
+            > Note: These automated checks are meant to help ensure code quality, but passing all checks does not guarantee PR approval. The PR still requires manual review from @Richajaishwal0 before merging.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

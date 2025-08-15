@@ -1,0 +1,84 @@
+name: Branch Sync Check
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-branch-sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check if branch is up to date with main
+        id: sync_check
+        run: |
+          git fetch origin main
+          BEHIND_BY=$(git rev-list --count HEAD..origin/main)
+
+          if [ "$BEHIND_BY" -gt "0" ]; then
+            echo "SYNC_STATUS=behind" >> $GITHUB_OUTPUT
+            echo "BEHIND_BY=$BEHIND_BY" >> $GITHUB_OUTPUT
+          else
+            echo "SYNC_STATUS=current" >> $GITHUB_OUTPUT
+            echo "BEHIND_BY=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Post sync status
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const sync_status = "${{ steps.sync_check.outputs.SYNC_STATUS }}";
+            const behind_by = "${{ steps.sync_check.outputs.BEHIND_BY }}";
+
+            let message = '';
+            let label = '';
+
+            if (sync_status === 'behind') {
+              message = `## ⚠️ Branch Sync Warning
+              
+              This PR branch is **${behind_by} commits behind** the main branch.
+              
+              Please merge or rebase with the main branch to ensure your changes are based on the latest code.
+              
+              \`\`\`bash
+              git checkout your-branch-name
+              git fetch origin main
+              git merge origin/main
+              # Or if you prefer rebasing:
+              # git rebase origin/main
+              git push -f
+              \`\`\`
+              
+              Keeping your branch up to date helps prevent merge conflicts and ensures compatibility with recent changes.`;
+              
+              label = 'needs-rebase';
+            } else {
+              message = `## ✅ Branch Sync Status
+              
+              This PR branch is up to date with the main branch.`;
+              
+              label = 'up-to-date';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+
+            if (sync_status === 'behind') {
+              github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: [label]
+              });
+            }

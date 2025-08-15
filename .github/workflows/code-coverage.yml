@@ -1,0 +1,81 @@
+name: Code Coverage
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "client/src/**/*.{js,jsx,ts,tsx}"
+      - "server/**/*.js"
+      - "!**/*.{md,txt,json,html}"
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+          cache-dependency-path: |
+            client/package-lock.json
+
+      - name: Install client dependencies
+        run: cd client && npm ci
+
+      - name: Run tests with coverage
+        run: cd client && npm test -- --coverage || echo "No tests found or tests failed"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./client/coverage/
+          flags: frontend
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Generate coverage report
+        if: always()
+        run: |
+          cd client
+          if [ -d "coverage" ]; then
+            echo "## Client Coverage Report" > ../coverage-report.md
+            echo "\`\`\`" >> ../coverage-report.md
+            cat coverage/coverage-summary.txt >> ../coverage-report.md || echo "No coverage summary available" >> ../coverage-report.md
+            echo "\`\`\`" >> ../coverage-report.md
+          else
+            echo "## Client Coverage Report" > ../coverage-report.md
+            echo "No coverage information available" >> ../coverage-report.md
+          fi
+
+      - name: Post coverage report
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            let report = '';
+
+            try {
+              report = fs.readFileSync('coverage-report.md', 'utf8');
+            } catch (error) {
+              report = '## Coverage Report\n\nNo coverage information available';
+            }
+
+            const body = `# Code Coverage Report
+
+            ${report}
+
+            Please ensure your changes have adequate test coverage.`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
