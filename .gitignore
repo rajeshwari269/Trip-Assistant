@@ -49,6 +49,9 @@ coverage/
 *.njsproj
 *.sln
 *.sw?
+
+#added .env file that stores mongoDB connection string
+server/.env
 Thumbs.db
 
 # TypeScript build info
