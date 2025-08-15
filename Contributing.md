@@ -66,7 +66,7 @@ npm run dev
 
 # Start backend (in server directory, new terminal)
 cd ../server
-npm start
+npm run dev
 ```
 
 Visit the app at: http://localhost:5173
@@ -109,19 +109,25 @@ We welcome and appreciate all contributions — big or small!
 #### Standard Workflow
 
 1. **Fork the repository** to your own GitHub account.
-2. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
+2. **Clone in your local environment**
+
+```
+git clone "https://github.com/your-profile-name/Trip_assistant"
+```
+
+3. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
    - Use a descriptive branch name, e.g. `feature/add-chatbot`, `bugfix/fix-navbar`, etc.
    - Example:
      ```bash
      git checkout -b feature/your-feature-name
      ```
-3. **Make your changes** in your branch.
-4. **Commit your changes** with clear and descriptive commit messages.
-5. **Push your branch** to your forked repository.
-6. **Create a Pull Request (PR)** to the main repository.
+4. **Make your changes** in your branch.
+5. **Commit your changes** with clear and descriptive commit messages.
+6. **Push your branch** to your forked repository.
+7. **Create a Pull Request (PR)** to the main repository.
    - **Include proof of your work in the PR description** (e.g., screenshots, photos, or screen recordings) to help reviewers understand and verify your changes.
    - PRs without proof may not be considered for merging.
-7. **Wait for review and feedback.** Respond to any requested changes.
+8. **Wait for review and feedback.** Respond to any requested changes.
 
 ### 🚨 Important:
 
@@ -219,35 +225,3 @@ When you submit a pull request, a GitHub Action will:
 - The CODEOWNERS file ensures that all changes are reviewed by the appropriate person
 - PRs cannot be merged until all required reviews are completed
 - Please be patient when waiting for review
-
-#### Automated PR Checks
-
-When you submit a pull request, the following automated checks will run:
-
-- **Lint Check**: Ensures code follows style guidelines
-- **Unit Tests**: Runs tests to verify functionality
-- **Build Check**: Verifies the project builds successfully
-- **Security Scan**: Checks for security vulnerabilities
-- **Dependency Check**: Identifies outdated or vulnerable dependencies
-- **Code Coverage**: Measures test coverage of code changes
-- **Branch Sync**: Ensures your branch is up-to-date with main
-- **PR Size**: Analyzes the size of your PR (files changed, lines added/removed)
-
-These checks will post their results as comments on your PR. Any failing checks should be addressed before requesting review.
-
-These automations help us maintain a responsive, welcoming community while ensuring code quality and proper review of all contributions.
-
-### 🚀 Future Enhancements
-
-| Feature                          | Description                                                 |
-| -------------------------------- | ----------------------------------------------------------- |
-| 🧠 Smart AI Chatbot              | Enhanced chatbot using NLP for smarter query handling.      |
-| 📱 Mobile App                    | Native mobile app support.                                  |
-| 🤝 Social Integration            | Google/Facebook login and trip sharing options.             |
-| 💬 Real-time Chat System         | Live chat among travelers using WebSockets.                 |
-| 📍 Geolocation-based Suggestions | Suggest destinations based on user’s real-time location.    |
-| 🏅 Reward System                 | Introduce user badges and rewards for active participation. |
-| 📦 PWA Support                   | Add Progressive Web App support for offline access.         |
-| 🧳 Travel Budget Planner         | Tool for estimating and managing travel expenses.           |
-| 🎨 Advanced UI Features          | More animations, themes, and customization options.         |
-| 🔍 Advanced Search               | Filter by price, rating, location, and amenities.           |

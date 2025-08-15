@@ -10,16 +10,20 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - name: Thank user for the PR
+      - name: Thank user for the PR and add label
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            const prNumber = context.payload.pull_request.number;
+            const prAuthor = context.payload.pull_request.user.login;
+
+            // Add thank-you comment
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `👋 Thank you @${context.payload.pull_request.user.login} for submitting this pull request!
+              body: `👋 Thank you @${prAuthor} for submitting this pull request!
 
 Here's what happens next:
 1. Automated tests will run on your code
@@ -31,8 +35,10 @@ Here's what happens next:
 
 We appreciate your contribution to the Travel Planner project!`
             });
-            github.rest.issues.addLabels({
-              issue_number: context.issue.number,
+
+            // Add "awaiting-review" label
+            await github.rest.issues.addLabels({
+              issue_number: prNumber,
               owner: context.repo.owner,
               repo: context.repo.repo,
               labels: ['awaiting-review']

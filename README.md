@@ -330,7 +330,7 @@ Open a new terminal and run:
 
 ```bash
 cd server
-npm start # or node server.js
+npm run dev # or node server.js
 ```
 
 The backend will run at [http://localhost:5000](http://localhost:5000)
@@ -494,13 +494,40 @@ react_app/
 
 ## 🧑‍💻 Contributing
 
-We welcome all contributions—big or small! See [Contributing.md](Contributing.md) for guidelines.
+We welcome all contributions—big or small! See [Contributing.md](Contributing.md) for guidelines and join [discussion](https://github.com/Richajaishwal0/Trip_assistant/discussions) to share your ideas.
 
 - Report bugs or UI issues
 - Suggest and implement new features
 - Improve code structure or performance
 - Enhance UI/UX design
 - Update documentation
+
+### Ways to Collaborate
+
+#### For All Contributors
+
+- **Code Reviews**: Help review PRs from other contributors
+- **Issue Triage**: Help categorize and prioritize open issues
+- **Documentation**: Improve README, add code comments, or create tutorials
+- **Testing**: Write and improve test coverage
+- **Design**: Suggest UI/UX improvements with mockups
+
+#### For Open Source Program Participants
+
+- **GSSoC 2025**: If you're participating in GSSoC, check our labeled issues and mention your participation in PRs
+- **OSCI 2025**: OSCI participants can focus on documentation improvements and accessibility features
+
+#### Mentorship
+
+- **Pair Programming**: Connect with maintainers for pair programming sessions
+- **First-time Contributors**: Look for "good first issue" labels to get started
+
+#### Communication
+
+- Ask questions in GitHub [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) before starting major changes
+- Share your progress in weekly community discussions.
+
+For complete guidelines, see our detailed [Contributing.md](Contributing.md) document.
 
 ---
 
@@ -523,7 +550,7 @@ We welcome all contributions—big or small! See [Contributing.md](Contributing.
 
 ## 📄 License
 
-This project is licensed under the ISC License.
+This project is licensed under the ISC [License](LICENSE).
 
 ---
 
@@ -539,13 +566,6 @@ This project is licensed under the ISC License.
 ---
 
 ## 🚀 Recent Improvements & Optimizations
-
-### Performance Enhancements
-
-- **56% Dependency Reduction**: Removed 14 unused packages for faster builds
-- **Code Cleanup**: Eliminated 500+ lines of unused code
-- **Asset Optimization**: Removed 1.4MB+ of unused images and assets
-- **Bundle Size Reduction**: Significantly smaller final build size
 
 ### UI/UX Improvements
 
@@ -569,56 +589,8 @@ This project is licensed under the ISC License.
 - **Better Debugging**: Simplified codebase for easier troubleshooting
 - **Maintainable Code**: Well-structured and documented components
 
-### 🤖 GitHub Actions
-
-This project uses GitHub Actions for automation:
-
-- **Issue Response**: Automatically thanks users for reporting issues
-- **PR Response**: Thanks contributors and runs validation on pull requests
-- **PR Validation**: Checks code quality and build status for all PRs
-- **Required Reviews**: Enforces review from repository owner before merging
-- **Issue Templates**: Structured templates for bug reports and feature requests
-- **PR Templates**: Standardized format for pull request submissions
-- **CODEOWNERS**: Automatically assigns appropriate reviewers for all changes
-- **PR Quality Checks**: Comprehensive quality checks including:
-  - Lint checking
-  - Unit testing
-  - Build verification
-  - Security scanning
-  - Dependency vulnerability checks
-  - Code coverage reporting
-  - Branch synchronization status
-  - PR size analysis
-
 Contributors can find more information in the [Contributing Guide](./Contributing.md).
 
 ---
 
-## 🚀 Participating in Open Source Programs
-
-### GSSoC 2025 - Girl Script Summer of Code
-
-<div align="center">
-  <img src="https://github.com/Richajaishwal0/Trip_assistant/assets/gssoc-banner.png" alt="GSSoC 2025" width="600"/>
-</div>
-
-[GSSoC (GirlScript Summer of Code)](https://gssoc.girlscript.tech/) is a 3-month long Open Source program conducted by GirlScript Foundation. It brings together students, developers, and organizations to contribute to meaningful open-source projects while promoting diversity in tech.
-
-**How to participate:**
-
-- Register as a contributor when GSSoC 2025 applications open
-- Select Trip Planner as your project of interest
-- Start solving issues and creating pull requests
-- Earn points based on the difficulty of the issues you solve
-
-**Program highlights:**
-
-- Connect with fellow developers from across India
-- Contribute to real-world projects and gain practical experience
-- Receive mentorship from experienced developers
-- Earn recognition and certificates for your contributions
-
----
-
-</div>
 Made with ❤️ for travelers everywhere!
