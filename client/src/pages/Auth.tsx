@@ -115,9 +115,10 @@ function Auth() {
       
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
+        localStorage.setItem("user_id", data.user_id);//nd
         navigate("/places");
       } else {
-        let errorMsg = data.message || "Authentication failed. Please check your credentials.";
+let errorMsg = data.message || "Authentication failed. Please check your credentials.";
         
         // Add helpful hints for common login issues
         if (!isLogin) {
@@ -132,6 +133,12 @@ function Auth() {
           }
           setAuthError(errorMsg);
         }
+        if (isLogin && data.message.toLowerCase().includes("not registered")) {
+    setTimeout(() => {
+      navigate("/auth", { state: { isLogin: false } }); // switch to signup
+    }, 20); // give user time to see error toast
+    
+  }
         showError(errorMsg);
       }
     } catch (error) {
