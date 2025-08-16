@@ -7,12 +7,12 @@ import App from "./App";
 
 // Preload critical resources
 const preloadStylesheets = () => {
-  // Add preload links for critical resources
-  const preloadLink = document.createElement('link');
-  preloadLink.rel = 'preload';
-  preloadLink.as = 'style';
-  preloadLink.href = 'bootstrap-icons/font/bootstrap-icons.css';
-  document.head.appendChild(preloadLink);
+  // Add bootstrap-icons CSS directly instead of preloading
+  const iconLink = document.createElement("link");
+  iconLink.rel = "stylesheet";
+  iconLink.href =
+    "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css";
+  document.head.appendChild(iconLink);
 };
 
 // Execute preload strategy

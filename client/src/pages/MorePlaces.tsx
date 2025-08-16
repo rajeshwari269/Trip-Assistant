@@ -29,38 +29,46 @@ const MorePlaces = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [darkMode] = useState(document.body.classList.contains("dark-mode"));
   const [error, setError] = useState<string | null>(null);
-  
-  const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
+
+  const apiBaseUrl =
+    import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
 
   const fetchPlaces = async (query = searchTerm, currentPage = 1) => {
     // Reset error state
     setError(null);
-    
+
     // Check network connectivity first
     if (!isOnline()) {
-      setError("No internet connection. Please check your network and try again.");
+      setError(
+        "No internet connection. Please check your network and try again."
+      );
       setLoading(false);
       return;
     }
-    
+
     try {
       if (currentPage === 1) {
         setLoading(true);
       }
-      
+
       const res = await axios.get(
-        `${apiBaseUrl}/api/more-places?query=${encodeURIComponent(query)}&page=${currentPage}&per_page=12`,
+        `${apiBaseUrl}/api/more-places?query=${encodeURIComponent(
+          query
+        )}&page=${currentPage}&per_page=12`,
         { timeout: 10000 } // Set a reasonable timeout
       );
 
-      if (res.data.length === 0) {
+      // Make sure res.data is an array
+      const placesData = Array.isArray(res.data) ? res.data : [];
+
+      if (placesData.length === 0) {
         setHasMore(false);
       }
 
       if (currentPage === 1) {
-        setPlaces(res.data);
+        setPlaces(placesData);
       } else {
-        setPlaces((prev) => [...prev, ...res.data]);
+        setPlaces((prev) => [...prev, ...placesData]);
       }
 
       setLoading(false);
@@ -138,14 +146,14 @@ const MorePlaces = () => {
         </div>
 
         {error ? (
-          <ErrorState 
-            message={error} 
+          <ErrorState
+            message={error}
             onRetry={() => fetchPlaces(searchTerm, 1)}
-            className="py-5" 
+            className="py-5"
           />
         ) : loading && places.length === 0 ? (
-          <LoadingState 
-            message="Loading destinations..." 
+          <LoadingState
+            message="Loading destinations..."
             size="lg"
             className="py-5"
           />
@@ -155,37 +163,47 @@ const MorePlaces = () => {
               darkMode ? "places-grid bg-dark text-light" : "places-grid"
             }
           >
-            {places.map((place, index) => (
-              <div
-                key={`${place.id}-${page}-${index}`}
-                className={`place-card ${isMounted ? "fade-in" : ""}`}
-                style={{ animationDelay: `${isMounted ? index * 50 : 0}ms` }}
-                onClick={() => handleShowDetails(getCleanPlaceName(place.alt))}
-              >
-                {/* --- THIS IS THE FIX --- */}
-                {/* Use place.src directly, as provided by your backend */}
-                <img src={place.src} alt={place.alt} className="place-image" />
-                <div className="place-info">
-                  <h3>
-                    {getCleanPlaceName(place.alt)}
-                    <a
-                      href={`https://www.google.com/maps?q=${encodeURIComponent(
-                        getCleanPlaceName(place.alt)
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <FaMapMarkerAlt className="map-icon" />
-                    </a>
-                  </h3>
-                  <p className="price">Photographer: {place.photographer}</p>
-                  <p className="rating">
-                    <FaStar style={{ color: "#FAD700" }} /> View More
-                  </p>
+            {Array.isArray(places) && places.length > 0 ? (
+              places.map((place, index) => (
+                <div
+                  key={`${place.id}-${page}-${index}`}
+                  className={`place-card ${isMounted ? "fade-in" : ""}`}
+                  style={{ animationDelay: `${isMounted ? index * 50 : 0}ms` }}
+                  onClick={() =>
+                    handleShowDetails(getCleanPlaceName(place.alt))
+                  }
+                >
+                  <img
+                    src={place.src}
+                    alt={place.alt}
+                    className="place-image"
+                  />
+                  <div className="place-info">
+                    <h3>
+                      {getCleanPlaceName(place.alt)}
+                      <a
+                        href={`https://www.google.com/maps?q=${encodeURIComponent(
+                          getCleanPlaceName(place.alt)
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <FaMapMarkerAlt className="map-icon" />
+                      </a>
+                    </h3>
+                    <p className="price">Photographer: {place.photographer}</p>
+                    <p className="rating">
+                      <FaStar style={{ color: "#FAD700" }} /> View More
+                    </p>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="no-results">
+                <p>No places found. Try a different search term.</p>
               </div>
-            ))}
+            )}
           </div>
         )}
 

@@ -1,69 +1,115 @@
-const db = require("../config/db");
+const Property = require("../models/property");
+const { handleServerError, sendSuccess } = require("../utils/errorHandler");
 
-// @desc Add new property
-exports.addProperty = (req, res) => {
-  const {
-    host_id,
-    title,
-    description,
-    location,
-    price,
-    max_guests,
-    bedrooms,
-    bathrooms,
-    property_type,
-    status,
-  } = req.body;
+// Add new property
+const addProperty = async (req, res) => {
+  try {
+    const {
+      host_id,
+      title,
+      description,
+      location,
+      price,
+      max_guests,
+      bedrooms,
+      bathrooms,
+      property_type,
+      status,
+    } = req.body;
 
-  const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
+    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
 
-  const sql = `
-    INSERT INTO properties 
-    (host_id, title, description, location, price, max_guests, bedrooms, bathrooms, property_type, status)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `;
-
-  const values = [
-    host_id || 1,
-    title,
-    description,
-    location,
-    price,
-    max_guests,
-    bedrooms,
-    bathrooms,
-    property_type,
-    status,
-  ];
-
-  db.query(sql, values, (err, result) => {
-    if (err) return res.status(500).json({ error: "Failed to add property" });
-
-    const propertyId = result.insertId;
-    const imageSql = `INSERT INTO property_images (property_id, image_url) VALUES ?`;
-    const imageValues = imagePaths.map((url) => [propertyId, url]);
-
-    db.query(imageSql, [imageValues], (imgErr) => {
-      if (imgErr)
-        return res.status(500).json({ error: "Failed to save images" });
-
-      res.status(201).json({ message: "Property added successfully" });
+    const property = await Property.create({
+      host_id: host_id || req.user.userId,
+      title,
+      description,
+      location,
+      price,
+      max_guests,
+      bedrooms,
+      bathrooms,
+      property_type,
+      status,
+      images: imagePaths,
     });
-  });
+
+    return sendSuccess(res, { property });
+  } catch (error) {
+    return handleServerError(error, "Add property error", res);
+  }
 };
 
-// @desc Get all properties
-exports.getProperties = (req, res) => {
-  const sql = `
-    SELECT p.*, GROUP_CONCAT(i.image_url) AS images
-    FROM properties p
-    LEFT JOIN property_images i ON p.property_id = i.property_id
-    GROUP BY p.property_id
-    ORDER BY p.created_at DESC
-  `;
+// Get all properties
+const getAllProperties = async (req, res) => {
+  try {
+    const properties = await Property.find({}).sort({ createdAt: -1 });
+    return sendSuccess(res, { properties });
+  } catch (error) {
+    return handleServerError(error, "Get properties error", res);
+  }
+};
 
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json({ error: "Failed to fetch properties" });
-    res.json(results);
-  });
+// Get property by ID
+const getPropertyById = async (req, res) => {
+  try {
+    const property = await Property.findById(req.params.id);
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+    return sendSuccess(res, { property });
+  } catch (error) {
+    return handleServerError(error, "Get property error", res);
+  }
+};
+
+// Update property
+const updateProperty = async (req, res) => {
+  try {
+    const property = await Property.findByIdAndUpdate(
+      req.params.id,
+      { ...req.body },
+      { new: true }
+    );
+
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+
+    return sendSuccess(res, { property });
+  } catch (error) {
+    return handleServerError(error, "Update property error", res);
+  }
+};
+
+// Delete property
+const deleteProperty = async (req, res) => {
+  try {
+    const property = await Property.findByIdAndDelete(req.params.id);
+
+    if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: "Property not found",
+      });
+    }
+
+    return sendSuccess(res, { message: "Property deleted successfully" });
+  } catch (error) {
+    return handleServerError(error, "Delete property error", res);
+  }
+};
+
+// Export all controllers
+module.exports = {
+  addProperty,
+  getAllProperties,
+  getPropertyById,
+  updateProperty,
+  deleteProperty,
 };

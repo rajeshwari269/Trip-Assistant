@@ -66,7 +66,7 @@ npm run dev
 
 # Start backend (in server directory, new terminal)
 cd ../server
-npm start
+npm run dev
 ```
 
 Visit the app at: http://localhost:5173
@@ -109,19 +109,25 @@ We welcome and appreciate all contributions — big or small!
 #### Standard Workflow
 
 1. **Fork the repository** to your own GitHub account.
-2. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
+2. **Clone in your local environment**
+
+```
+git clone "https://github.com/your-profile-name/Trip_assistant"
+```
+
+3. **Create a new branch** for your work. **Do not work directly on the `main` branch.**
    - Use a descriptive branch name, e.g. `feature/add-chatbot`, `bugfix/fix-navbar`, etc.
    - Example:
      ```bash
      git checkout -b feature/your-feature-name
      ```
-3. **Make your changes** in your branch.
-4. **Commit your changes** with clear and descriptive commit messages.
-5. **Push your branch** to your forked repository.
-6. **Create a Pull Request (PR)** to the main repository.
+4. **Make your changes** in your branch.
+5. **Commit your changes** with clear and descriptive commit messages.
+6. **Push your branch** to your forked repository.
+7. **Create a Pull Request (PR)** to the main repository.
    - **Include proof of your work in the PR description** (e.g., screenshots, photos, or screen recordings) to help reviewers understand and verify your changes.
    - PRs without proof may not be considered for merging.
-7. **Wait for review and feedback.** Respond to any requested changes.
+8. **Wait for review and feedback.** Respond to any requested changes.
 
 ### 🚨 Important:
 
@@ -191,17 +197,31 @@ Let's build something great together! 🚀
 - **Keep branches up to date**: Regularly pull from the main branch
 - **Squash commits** when merging to maintain a clean history
 
-### 🚀 Future Enhancements
+### 🤖 GitHub Actions
 
-| Feature                          | Description                                                 |
-| -------------------------------- | ----------------------------------------------------------- |
-| 🧠 Smart AI Chatbot              | Enhanced chatbot using NLP for smarter query handling.      |
-| 📱 Mobile App                    | Native mobile app support.                                  |
-| 🤝 Social Integration            | Google/Facebook login and trip sharing options.             |
-| 💬 Real-time Chat System         | Live chat among travelers using WebSockets.                 |
-| 📍 Geolocation-based Suggestions | Suggest destinations based on user’s real-time location.    |
-| 🏅 Reward System                 | Introduce user badges and rewards for active participation. |
-| 📦 PWA Support                   | Add Progressive Web App support for offline access.         |
-| 🧳 Travel Budget Planner         | Tool for estimating and managing travel expenses.           |
-| 🎨 Advanced UI Features          | More animations, themes, and customization options.         |
-| 🔍 Advanced Search               | Filter by price, rating, location, and amenities.           |
+We use GitHub Actions to automate certain processes in our repository:
+
+#### Issue Response
+
+When you open an issue, a GitHub Action will automatically:
+
+- Add a comment thanking you for your contribution
+- Add a 'triage' label to the issue
+- Notify our team members
+
+#### Pull Request Response
+
+When you submit a pull request, a GitHub Action will:
+
+- Add a comment thanking you for your contribution
+- Run validation checks on your code
+- Add an 'awaiting-review' label to the PR
+- Automatically request a review from the repository owner
+- Update the PR with validation results
+
+#### Review Requirements
+
+- **All PRs require review and approval from the repository owner (@Richajaishwal0) before merging**
+- The CODEOWNERS file ensures that all changes are reviewed by the appropriate person
+- PRs cannot be merged until all required reviews are completed
+- Please be patient when waiting for review

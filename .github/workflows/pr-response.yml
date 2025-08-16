@@ -1,0 +1,45 @@
+name: PR Response
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  pr-response:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Thank user for the PR and add label
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const prAuthor = context.payload.pull_request.user.login;
+
+            // Add thank-you comment
+            await github.rest.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `👋 Thank you @${prAuthor} for submitting this pull request!
+
+Here's what happens next:
+1. Automated tests will run on your code
+2. @Richajaishwal0 will review your changes (required before merging)
+3. They may request changes or ask questions
+4. Once approved, your PR can be merged
+
+**Note**: This project requires the repository owner's review and approval before any PR can be merged. Please be patient while waiting for review.
+
+We appreciate your contribution to the Travel Planner project!`
+            });
+
+            // Add "awaiting-review" label
+            await github.rest.issues.addLabels({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['awaiting-review']
+            });

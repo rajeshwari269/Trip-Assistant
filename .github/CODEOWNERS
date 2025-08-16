@@ -1,0 +1,19 @@
+# This file defines who should review and approve changes to each part of the codebase
+
+# More info: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repo
+
+# This will require Richajaishwal0 to review all PRs
+
+-       @Richajaishwal0
+
+# Specific file ownership can be added below if needed
+
+# For example:
+
+# /client/src/components/ @frontend-lead
+
+# /server/controllers/ @backend-lead
+
+# \*.md @documentation-team
