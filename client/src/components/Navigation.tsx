@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaWallet } from "react-icons/fa";
-import { FaBars, FaUser, FaSun, FaMoon } from "react-icons/fa";
+import { 
+  Home, 
+  MapPin, 
+  Users, 
+  Star, 
+  Calculator, 
+  DollarSign, 
+  Info,
+  Menu,
+  User,
+  Sun,
+  Moon
+} from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
@@ -84,9 +95,69 @@ function Navbar() {
             .navbar-brand { display: flex; align-items: center; text-decoration: none; transition: all 0.3s ease; }
 
             /* Nav Link Styling */
-            .navbar-nav .nav-link { color: #fff !important; font-size: 1.1rem; font-weight: 500; padding: 0.8rem 1.3rem; border-radius: 12px; margin: 0 0.3rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); animation: fadeInUp 0.6s ease-out; }
-            .navbar-nav .nav-link::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
-            .navbar-nav .nav-link:hover::before { left: 100%; }
+            .navbar-nav .nav-link { 
+              color: #fff !important; 
+              font-size: 1rem; 
+              font-weight: 500; 
+              padding: 0.75rem; 
+              border-radius: 16px; 
+              margin: 0 0.3rem; 
+              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+              position: relative; 
+              overflow: visible; 
+              background: rgba(255,255,255,0.08); 
+              backdrop-filter: blur(15px); 
+              border: 1px solid rgba(255,255,255,0.1); 
+              box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+              animation: fadeInUp 0.6s ease-out;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              min-height: 50px;
+              min-width: 50px;
+            }
+            .navbar-nav .nav-link .nav-icon {
+              transition: all 0.3s ease;
+            }
+            .navbar-nav .nav-link .nav-text {
+              position: absolute;
+              bottom: -45px;
+              left: 50%;
+              transform: translateX(-50%) translateY(10px);
+              background: rgba(0,0,0,0.9);
+              color: #fff;
+              padding: 8px 12px;
+              border-radius: 8px;
+              font-size: 0.75rem;
+              white-space: nowrap;
+              opacity: 0;
+              visibility: hidden;
+              transition: all 0.3s ease;
+              z-index: 1000;
+              pointer-events: none;
+            }
+            .navbar-nav .nav-link .nav-text::before {
+              content: '';
+              position: absolute;
+              top: -4px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 0;
+              height: 0;
+              border-left: 4px solid transparent;
+              border-right: 4px solid transparent;
+              border-bottom: 4px solid rgba(0,0,0,0.9);
+            }
+            .navbar-nav .nav-link:hover .nav-text {
+              opacity: 1;
+              visibility: visible;
+              transform: translateX(-50%) translateY(0);
+            }
+
+            .navbar-nav .nav-link:hover .nav-icon {
+              transform: scale(1.2) rotate(5deg);
+              filter: drop-shadow(0 4px 8px rgba(255,215,0,0.4));
+            }
             .nav-item:nth-child(1) .nav-link { animation-delay: 0.1s; }
             .nav-item:nth-child(2) .nav-link { animation-delay: 0.2s; }
             .nav-item:nth-child(3) .nav-link { animation-delay: 0.3s; }
@@ -94,7 +165,17 @@ function Navbar() {
             .nav-item:nth-child(5) .nav-link { animation-delay: 0.5s; }
             .nav-item:nth-child(6) .nav-link { animation-delay: 0.6s; }
             .nav-item:nth-child(7) .nav-link { animation-delay: 0.7s; }
-            .navbar-nav .nav-link.active, .navbar-nav .nav-link:focus, .navbar-nav .nav-link:hover { color: #2d3748 !important; background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important; font-weight: 600; box-shadow: 0 8px 25px rgba(255,215,0,0.3); transform: translateY(-2px); border: none; }
+            .navbar-nav .nav-link.active, 
+            .navbar-nav .nav-link:focus, 
+            .navbar-nav .nav-link:hover { 
+              color: #1a202c !important; 
+              background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%) !important; 
+              font-weight: 600; 
+              box-shadow: 0 12px 35px rgba(255,215,0,0.4); 
+              transform: translateY(-4px) scale(1.05); 
+              border: 1px solid rgba(255,215,0,0.3);
+            }
+
             
             /* Toggler & Action Buttons */
             .navbar-toggler { border: none; padding: 0.5rem; border-radius: 10px; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); }
@@ -112,10 +193,53 @@ function Navbar() {
             
             /* Responsive Styles */
             @media (max-width: 991.98px) {
-              .navbar-collapse { background: rgba(255,255,255,0.04); backdrop-filter: blur(15px); border-radius: 0 0 15px 15px; margin-top: 0.5rem; border: 1px solid rgba(255,255,255,0.08); border-top: none; }
+              .navbar-collapse { 
+                background: rgba(255,255,255,0.04); 
+                backdrop-filter: blur(15px); 
+                border-radius: 0 0 15px 15px; 
+                margin-top: 0.5rem; 
+                border: 1px solid rgba(255,255,255,0.08); 
+                border-top: none; 
+              }
               .navbar-collapse.show { animation: mobileMenuSlide 0.3s ease-out; }
-              .navbar-nav { width: 100%; }
-              .navbar-nav .nav-link { margin: 0.5rem 0; text-align: center; }
+              .navbar-nav { 
+                width: 100%; 
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+              }
+              .navbar-nav .nav-link { 
+                margin: 0; 
+                text-align: center;
+                flex-direction: row;
+                min-height: 50px;
+                min-width: auto;
+                width: 100%;
+                justify-content: flex-start;
+                padding: 0.75rem 1rem;
+              }
+              .navbar-nav .nav-link .nav-icon {
+                margin-bottom: 0;
+                margin-right: 12px;
+              }
+              .navbar-nav .nav-link .nav-text {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                font-size: 1rem;
+                background: none;
+                color: inherit;
+                padding: 0;
+                margin-left: 12px;
+              }
+              .navbar-nav .nav-link .nav-text::before {
+                display: none;
+              }
+              .navbar-nav .nav-link::after {
+                display: none;
+              }
             }
 
             /* Animations */
@@ -183,41 +307,44 @@ function Navbar() {
             >
               <li className="nav-item" role="none">
                 <Link className="nav-link" to="/" onClick={closeMobileNav} role="menuitem" aria-label="Home page">
-                  <i className="fas fa-home me-2 d-lg-none" aria-hidden="true"></i>Home
+                  <Home className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Home</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                 <Link className="nav-link" to="/places" onClick={closeMobileNav} role="menuitem" aria-label="Places to visit">
-                  <i className="fas fa-map-marker-alt me-2 d-lg-none" aria-hidden="true"></i>Places
+                <Link className="nav-link" to="/places" onClick={closeMobileNav} role="menuitem" aria-label="Places to visit">
+                  <MapPin className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Places</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
                 <Link className="nav-link" to="/find-friends" onClick={closeMobileNav} role="menuitem" aria-label="Find Friends">
-                  <i className="fas fa-users me-2 d-lg-none" aria-hidden="true"></i>Find Friends
+                  <Users className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Friends</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
                 <Link className="nav-link" to="/more-places" onClick={closeMobileNav} role="menuitem" aria-label="Famous Places">
-                  <i className="fas fa-star me-2 d-lg-none" aria-hidden="true"></i>Famous Places
+                  <Star className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Famous</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
                 <Link className="nav-link" to="/trip-budget" onClick={closeMobileNav} role="menuitem" aria-label="Trip Budget Estimator">
-                  <FaWallet className="me-2 d-lg-none" aria-hidden="true" />Budget Estimator
+                  <Calculator className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Budget</span>
                 </Link>
               </li>
-              
-              {/* --- RESOLVED SECTION --- */}
               <li className="nav-item" role="none">
                 <Link className="nav-link" to="/currency" onClick={closeMobileNav} role="menuitem" aria-label="Currency Converter">
-                  <FaWallet className="me-2 d-lg-none" aria-hidden="true" />Currency Converter
+                  <DollarSign className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">Currency</span>
                 </Link>
               </li>
-              {/* --- END RESOLVED SECTION --- */}
-
               <li className="nav-item" role="none">
                 <a className="nav-link" href="/about" onClick={closeMobileNav} role="menuitem" aria-label="About Us">
-                  <i className="fas fa-info-circle me-2 d-lg-none" aria-hidden="true"></i>About Us
+                  <Info className="nav-icon" size={20} aria-hidden="true" />
+                  <span className="nav-text">About</span>
                 </a>
               </li>
             </ul>
@@ -231,9 +358,9 @@ function Navbar() {
                 type="button"
               >
                 {darkMode ? (
-                  <FaSun className="text-warning" size={18} aria-hidden="true" />
+                  <Sun className="text-warning" size={18} aria-hidden="true" />
                 ) : (
-                  <FaMoon className="text-light" size={18} aria-hidden="true" />
+                  <Moon className="text-light" size={18} aria-hidden="true" />
                 )}
               </button>
 
@@ -246,9 +373,9 @@ function Navbar() {
                   aria-label="User menu"
                   aria-haspopup="true"
                 >
-                  <FaBars className="text-light me-2 d-none d-lg-inline" size={16} aria-hidden="true"/>
+                  <Menu className="text-light me-2 d-none d-lg-inline" size={16} aria-hidden="true"/>
                   <div className="rounded-circle d-flex align-items-center justify-content-center profile-icon" role="img" aria-label="User profile">
-                    <FaUser className="text-white" size={16} aria-hidden="true" />
+                    <User className="text-white" size={16} aria-hidden="true" />
                   </div>
                 </button>
                 <ul
