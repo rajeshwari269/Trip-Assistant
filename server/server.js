@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 require("dotenv").config();
 
+const connectDB = require("./config/db");
 const {
   handleServerError,
   logError,
@@ -16,18 +17,17 @@ app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
-// DB Connection check-point
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+// Database connection
+connectDB();
 
 // Routes
+const entryRoutes = require("./routes/entry-point");
 const userRoutes = require("./routes/userRoutes");
 const propertyRoutes = require("./routes/propertyRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 
 // API routes
+app.use("/entry-point", entryRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use("/api/more-places", placeRoutes);
