@@ -95,8 +95,23 @@ function Auth() {
     }
 
     const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
-    const url = isLogin ? `${apiBaseUrl}/login` : `${apiBaseUrl}/signup`;
-    const payload = { email, password, mobileNo, userName };
+    const url = isLogin ? `${apiBaseUrl}/api/users/login` : `${apiBaseUrl}/api/users/signup`;
+    
+    // Fix payload structure to match server expectations
+    const payload = isLogin 
+      ? { email, password }
+      : { user_name: userName, email, password, mobile_no: mobileNo };
+    
+    // Check if server is reachable
+    try {
+      await fetch(`${apiBaseUrl}/api/users`, { 
+        method: 'HEAD',
+        signal: AbortSignal.timeout(5000)
+      });
+    } catch (serverError) {
+      setAuthError(`Cannot connect to server at ${apiBaseUrl}. Please ensure the backend server is running on port 5000.`);
+      return;
+    }
     
     setIsSubmitting(true);
     
@@ -115,10 +130,23 @@ function Auth() {
       
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
-        localStorage.setItem("user_id", data.user_id);//nd
+        
+        // Fix response data access - server returns data.data.user.id
+        const userId = data.data?.user?.id || data.user?.id || data.user_id;
+        if (userId) {
+          localStorage.setItem("user_id", userId);
+        }
+        
+        // Store token if available
+        const token = data.data?.token || data.token;
+        if (token) {
+          localStorage.setItem("auth_token", token);
+        }
+        
         navigate("/places");
       } else {
-let errorMsg = data.message || "Authentication failed. Please check your credentials.";
+        // Fix error message extraction - server returns data.message
+        let errorMsg = data.message || data.data?.message || "Authentication failed. Please check your credentials.";
         
         // Add helpful hints for common login issues
         if (!isLogin) {
@@ -133,12 +161,13 @@ let errorMsg = data.message || "Authentication failed. Please check your credent
           }
           setAuthError(errorMsg);
         }
-        if (isLogin && data.message.toLowerCase().includes("not registered")) {
-    setTimeout(() => {
-      navigate("/auth", { state: { isLogin: false } }); // switch to signup
-    }, 20); // give user time to see error toast
-    
-  }
+        
+        if (isLogin && errorMsg.toLowerCase().includes("not registered")) {
+          setTimeout(() => {
+            navigate("/auth", { state: { isLogin: false } }); // switch to signup
+          }, 2000); // give user time to see error toast
+        }
+        
         showError(errorMsg);
       }
     } catch (error) {
@@ -154,6 +183,10 @@ let errorMsg = data.message || "Authentication failed. Please check your credent
           errorMsg = `Cannot connect to server. Make sure the backend is running on ${apiBaseUrl}.\n\nFor demo, try:\nEmail: test@example.com\nPassword: password123`;
         }
       }
+      
+      console.error('Auth error:', error);
+      console.log('API URL attempted:', url);
+      console.log('Payload sent:', payload);
       
       setAuthError(errorMsg);
       handleError(error, errorMsg);
