@@ -10,34 +10,31 @@ router.post("/", async (req, res) => {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    // Increment activity count
-    user.activityCount = (user.activityCount || 0) + 1;
+    // Increment activity count (locally to check for badges)
+    const nextActivityCount = (user.activityCount || 0) + 1;
 
-    // Collect new badges
+    // Find new badges the user qualifies for
     const newBadges = [];
     badges.forEach(badge => {
-      if (user.activityCount >= badge.threshold && !user.badges.includes(badge.imageUrl)) {
+      if (nextActivityCount >= badge.threshold && !user.badges.includes(badge.imageUrl)) {
         newBadges.push(badge.imageUrl);
       }
     });
 
-    if (newBadges.length > 0) {
-      // Atomic update to avoid duplicates
-      await User.updateOne(
-        { _id: user._id },
-        { $addToSet: { badges: { $each: newBadges } }, $set: { activityCount: user.activityCount } }
-      );
-    } else {
-      // If no new badges, just update activityCount
-      await User.updateOne(
-        { _id: user._id },
-        { $set: { activityCount: user.activityCount } }
-      );
-    }
+    // Update atomically: increment activity and add new badges (if any)
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $inc: { activityCount: 1 },//manual update may cause race conditions, hence using $inc and mongoDb will handle it
+        $addToSet: { badges: { $each: newBadges } }
+      }
+    );
 
-    res.json({ message: "Activity updated" });
+    res.json({
+      message: "Activity updated"
+    });
   } catch (err) {
-    console.error(err);
+    console.error("Error updating activity:", err);
     res.status(500).json({ message: "Server error" });
   }
 });

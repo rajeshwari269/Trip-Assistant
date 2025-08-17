@@ -53,12 +53,13 @@ const Places: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
   //updating user's activity by calling backend api for places activity
   useEffect(() => {
     const userId = localStorage.getItem("user_id");
     if (!userId) return; // No user logged in
 
-    axios.post("http://localhost:5000/api/user/activity", { userId })
+    axios.post(`${apiBaseUrl}/api/user/activity`, { userId })
       .then(res => console.log("Activity updated:", res.data))
       .catch(err => console.error("Error updating activity", err));
   }, []);
