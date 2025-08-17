@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import "./home.css";
 import PlaceCard from "../components/placeCard";
 import {
-  FaMapMarkerAlt,
-  FaUsers,
   FaCompass,
   FaArrowRight,
   FaStar,
   FaGlobeAmericas,
+  FaRocket,
+  FaHeart,
 } from "react-icons/fa";
 
 const Home: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
   // Hero images array with high-quality travel photos
   const heroImages = [
@@ -50,6 +51,19 @@ const Home: React.FC = () => {
       attributeFilter: ["class"],
     });
 
+    // Scroll observer for animations
+    const handleScroll = () => {
+      const featuresSection = document.querySelector(".features-section");
+      if (featuresSection) {
+        const rect = featuresSection.getBoundingClientRect();
+        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+        setIsVisible(isInView);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Check initial state
+
     // Auto-slide functionality
     const slideInterval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroImages.length);
@@ -57,6 +71,7 @@ const Home: React.FC = () => {
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
       clearInterval(slideInterval);
     };
   }, [heroImages.length]);
@@ -108,7 +123,21 @@ const Home: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section
+        className={`features-section ${darkMode ? "dark-mode" : ""} ${
+          isVisible ? "animate-in" : ""
+        }`}
+      >
+        {/* Floating Geometric Elements */}
+        <div className="floating-shapes">
+          <div className="floating-shape shape-1"></div>
+          <div className="floating-shape shape-2"></div>
+          <div className="floating-shape shape-3"></div>
+          <div className="floating-shape shape-4"></div>
+          <div className="floating-shape shape-5"></div>
+          <div className="floating-shape shape-6"></div>
+        </div>
+
         <div className="container">
           <div className="section-header">
             <h2>Why Choose Trip Planner?</h2>
@@ -116,38 +145,44 @@ const Home: React.FC = () => {
           </div>
 
           <div className="features-grid">
-            <div className="feature-card">
+            <div className="feature-card" data-animation-delay="0">
               <div className="feature-icon">
-                <FaMapMarkerAlt />
+                <FaRocket />
               </div>
               <h3>Smart Destination Discovery</h3>
               <p>
                 Discover amazing places with our AI-powered recommendation
-                system
+                system that learns your preferences
               </p>
             </div>
 
-            <div className="feature-card">
+            <div className="feature-card" data-animation-delay="200">
               <div className="feature-icon">
-                <FaUsers />
+                <FaHeart />
               </div>
               <h3>Connect with Travelers</h3>
-              <p>Meet fellow adventurers and plan trips together</p>
+              <p>
+                Meet fellow adventurers and plan trips together in our vibrant
+                community
+              </p>
             </div>
 
-            <div className="feature-card">
+            <div className="feature-card" data-animation-delay="400">
               <div className="feature-icon">
                 <FaGlobeAmericas />
               </div>
               <h3>Global Coverage</h3>
-              <p>Access information about destinations worldwide</p>
+              <p>
+                Access comprehensive information about destinations worldwide
+                with real-time updates
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="stats-section">
+      <section className={`stats-section ${darkMode ? "dark-mode" : ""}`}>
         <div className="container">
           <div className="stats-grid">
             <div className="stat-item">
@@ -173,7 +208,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Popular Places Section */}
-      <section className="places-section">
+      <section className={`places-section ${darkMode ? "dark-mode" : ""}`}>
         <div className="container">
           <div className="section-header">
             <h2>Popular Destinations</h2>
@@ -184,7 +219,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="cta-section">
+      <section className={`cta-section ${darkMode ? "dark-mode" : ""}`}>
         <div className="container">
           <div className="cta-content">
             <h2>Ready to Start Your Adventure?</h2>

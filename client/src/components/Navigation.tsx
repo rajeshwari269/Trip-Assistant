@@ -7,7 +7,6 @@ import {
   Star,
   Calculator,
   DollarSign,
-  Info,
   Menu,
   User,
   Sun,
@@ -430,7 +429,6 @@ function Navbar() {
                   <span className="nav-text">Currency</span>
                 </Link>
               </li>
-
             </ul>
 
             {/* --- Right Side Icons --- */}
