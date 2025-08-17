@@ -16,6 +16,7 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    console.log(user)
 
     if (!user) {
       return res.status(401).json({
@@ -51,7 +52,8 @@ const login = async (req, res) => {
 
     return sendSuccess(res, { user: userData, token }, "Login successful");
   } catch (error) {
-    return handleServerError(error, "Login error", res);
+    console.log(error)
+    // return handleServerError(error, "Login error", res);
   }
 };
 
