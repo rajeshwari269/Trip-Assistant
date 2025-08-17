@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { 
-  Home, 
-  MapPin, 
-  Users, 
-  Star, 
-  Calculator, 
-  DollarSign, 
-  Info,
+import {
+  Home,
+  MapPin,
+  Users,
+  Star,
+  Calculator,
+  DollarSign,
   Menu,
   User,
   Sun,
-  Moon
+  Moon,
 } from "lucide-react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
@@ -58,10 +57,10 @@ function Navbar() {
       <nav
         className="navbar navbar-expand-lg fixed-top"
         style={{
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          backdropFilter: "blur(10px)",
-          borderBottom: "1px solid rgba(255,255,255,0.1)",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+          backgroundColor: "#1a237e",
+          backdropFilter: "none",
+          borderBottom: "none",
+          boxShadow: "none",
           zIndex: "1030",
         }}
         role="navigation"
@@ -70,11 +69,13 @@ function Navbar() {
         {/* All CSS is inlined via the <style> tag for component portability */}
         <style>
           {`
+            /* Set consistent dark blue background */
+            .navbar { background-color: #1a237e !important; }
+            
             /* Accessibility & Base Styles */
             .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
             .navbar-nav .nav-link:focus, .action-btn:focus, .dropdown-toggle:focus, .dropdown-item:focus, .navbar-brand:focus { outline: 2px solid #FAD700 !important; outline-offset: 2px !important; box-shadow: 0 0 0 0.2rem rgba(250, 215, 0, 0.25) !important; }
-            .skip-link { position: absolute; top: -40px; left: 6px; background: #000; color: #fff; padding: 8px; text-decoration: none; border-radius: 4px; z-index: 9999; }
-            .skip-link:focus { top: 6px; }
+
 
             /* Media Preference Queries */
             @media (prefers-contrast: high) {
@@ -105,10 +106,10 @@ function Navbar() {
               transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
               position: relative; 
               overflow: visible; 
-              background: rgba(255,255,255,0.08); 
-              backdrop-filter: blur(15px); 
-              border: 1px solid rgba(255,255,255,0.1); 
-              box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+              background: transparent; 
+              backdrop-filter: none; 
+              border: none; 
+              box-shadow: none; 
               animation: fadeInUp 0.6s ease-out;
               display: flex;
               align-items: center;
@@ -158,13 +159,7 @@ function Navbar() {
               transform: scale(1.2) rotate(5deg);
               filter: drop-shadow(0 4px 8px rgba(255,215,0,0.4));
             }
-            .nav-item:nth-child(1) .nav-link { animation-delay: 0.1s; }
-            .nav-item:nth-child(2) .nav-link { animation-delay: 0.2s; }
-            .nav-item:nth-child(3) .nav-link { animation-delay: 0.3s; }
-            .nav-item:nth-child(4) .nav-link { animation-delay: 0.4s; }
-            .nav-item:nth-child(5) .nav-link { animation-delay: 0.5s; }
-            .nav-item:nth-child(6) .nav-link { animation-delay: 0.6s; }
-            .nav-item:nth-child(7) .nav-link { animation-delay: 0.7s; }
+
             .navbar-nav .nav-link.active, 
             .navbar-nav .nav-link:focus, 
             .navbar-nav .nav-link:hover { 
@@ -178,28 +173,27 @@ function Navbar() {
 
             
             /* Toggler & Action Buttons */
-            .navbar-toggler { border: none; padding: 0.5rem; border-radius: 10px; background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12); }
+            .navbar-toggler { border: none; padding: 0.5rem; border-radius: 10px; background: transparent; backdrop-filter: none; }
             .navbar-toggler:focus { box-shadow: 0 0 0 0.2rem rgba(255,255,255,0.25); }
             .navbar-toggler-icon { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='m4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); }
-            .action-btn { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: none; border-radius: 12px; padding: 0.6rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 15px rgba(0,0,0,0.06); min-height: 44px; min-width: 44px; }
+            .action-btn { background: transparent; backdrop-filter: none; border: none; border-radius: 12px; padding: 0.6rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: none; min-height: 44px; min-width: 44px; }
             .action-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px) scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
             .action-btn:active { transform: translateY(0) scale(0.95); }
             .profile-icon { width: 35px; height: 35px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: 2px solid rgba(255,255,255,0.3); }
 
             /* Dropdown Menu */
-            .dropdown-menu { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); padding: 0.5rem; }
+            .dropdown-menu { background: #1a237e; backdrop-filter: none; border: none; border-radius: 15px; box-shadow: none; padding: 0.5rem; }
             .dropdown-item { border-radius: 8px; margin: 0.2rem 0; transition: all 0.2s ease; min-height: 44px; display: flex; align-items: center; }
             .dropdown-item:hover { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; transform: translateX(5px); }
             
             /* Responsive Styles */
             @media (max-width: 991.98px) {
               .navbar-collapse { 
-                background: rgba(255,255,255,0.04); 
-                backdrop-filter: blur(15px); 
-                border-radius: 0 0 15px 15px; 
+                background: #1a237e; 
+                backdrop-filter: none; 
+                border-radius: 0; 
                 margin-top: 0.5rem; 
-                border: 1px solid rgba(255,255,255,0.08); 
-                border-top: none; 
+                border: none; 
               }
               .navbar-collapse.show { animation: mobileMenuSlide 0.3s ease-out; }
               .navbar-nav { 
@@ -237,9 +231,7 @@ function Navbar() {
               .navbar-nav .nav-link .nav-text::before {
                 display: none;
               }
-              .navbar-nav .nav-link::after {
-                display: none;
-              }
+
             }
 
             /* Animations */
@@ -252,7 +244,11 @@ function Navbar() {
         </style>
 
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/" aria-label="Trip Assistant - Go to homepage">
+          <Link
+            className="navbar-brand"
+            to="/"
+            aria-label="Trip Assistant - Go to homepage"
+          >
             <div className="logo-container">
               <div className="logo-icon">
                 <svg
@@ -265,22 +261,70 @@ function Navbar() {
                   focusable="false"
                 >
                   <defs>
-                    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient1"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop offset="0%" stopColor="#667eea" />
                       <stop offset="100%" stopColor="#764ba2" />
                     </linearGradient>
-                    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient
+                      id="gradient2"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
                       <stop offset="0%" stopColor="#FFD700" />
                       <stop offset="100%" stopColor="#FFA500" />
                     </linearGradient>
                   </defs>
-                  <rect x="8" y="8" width="24" height="24" rx="3" fill="url(#gradient1)" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-                  <path d="M12 16h16 M12 20h16 M12 24h16 M16 12v16 M20 12v16 M24 12v16" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
+                  <rect
+                    x="8"
+                    y="8"
+                    width="24"
+                    height="24"
+                    rx="3"
+                    fill="url(#gradient1)"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="1"
+                  />
+                  <path
+                    d="M12 16h16 M12 20h16 M12 24h16 M16 12v16 M20 12v16 M24 12v16"
+                    stroke="rgba(255,255,255,0.2)"
+                    strokeWidth="0.5"
+                  />
                   <circle cx="20" cy="18" r="2" fill="url(#gradient2)" />
-                  <path d="M20 20v6" stroke="url(#gradient2)" strokeWidth="2" strokeLinecap="round" />
-                  <circle cx="28" cy="12" r="3" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5"/>
-                  <path d="M28 9v6M25 12h6" stroke="rgba(255,255,255,0.6)" strokeWidth="1" strokeLinecap="round" />
-                  <path d="M12 28c2-2 4-1 8-1s6-1 8 1" stroke="url(#gradient2)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  <path
+                    d="M20 20v6"
+                    stroke="url(#gradient2)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <circle
+                    cx="28"
+                    cy="12"
+                    r="3"
+                    fill="rgba(255,255,255,0.1)"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="0.5"
+                  />
+                  <path
+                    d="M28 9v6M25 12h6"
+                    stroke="rgba(255,255,255,0.6)"
+                    strokeWidth="1"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M12 28c2-2 4-1 8-1s6-1 8 1"
+                    stroke="url(#gradient2)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    fill="none"
+                  />
                 </svg>
               </div>
             </div>
@@ -306,46 +350,84 @@ function Navbar() {
               aria-label="Main menu"
             >
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/" onClick={closeMobileNav} role="menuitem" aria-label="Home page">
+                <Link
+                  className="nav-link"
+                  to="/"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Home page"
+                >
                   <Home className="nav-icon" size={20} aria-hidden="true" />
                   <span className="nav-text">Home</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/places" onClick={closeMobileNav} role="menuitem" aria-label="Places to visit">
+                <Link
+                  className="nav-link"
+                  to="/places"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Places to visit"
+                >
                   <MapPin className="nav-icon" size={20} aria-hidden="true" />
                   <span className="nav-text">Places</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/find-friends" onClick={closeMobileNav} role="menuitem" aria-label="Find Friends">
+                <Link
+                  className="nav-link"
+                  to="/find-friends"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Find Friends"
+                >
                   <Users className="nav-icon" size={20} aria-hidden="true" />
                   <span className="nav-text">Friends</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/more-places" onClick={closeMobileNav} role="menuitem" aria-label="Famous Places">
+                <Link
+                  className="nav-link"
+                  to="/more-places"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Famous Places"
+                >
                   <Star className="nav-icon" size={20} aria-hidden="true" />
                   <span className="nav-text">Famous</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/trip-budget" onClick={closeMobileNav} role="menuitem" aria-label="Trip Budget Estimator">
-                  <Calculator className="nav-icon" size={20} aria-hidden="true" />
+                <Link
+                  className="nav-link"
+                  to="/trip-budget"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Trip Budget Estimator"
+                >
+                  <Calculator
+                    className="nav-icon"
+                    size={20}
+                    aria-hidden="true"
+                  />
                   <span className="nav-text">Budget</span>
                 </Link>
               </li>
               <li className="nav-item" role="none">
-                <Link className="nav-link" to="/currency" onClick={closeMobileNav} role="menuitem" aria-label="Currency Converter">
-                  <DollarSign className="nav-icon" size={20} aria-hidden="true" />
+                <Link
+                  className="nav-link"
+                  to="/currency"
+                  onClick={closeMobileNav}
+                  role="menuitem"
+                  aria-label="Currency Converter"
+                >
+                  <DollarSign
+                    className="nav-icon"
+                    size={20}
+                    aria-hidden="true"
+                  />
                   <span className="nav-text">Currency</span>
                 </Link>
-              </li>
-              <li className="nav-item" role="none">
-                <a className="nav-link" href="/about" onClick={closeMobileNav} role="menuitem" aria-label="About Us">
-                  <Info className="nav-icon" size={20} aria-hidden="true" />
-                  <span className="nav-text">About</span>
-                </a>
               </li>
             </ul>
 
@@ -354,7 +436,9 @@ function Navbar() {
               <button
                 className="btn action-btn d-flex align-items-center justify-content-center me-2"
                 onClick={toggleDarkMode}
-                aria-label={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                aria-label={
+                  darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"
+                }
                 type="button"
               >
                 {darkMode ? (
@@ -373,8 +457,16 @@ function Navbar() {
                   aria-label="User menu"
                   aria-haspopup="true"
                 >
-                  <Menu className="text-light me-2 d-none d-lg-inline" size={16} aria-hidden="true"/>
-                  <div className="rounded-circle d-flex align-items-center justify-content-center profile-icon" role="img" aria-label="User profile">
+                  <Menu
+                    className="text-light me-2 d-none d-lg-inline"
+                    size={16}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="rounded-circle d-flex align-items-center justify-content-center profile-icon"
+                    role="img"
+                    aria-label="User profile"
+                  >
                     <User className="text-white" size={16} aria-hidden="true" />
                   </div>
                 </button>
@@ -384,21 +476,54 @@ function Navbar() {
                   aria-label="User account menu"
                 >
                   <li role="none">
-                    <button className="dropdown-item fw-bold" onClick={() => { closeMobileNav(); navigate("/auth", { state: { isLogin: false } }); }} role="menuitem" type="button">
-                      <i className="fas fa-user-plus me-2" aria-hidden="true"></i>Sign up
+                    <button
+                      className="dropdown-item fw-bold"
+                      onClick={() => {
+                        closeMobileNav();
+                        navigate("/auth", { state: { isLogin: false } });
+                      }}
+                      role="menuitem"
+                      type="button"
+                    >
+                      <i
+                        className="fas fa-user-plus me-2"
+                        aria-hidden="true"
+                      ></i>
+                      Sign up
                     </button>
                   </li>
                   <li role="none">
-                    <button className="dropdown-item" onClick={() => { closeMobileNav(); navigate("/auth", { state: { isLogin: true } }); }} role="menuitem" type="button">
-                      <i className="fas fa-sign-in-alt me-2" aria-hidden="true"></i>Log in
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        closeMobileNav();
+                        navigate("/auth", { state: { isLogin: true } });
+                      }}
+                      role="menuitem"
+                      type="button"
+                    >
+                      <i
+                        className="fas fa-sign-in-alt me-2"
+                        aria-hidden="true"
+                      ></i>
+                      Log in
                     </button>
                   </li>
                   <li role="separator">
                     <hr className="my-2" />
                   </li>
                   <li role="none">
-                    <Link className="dropdown-item" to="/help" onClick={closeMobileNav} role="menuitem">
-                      <i className="fas fa-question-circle me-2" aria-hidden="true"></i>Help Centre
+                    <Link
+                      className="dropdown-item"
+                      to="/help"
+                      onClick={closeMobileNav}
+                      role="menuitem"
+                    >
+                      <i
+                        className="fas fa-question-circle me-2"
+                        aria-hidden="true"
+                      ></i>
+                      Help Centre
                     </Link>
                   </li>
                 </ul>

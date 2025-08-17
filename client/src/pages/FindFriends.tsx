@@ -1,5 +1,6 @@
-import React from "react";
-import { useState } from "react";
+import * as React from "react";
+import { useState , useEffect } from "react";
+import axios from "axios";
 import {
   FaUserFriends,
   FaUserPlus,
@@ -109,6 +110,16 @@ const UserCard: React.FC<{ user: (typeof users)[0] }> = ({ user }) => {
         boxShadow: '0 4px 24px #23294644',
       }
     : {};
+const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
+  //updating user's activity by calling backend api for findfriends activity
+    useEffect(() => {
+      const userId = localStorage.getItem("user_id");
+      if (!userId) return; // No user logged in
+  
+      axios.post(`${apiBaseUrl}/api/user/activity`, { userId })
+        .then(res => console.log("Activity updated:", res.data))
+        .catch(err => console.error("Error updating activity", err));
+    }, []);
 
   return (
     <div className="card" style={cardStyle}>
