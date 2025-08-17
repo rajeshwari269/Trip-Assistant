@@ -477,7 +477,7 @@ function Navbar() {
                 >
                   <li role="none">
                     <button
-                      className="dropdown-item fw-bold"
+                      className="dropdown-item fw-bold dropdown-item-white"
                       onClick={() => {
                         closeMobileNav();
                         navigate("/auth", { state: { isLogin: false } });
@@ -494,7 +494,7 @@ function Navbar() {
                   </li>
                   <li role="none">
                     <button
-                      className="dropdown-item"
+                      className="dropdown-item dropdown-item-white"
                       onClick={() => {
                         closeMobileNav();
                         navigate("/auth", { state: { isLogin: true } });
