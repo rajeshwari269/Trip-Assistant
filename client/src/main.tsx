@@ -1,5 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+// Import Tailwind CSS
+import "./index.css";
 // Only import critical bootstrap CSS at initial load
 // Other bootstrap components will be loaded when needed
 import "bootstrap/dist/css/bootstrap.min.css";
