@@ -5,16 +5,17 @@ const { handleServerError, sendSuccess } = require("../utils/errorHandler");
 
 // Login controller
 const login = async (req, res) => {
-  const { email, password } = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: "Email and password are required",
-    });
-  }
-
   try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Email and password are required",
+      });
+    }
+
+    // Find user by email using MongoDB
     const user = await User.findOne({ email });
     console.log(user)
 
@@ -48,6 +49,8 @@ const login = async (req, res) => {
       email: user.email,
       user_name: user.user_name,
       mobile_no: user.mobile_no,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt
     };
 
     return sendSuccess(res, { user: userData, token }, "Login successful");
@@ -59,22 +62,22 @@ const login = async (req, res) => {
 
 // Register controller
 const register = async (req, res) => {
-  const {
-    userName: user_name,
-    email,
-    password,
-    mobileNo: mobile_no,
-  } = req.body;
-
-  if (!user_name || !email || !password || !mobile_no) {
-    return res.status(400).json({
-      success: false,
-      message: "All fields are required",
-    });
-  }
-
   try {
-    // Check if email already exists
+    const {
+      userName: user_name,
+      email,
+      password,
+      mobileNo: mobile_no,
+    } = req.body;
+
+    if (!user_name || !email || !password || !mobile_no) {
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
+    }
+
+    // Check if email already exists using MongoDB
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -87,7 +90,7 @@ const register = async (req, res) => {
     // Hash the password securely before storing
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // Create new user
+    // Create new user with MongoDB
     const user = await User.create({
       user_name,
       email,
