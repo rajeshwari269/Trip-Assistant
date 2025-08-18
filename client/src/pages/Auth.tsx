@@ -104,25 +104,6 @@ function Auth() {
       setAuthError(`Cannot connect to server at ${apiBaseUrl}. Please ensure the backend server is running on port 5000.`);
       return;
     }
-// ...existing code...
-    const url = isLogin ? `${apiBaseUrl}/api/users/login` : `${apiBaseUrl}/api/users/signup`;
-    
-    // Fix payload structure to match server expectations
-    const payload = isLogin 
-      ? { email, password }
-      : { user_name: userName, email, password, mobile_no: mobileNo };
-    
-    // Check if server is reachable
-    try {
-      await fetch(`${apiBaseUrl}/api/users`, { 
-        method: 'HEAD',
-        signal: AbortSignal.timeout(5000)
-      });
-    } catch (serverError) {
-      setAuthError(`Cannot connect to server at ${apiBaseUrl}. Please ensure the backend server is running on port 5000.`);
-      return;
-    }
-// ...existing code...
 
     setIsSubmitting(true);
 
@@ -151,21 +132,6 @@ function Auth() {
         if (token) {
           localStorage.setItem("auth_token", token);
         }
-// ...existing code...
-        
-        // Fix response data access - server returns data.data.user.id
-        const userId = data.data?.user?.id || data.user?.id || data.user_id;
-        if (userId) {
-          localStorage.setItem("user_id", userId);
-        }
-        
-        // Store token if available
-        const token = data.data?.token || data.token;
-        if (token) {
-          localStorage.setItem("auth_token", token);
-        }
-        
-// ...existing code...
         navigate("/places");
       } else {
         // Fix error message extraction - server returns data.message
