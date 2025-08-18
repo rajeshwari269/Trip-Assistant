@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
-import PlaceCard from "../components/placeCard";
 import {
   FaCompass,
   FaArrowRight,
@@ -207,16 +206,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Popular Places Section */}
-      <section className={`places-section ${darkMode ? "dark-mode" : ""}`}>
-        <div className="container">
-          <div className="section-header">
-            <h2>Popular Destinations</h2>
-            <p>Explore the most loved destinations by our community</p>
-          </div>
-        </div>
-        <PlaceCard />
-      </section>
+      {/* Popular Places Section removed from Home. Now only in Places page. */}
 
       {/* Call to Action Section */}
       <section className={`cta-section ${darkMode ? "dark-mode" : ""}`}>
