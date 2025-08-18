@@ -8,7 +8,6 @@ import { isOnline } from "../utils/networkUtils";
 function Auth() {
   const location = useLocation();
   const navigate = useNavigate();
-
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +23,6 @@ function Auth() {
     phone: string
   ): { isValid: boolean; error: string | null } => {
     const cleanPhone = phone.replace(/\D/g, "");
-
     if (!phone.trim()) {
       return { isValid: false, error: "Phone number is required" };
     }
@@ -37,10 +35,7 @@ function Auth() {
     if (cleanPhone.length > 15) {
       return { isValid: false, error: "Phone number cannot exceed 15 digits" };
     }
-
-    const phonePattern =
-      /^(\+?\d{1,3}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
-
+    const phonePattern = /^(\+?\d{1,3}[-.\s]?)?(\(?\d{1,4}\)?[-.\s]?)?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/;
     if (!phonePattern.test(phone)) {
       return {
         isValid: false,
@@ -93,15 +88,32 @@ function Auth() {
     }
 
     const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
-    const url = isLogin ? `${apiBaseUrl}/entry-point/login` : `${apiBaseUrl}/entry-point/signup`;
-    const payload = { email, password, mobileNo, userName };
+    const url = isLogin ? `${apiBaseUrl}/api/users/login` : `${apiBaseUrl}/api/users/signup`;
+    
+    // Fix payload structure to match server expectations
+    const payload = isLogin 
+      ? { email, password }
+      : { user_name: userName, email, password, mobile_no: mobileNo };
+    
+    // Check if server is reachable
+    try {
+      await fetch(`${apiBaseUrl}/api/users`, { 
+        method: 'HEAD',
+        signal: AbortSignal.timeout(5000)
+      });
+    } catch (serverError) {
+      setAuthError(`Cannot connect to server at ${apiBaseUrl}. Please ensure the backend server is running on port 5000.`);
+      return;
+    }
 
     setIsSubmitting(true);
 
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(payload),
         signal: AbortSignal.timeout(10000),
       });
@@ -110,59 +122,63 @@ function Auth() {
 
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
-        localStorage.setItem("user_id", data.user_id);
+        
+        // Fix response data access - server returns data.data.user.id
+        const userId = data.data?.user?.id || data.user?.id || data.user_id;
+        if (userId) {
+          localStorage.setItem("user_id", userId);
+        }
+        
+        // Store token if available
+        const token = data.data?.token || data.token;
+        if (token) {
+          localStorage.setItem("auth_token", token);
+        }
+        
         navigate("/places");
       } else {
-        let errorMsg =
-          data.message ||
-          "Authentication failed. Please check your credentials.";
-
+        // Fix error message extraction - server returns data.message
+        let errorMsg = data.message || data.data?.message || "Authentication failed. Please check your credentials.";
+        
+        // Add helpful hints for common login issues
         if (!isLogin) {
           setAuthError(errorMsg);
         } else {
           if (errorMsg.includes("Invalid email or password")) {
-            errorMsg = `Invalid credentials. Try demo account:
-Email: test@example.com
-Password: password123`;
+            errorMsg = `Invalid credentials. Try demo account:\nEmail: test@example.com\nPassword: password123`;
           } else if (
-            errorMsg.includes("User not found") ||
-            response.status === 404
+            errorMsg.includes("User not found") || response.status === 404
           ) {
-            errorMsg = `Account not found. Use demo account:
-Email: test@example.com
-Password: password123`;
+            errorMsg = `Account not found. Use demo account:\nEmail: test@example.com\nPassword: password123`;
           }
           setAuthError(errorMsg);
         }
-
-        if (
-          isLogin &&
-          data.message?.toLowerCase?.().includes("not registered")
-        ) {
+        
+        if (isLogin && errorMsg.toLowerCase().includes("not registered")) {
           setTimeout(() => {
-            navigate("/auth", { state: { isLogin: false } });
-          }, 20);
+            navigate("/auth", { state: { isLogin: false } }); // switch to signup
+          }, 2000); // give user time to see error toast
         }
+        
         showError(errorMsg);
       }
     } catch (error) {
-      let errorMsg = isLogin
-        ? "Unable to log in at this time. Please try again later."
+      let errorMsg = isLogin 
+        ? "Unable to log in at this time. Please try again later." 
         : "Unable to create your account at this time. Please try again later.";
-
+      
       if (error instanceof Error) {
         if (error.name === "AbortError") {
-          errorMsg =
-            "Request timed out. Please check your internet connection and try again.";
+          errorMsg = "Request timed out. Please check your internet connection and try again.";
         } else if (error.message.includes("fetch")) {
-          errorMsg = `Cannot connect to server. Make sure the backend is running on ${apiBaseUrl}.
-
-For demo, try:
-Email: test@example.com
-Password: password123`;
+          errorMsg = `Cannot connect to server. Make sure the backend is running on ${apiBaseUrl}.\n\nFor demo, try:\nEmail: test@example.com\nPassword: password123`;
         }
       }
-
+      
+      console.error('Auth error:', error);
+      console.log('API URL attempted:', url);
+      console.log('Payload sent:', payload);
+      
       setAuthError(errorMsg);
       handleError(error, errorMsg);
     } finally {
@@ -255,11 +271,7 @@ Password: password123`;
                 id="phone"
                 type="tel"
                 className={`form-control rounded-4 shadow-sm px-3 py-2 ${
-                  phoneError
-                    ? "is-invalid"
-                    : mobileNo && !phoneError
-                    ? "is-valid"
-                    : "border-0"
+                  phoneError ? "is-invalid" : mobileNo && !phoneError ? "is-valid" : "border-0"
                 }`}
                 style={{ transition: "all 0.3s ease-in-out" }}
                 placeholder="Enter your phone number (e.g., +1-234-567-8900)"
@@ -275,22 +287,14 @@ Password: password123`;
                 Enter with country code (e.g., +1-2XXXXX, +91 XXXXX)
               </div>
               {phoneError && (
-                <div
-                  id="phone-error"
-                  className="invalid-feedback d-block"
-                  role="alert"
-                >
-                  <span className="me-1" aria-hidden="true">
-                    ⚠️
-                  </span>
+                <div id="phone-error" className="invalid-feedback d-block" role="alert">
+                  <span className="me-1" aria-hidden="true">⚠️</span>
                   {phoneError}
                 </div>
               )}
               {!phoneError && mobileNo && (
                 <div className="valid-feedback d-block">
-                  <span className="me-1" aria-hidden="true">
-                    ✅
-                  </span>
+                  <span className="me-1" aria-hidden="true">✅</span>
                   Phone number format looks good!
                 </div>
               )}
@@ -332,16 +336,12 @@ Password: password123`;
                 required
                 aria-describedby="confirmPassword-help"
                 aria-invalid={
-                  authError ||
-                  (password !== confirmPassword && !!confirmPassword)
+                  authError || (password !== confirmPassword && !!confirmPassword)
                     ? "true"
                     : "false"
                 }
               />
-              <div
-                id="confirmPassword-help"
-                className="form-text text-muted small"
-              >
+              <div id="confirmPassword-help" className="form-text text-muted small">
                 Re-enter your password to confirm.
               </div>
             </div>
@@ -356,9 +356,7 @@ Password: password123`;
               aria-atomic="true"
             >
               <div className="alert alert-danger d-flex align-items-center mb-0">
-                <div className="me-2" aria-hidden="true">
-                  ⚠️
-                </div>
+                <div className="me-2" aria-hidden="true">⚠️</div>
                 <div style={{ whiteSpace: "pre-line" }}>{authError}</div>
               </div>
             </div>
@@ -377,7 +375,9 @@ Password: password123`;
             onMouseOver={(e) =>
               (e.currentTarget.style.transform = "scale(1.02)")
             }
-            onMouseOut={(e) => (e.currentTarget.style.transform = "scale(1)")}
+            onMouseOut={(e) =>
+              (e.currentTarget.style.transform = "scale(1)")
+            }
             disabled={isSubmitting}
             aria-describedby="submit-help"
           >
@@ -396,10 +396,6 @@ Password: password123`;
               "Sign Up"
             )}
           </button>
-
-          {/* <div id="submit-help" className="form-text text-dark text-center mt-2">
-            {isLogin ? "Click to access your account." : "Click to create your new account."}
-          </div> */}
         </form>
 
         {/* --- Toggle Login/Signup --- */}
