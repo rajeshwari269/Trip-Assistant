@@ -93,7 +93,9 @@ function Auth() {
     }
 
     const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
-    const url = isLogin ? `${apiBaseUrl}/entry-point/login` : `${apiBaseUrl}/entry-point/signup`;
+    const url = isLogin
+      ? `${apiBaseUrl}/api/users/login`
+      : `${apiBaseUrl}/api/users/signup`;
     const payload = { email, password, mobileNo, userName };
 
     setIsSubmitting(true);
@@ -110,7 +112,14 @@ function Auth() {
 
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
-        localStorage.setItem("user_id", data.user_id);
+        const userId = data?.data?.user?.id ?? data?.user?.id ?? data?.user_id;
+        if (userId) {
+          localStorage.setItem("user_id", String(userId));
+        }
+        const token = data?.data?.token ?? data?.token;
+        if (token) {
+          localStorage.setItem("token", token);
+        }
         navigate("/places");
       } else {
         let errorMsg =
