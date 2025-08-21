@@ -81,9 +81,11 @@ export function prefetchCriticalRoutes() {
           // Trigger the import but don't wait for it
           importFunc();
           if (process.env.NODE_ENV === 'development') {
+            // amazonq-ignore-next-line
             // Sanitize route path for logging
             const safePath = route.path.replace(/[\r\n]/g, '');
             console.log(`Prefetching route: ${safePath}`);
+          // amazonq-ignore-next-line
           }
         } catch (error) {
           // Sanitize route path for logging

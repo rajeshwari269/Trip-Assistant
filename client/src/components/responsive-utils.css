@@ -234,6 +234,7 @@
   border-radius: 25px;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .search-responsive input {
@@ -242,6 +243,7 @@
   flex: 1;
   font-size: 1rem;
   padding: 0.5rem;
+  background: transparent;
 }
 
 .search-responsive button {
@@ -256,6 +258,30 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+/* Dark mode search bar */
+body.dark-mode .search-responsive {
+  background: #374151;
+  border-color: #4b5563;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .search-responsive input {
+  color: #fff;
+}
+
+body.dark-mode .search-responsive input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark-mode .search-responsive button {
+  background: #fad700;
+  color: #1a237e;
+}
+
+body.dark-mode .search-responsive button:hover {
+  background: #ffc107;
 }
 
 @media (max-width: 768px) {
@@ -451,6 +477,67 @@
 }
 
 /* Dark mode responsive adjustments */
+body.dark-mode .card-responsive {
+  background: #2d3748;
+  color: #fff;
+  border: 1px solid #4b5563;
+}
+
+body.dark-mode .form-control {
+  background: #374151 !important;
+  border-color: #4b5563 !important;
+  color: #fff !important;
+}
+
+body.dark-mode .form-control::placeholder {
+  color: #9ca3af !important;
+}
+
+body.dark-mode .btn-responsive {
+  background: #fad700;
+  color: #1a237e;
+  border-color: #fad700;
+}
+
+body.dark-mode .btn-responsive:hover {
+  background: #ffc107;
+  border-color: #ffc107;
+}
+
+body.dark-mode .modal-responsive {
+  background: #2d3748;
+  color: #fff;
+  border: 1px solid #4b5563;
+}
+
+body.dark-mode .error-responsive {
+  background: #7f1d1d;
+  border-color: #991b1b;
+  color: #fecaca;
+}
+
+body.dark-mode .loading-responsive {
+  color: #fff;
+}
+
+body.dark-mode .badge-responsive {
+  background: #374151;
+  color: #fad700;
+  border: 1px solid #4b5563;
+}
+
+body.dark-mode .progress-responsive {
+  background: #4b5563;
+}
+
+body.dark-mode .progress-responsive .progress-fill {
+  background: linear-gradient(90deg, #fad700, #ffc107);
+}
+
+body.dark-mode .skeleton-responsive {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+}
+
 @media (prefers-color-scheme: dark) {
   .card-responsive {
     background: #2d3748;
@@ -460,16 +547,6 @@
   .form-control {
     background: #374151;
     border-color: #4b5563;
-    color: #fff;
-  }
-  
-  .search-responsive {
-    background: #374151;
-    border-color: #4b5563;
-  }
-  
-  .search-responsive input {
-    background: transparent;
     color: #fff;
   }
   
