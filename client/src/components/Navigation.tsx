@@ -92,17 +92,18 @@ function Navbar() {
 
 
         <div className="container-fluid">
-          <Link
-            className="navbar-brand"
-            to="/"
-            aria-label="Trip Assistant - Go to homepage"
+          <button
+            className="navbar-brand btn p-0 border-0 bg-transparent"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Trip Assistant - Scroll to top"
+            style={{ textDecoration: 'none' }}
           >
             <div className="logo-container">
               <div className="logo-icon">
                 <Logo />
               </div>
             </div>
-          </Link>
+          </button>
 
           <button
             className="navbar-toggler"

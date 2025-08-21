@@ -6,6 +6,7 @@ import PlaceCard from "../components/placeCard";
 import "./Places.css";
 import SearchBar from "../components/searchbar";
 import Chatbot from "../components/chatbot";
+import ScrollToTop from "../components/ScrollToTop";
 
 const places = [
   {
@@ -208,6 +209,9 @@ const Places: React.FC = () => {
 
       {/* Show Chatbot when button is clicked */}
       {isChatOpen && <Chatbot onClose={() => setIsChatOpen(false)} />}
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
 
       {/* Top Rated Tours and Adventures Section from PlaceCard */}
       <PlaceCard />
