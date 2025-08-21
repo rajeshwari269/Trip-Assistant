@@ -87,8 +87,8 @@ function Navbar() {
       }
       // mobile menu closes when clicking outside bar+menu area
       if (mobileOpen) {
-        const bar = document.querySelector(".tnav-bar");
-        const menu = document.querySelector(".tnav-mobile");
+        const bar = document.querySelector(".nav-bar");
+        const menu = document.querySelector(".nav-mobile");
         const target = e.target as Node;
         if (bar && menu && !bar.contains(target) && !menu.contains(target)) {
           setMobileOpen(false);
@@ -107,48 +107,48 @@ function Navbar() {
 
   return (
     <>
-      <nav className="tnav-bar" role="navigation" aria-label="Main navigation">
+      <nav className="nav-bar" role="navigation" aria-label="Main navigation">
         <style>{`
           :root {
-            --tnav-bg: #1a237e;
-            --tnav-fg: #ffffff;
-            --tnav-accent-1: #FFD700;
-            --tnav-accent-2: #FFA500;
-            --tnav-shadow: 0 10px 30px rgba(0,0,0,.25);
-            --tnav-height: 64px;
+            --nav-bg: #1a237e;
+            --nav-fg: #ffffff;
+            --nav-accent-1: #FFD700;
+            --nav-accent-2: #FFA500;
+            --nav-shadow: 0 10px 30px rgba(0,0,0,.25);
+            --nav-height: 64px;
           }
 
-          .tnav-bar {
+          .nav-bar {
             position: fixed; inset: 0 0 auto 0;
-            height: var(--tnav-height);
-            background: var(--tnav-bg);
+            height: var(--nav-height);
+            background: var(--nav-bg);
             color: white;
             z-index: 1030;
             padding-top: max(env(safe-area-inset-top), 0);
           }
 
-          .tnav-wrap {
+          .nav-wrap {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 16px;
-            height: calc(var(--tnav-height));
+            height: calc(var(--nav-height));
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
             gap: 8px;
           }
 
-          .tnav-brand { display: inline-flex; align-items: center; text-decoration: none; }
-          .tnav-logoWrap { display:flex; align-items:center; justify-content:center; transition: transform .25s ease; }
-          .tnav-logoWrap:hover { transform: scale(1.03); }
-          .tnav-logo { filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); }
+          .nav-brand { display: inline-flex; align-items: center; text-decoration: none; }
+          .nav-logoWrap { display:flex; align-items:center; justify-content:center; transition: transform .25s ease; }
+          .nav-logoWrap:hover { transform: scale(1.03); }
+          .nav-logo { filter: drop-shadow(0 2px 8px rgba(0,0,0,.2)); }
 
-          .tnav-links {
+          .nav-links {
             display:flex; justify-content:center; align-items:center; gap:.25rem; margin: auto 0
           }
-          .tnav-item { list-style:none; margin: auto 0 }
-          .tnav-link {
-            color: var(--tnav-fg);
+          .nav-item { list-style:none; margin: auto 0 }
+          .nav-link {
+            color: var(--nav-fg);
             text-decoration: none;
             font-size: 1rem; font-weight: 500;
             padding: .65rem; margin: 0 .3rem;
@@ -159,112 +159,112 @@ function Navbar() {
             outline-offset: 3px;
             // margin: auto 0
           }
-          .tnav-link:hover, .tnav-link:focus {
+          .nav-link:hover, .nav-link:focus {
             color: #1a202c;
-            background: linear-gradient(135deg, var(--tnav-accent-1), var(--tnav-accent-2));
+            background: linear-gradient(135deg, var(--nav-accent-1), var(--nav-accent-2));
             transform: translateY(-3px) scale(1.02);
           }
-          .tnav-link .tnav-tip {
+          .nav-link .nav-tip {
             position:absolute; bottom:-44px; left:50%; transform: translateX(-50%) translateY(10px);
             background: rgba(0,0,0,.9); color: #fff; font-size:.75rem; padding:6px 10px; border-radius:8px;
             opacity:0; visibility:hidden; white-space:nowrap; transition: .16s ease; pointer-events:none; z-index:1000;
           }
-          .tnav-link:hover .tnav-tip, .tnav-link:focus .tnav-tip { opacity:1; visibility:visible; transform: translateX(-50%) translateY(0); }
+          .nav-link:hover .nav-tip, .nav-link:focus .nav-tip { opacity:1; visibility:visible; transform: translateX(-50%) translateY(0); }
 
-          .tnav-actions { display:flex; align-items:center; gap:.4rem; }
-          .tnav-btn {
-            border:none; background:transparent; color:var(--tnav-fg);
+          .nav-actions { display:flex; align-items:center; gap:.4rem; }
+          .nav-btn {
+            border:none; background:transparent; color:var(--nav-fg);
             display:inline-flex; align-items:center; justify-content:center;
             width:44px; height:44px; border-radius:12px; cursor:pointer;
           }
-          .tnav-btn:focus { outline: 2px solid rgba(255,255,255,.35); outline-offset: 2px; }
+          .nav-btn:focus { outline: 2px solid rgba(255,255,255,.35); outline-offset: 2px; }
 
-          .tnav-profilePic {
+          .nav-profilePic {
             width: 35px; height: 35px; border-radius: 999px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: 2px solid rgba(255,255,255,.35);
             display:flex; align-items:center; justify-content:center;
           }
 
-          .tnav-dd { position:relative; }
-          .tnav-menu {
+          .nav-dd { position:relative; }
+          .nav-menu {
             position:absolute; right:0; top:calc(100% + 8px);
-            background: var(--tnav-bg); color: var(--tnav-fg);
+            background: var(--nav-bg); color: var(--nav-fg);
             border-radius: 14px; padding: 6px; min-width: 220px;
-            display:none; box-shadow: var(--tnav-shadow);
+            display:none; box-shadow: var(--nav-shadow);
             z-index: 1040;
           }
-          .tnav-menu.open { display:block; }
-          .tnav-ddItem, .tnav-ddLink {
+          .nav-menu.open { display:block; }
+          .nav-ddItem, .nav-ddLink {
             display:flex; align-items:center; gap:.5rem; width:100%;
             padding:.65rem .75rem; border-radius:8px; text-decoration:none; color:inherit;
             background: transparent; border: none; cursor: pointer; text-align:left;
           }
-          .tnav-ddItem:hover, .tnav-ddLink:hover { background: linear-gradient(135deg,#667eea,#764ba2); color:#fff; }
+          .nav-ddItem:hover, .nav-ddLink:hover { background: linear-gradient(135deg,#667eea,#764ba2); color:#fff; }
 
-          .tnav-hr { margin:.4rem 0; border:none; border-top:1px solid rgba(255,255,255,.08); }
+          .nav-hr { margin:.4rem 0; border:none; border-top:1px solid rgba(255,255,255,.08); }
 
           /* mobile */
-          .tnav-mobileToggle { display:none; }
-          .tnav-mobile { display:none; }
+          .nav-mobileToggle { display:none; }
+          .nav-mobile { display:none; }
 
           @media (max-width: 1024px) {
-            .tnav-links { display:none; }
-            .tnav-mobileToggle { display:inline-flex; }
-            .tnav-wrap { grid-template-columns: auto 1fr auto; }
-            .tnav-actions { justify-self: end; }
+            .nav-links { display:none; }
+            .nav-mobileToggle { display:inline-flex; }
+            .nav-wrap { grid-template-columns: auto 1fr auto; }
+            .nav-actions { justify-self: end; }
 
-            .tnav-mobile {
-              position: fixed; left:0; right:0; top: var(--tnav-height);
+            .nav-mobile {
+              position: fixed; left:0; right:0; top: var(--nav-height);
               background: linear-gradient(180deg, rgba(26,35,126,0.98), rgba(26,35,126,0.96));
-              color: var(--tnav-fg);
+              color: var(--nav-fg);
               display:flex; flex-direction:column; gap:.5rem; padding: 12px 16px 28px 16px;
-              box-shadow: var(--tnav-shadow);
-              max-height: calc(100vh - var(--tnav-height)); overflow:auto;
+              box-shadow: var(--nav-shadow);
+              max-height: calc(100vh - var(--nav-height)); overflow:auto;
               z-index: 1029;
               -webkit-overflow-scrolling: touch;
             }
-            .tnav-mobile .tnav-link {
+            .nav-mobile .nav-link {
               width:100%; justify-content:flex-start; gap:.75rem; padding:.85rem 12px; min-height: 48px;
               border-radius: 10px;
             }
-            .tnav-mobile .tnav-link .tnav-tip { position:static; opacity:1; visibility:visible; transform:none; background:transparent; color:inherit; padding:0; }
+            .nav-mobile .nav-link .nav-tip { position:static; opacity:1; visibility:visible; transform:none; background:transparent; color:inherit; padding:0; }
 
             /* mobile-specific profile dropdown override: clicking profile shows its own list if opened (small popover below button) */
-            .tnav-dd .tnav-menu {
+            .nav-dd .nav-menu {
               position: static;
               display: none;
               box-shadow: none;
               background: transparent;
               padding: 0;
             }
-            .tnav-dd .tnav-menu.open {
+            .nav-dd .nav-menu.open {
               display: block;
             }
-            .tnav-ddItem, .tnav-ddLink { background: rgba(255,255,255,.02); margin:.12rem 0; border-radius:8px; }
+            .nav-ddItem, .nav-ddLink { background: rgba(255,255,255,.02); margin:.12rem 0; border-radius:8px; }
           }
 
           .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); border:0; }
 
           @media (prefers-reduced-motion: reduce) {
-            .tnav-link, .tnav-logoWrap, .tnav-tip { transition: none !important; }
+            .nav-link, .nav-logoWrap, .nav-tip { transition: none !important; }
           }
           @media (prefers-contrast: more) {
-            .tnav-bar { background:#000; }
-            .tnav-link:hover, .tnav-link:focus { background:#fff; color:#000; }
+            .nav-bar { background:#000; }
+            .nav-link:hover, .nav-link:focus { background:#fff; color:#000; }
           }
         `}</style>
 
-        <div className="tnav-wrap">
+        <div className="nav-wrap">
           {/* Brand */}
           <Link
             to="/"
-            className="tnav-brand"
+            className="nav-brand"
             aria-label="Trip Assistant - Go to homepage"
             onClick={closeMobileNav}
           >
-            <div className="tnav-logoWrap">
-              <div className="tnav-logo" aria-hidden="true">
+            <div className="nav-logoWrap">
+              <div className="nav-logo" aria-hidden="true">
                 <svg
                   width="40"
                   height="40"
@@ -295,53 +295,53 @@ function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <ul className="tnav-links" role="menubar" aria-label="Main menu">
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/" role="menuitem" onClick={closeMobileNav} aria-label="Home">
+          <ul className="nav-links" role="menubar" aria-label="Main menu">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/" role="menuitem" onClick={closeMobileNav} aria-label="Home">
                 <Home size={20} aria-hidden="true" />
-                <span className="tnav-tip">Home</span>
+                <span className="nav-tip">Home</span>
               </Link>
             </li>
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/places" role="menuitem" onClick={closeMobileNav} aria-label="Places">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/places" role="menuitem" onClick={closeMobileNav} aria-label="Places">
                 <MapPin size={20} aria-hidden="true" />
-                <span className="tnav-tip">Places</span>
+                <span className="nav-tip">Places</span>
               </Link>
             </li>
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/find-friends" role="menuitem" onClick={closeMobileNav} aria-label="Friends">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/find-friends" role="menuitem" onClick={closeMobileNav} aria-label="Friends">
                 <Users size={20} aria-hidden="true" />
-                <span className="tnav-tip">Friends</span>
+                <span className="nav-tip">Friends</span>
               </Link>
             </li>
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/more-places" role="menuitem" onClick={closeMobileNav} aria-label="Famous">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/more-places" role="menuitem" onClick={closeMobileNav} aria-label="Famous">
                 <Star size={20} aria-hidden="true" />
-                <span className="tnav-tip">Famous</span>
+                <span className="nav-tip">Famous</span>
               </Link>
             </li>
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/trip-budget" role="menuitem" onClick={closeMobileNav} aria-label="Budget">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/trip-budget" role="menuitem" onClick={closeMobileNav} aria-label="Budget">
                 <Calculator size={20} aria-hidden="true" />
-                <span className="tnav-tip">Budget</span>
+                <span className="nav-tip">Budget</span>
               </Link>
             </li>
-            <li className="tnav-item" role="none">
-              <Link className="tnav-link" to="/currency" role="menuitem" onClick={closeMobileNav} aria-label="Currency">
+            <li className="nav-item" role="none">
+              <Link className="nav-link" to="/currency" role="menuitem" onClick={closeMobileNav} aria-label="Currency">
                 <DollarSign size={20} aria-hidden="true" />
-                <span className="tnav-tip">Currency</span>
+                <span className="nav-tip">Currency</span>
               </Link>
             </li>
           </ul>
 
           {/* Right actions */}
-          <div className="tnav-actions">
+          <div className="nav-actions">
             {/* mobile toggle */}
             <button
               ref={mobileToggleRef}
-              className="tnav-btn tnav-mobileToggle"
+              className="nav-btn nav-mobileToggle"
               aria-expanded={mobileOpen}
-              aria-controls="tnav-mobile-menu"
+              aria-controls="nav-mobile-menu"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               onClick={() => setMobileOpen((s) => !s)}
               type="button"
@@ -351,7 +351,7 @@ function Navbar() {
 
             {/* dark mode */}
             <button
-              className="tnav-btn"
+              className="nav-btn"
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
               title="Toggle theme"
               onClick={toggleDarkMode}
@@ -361,30 +361,30 @@ function Navbar() {
             </button>
 
             {/* profile dropdown */}
-            <div className="tnav-dd hidden lg:block">
+            <div className="nav-dd hidden lg:block">
               <button
                 ref={profileBtnRef}
-                className="tnav-btn"
+                className="nav-btn"
                 aria-haspopup="menu"
                 aria-expanded={profileOpen}
-                aria-controls="tnav-profile-menu"
+                aria-controls="nav-profile-menu"
                 onClick={() => setProfileOpen((s) => !s)}
                 type="button"
                 title="User menu"
               >
-                <div className="tnav-profilePic" aria-hidden="true">
+                <div className="nav-profilePic" aria-hidden="true">
                   <User size={16} />
                 </div>
               </button>
 
               <div
                 ref={profileMenuRef}
-                id="tnav-profile-menu"
-                className={`tnav-menu ${profileOpen ? "open" : ""}`}
+                id="nav-profile-menu"
+                className={`nav-menu ${profileOpen ? "open" : ""}`}
                 role="menu"
               >
                 <button
-                  className="tnav-ddItem"
+                  className="nav-ddItem"
                   role="menuitem"
                   onClick={() => {
                     setMobileOpen(false);
@@ -397,7 +397,7 @@ function Navbar() {
                 </button>
 
                 <button
-                  className="tnav-ddItem"
+                  className="nav-ddItem"
                   role="menuitem"
                   onClick={() => {
                     setMobileOpen(false);
@@ -409,11 +409,11 @@ function Navbar() {
                   <span>Log in</span>
                 </button>
 
-                <hr className="tnav-hr" />
+                <hr className="nav-hr" />
 
                 <Link
                   to="/help"
-                  className="tnav-ddLink"
+                  className="nav-ddLink"
                   role="menuitem"
                   onClick={() => setProfileOpen(false)}
                 >
@@ -428,49 +428,49 @@ function Navbar() {
         {/* Mobile full menu */}
         {mobileOpen && (
           <div
-            id="tnav-mobile-menu"
-            className="tnav-mobile"
+            id="nav-mobile-menu"
+            className="nav-mobile"
             role="menu"
             aria-label="Mobile main menu"
           >
             <Link
               ref={firstMobileLinkRef}
-              className="tnav-link"
+              className="nav-link"
               to="/"
               onClick={closeMobileNav}
             >
               <Home size={18} aria-hidden="true" />
-              <span className="tnav-tip">Home</span>
+              <span className="nav-tip">Home</span>
             </Link>
 
-            <Link className="tnav-link" to="/places" onClick={closeMobileNav}>
+            <Link className="nav-link" to="/places" onClick={closeMobileNav}>
               <MapPin size={18} aria-hidden="true" />
-              <span className="tnav-tip">Places</span>
+              <span className="nav-tip">Places</span>
             </Link>
 
-            <Link className="tnav-link" to="/find-friends" onClick={closeMobileNav}>
+            <Link className="nav-link" to="/find-friends" onClick={closeMobileNav}>
               <Users size={18} aria-hidden="true" />
-              <span className="tnav-tip">Friends</span>
+              <span className="nav-tip">Friends</span>
             </Link>
 
-            <Link className="tnav-link" to="/more-places" onClick={closeMobileNav}>
+            <Link className="nav-link" to="/more-places" onClick={closeMobileNav}>
               <Star size={18} aria-hidden="true" />
-              <span className="tnav-tip">Famous</span>
+              <span className="nav-tip">Famous</span>
             </Link>
 
-            <Link className="tnav-link" to="/trip-budget" onClick={closeMobileNav}>
+            <Link className="nav-link" to="/trip-budget" onClick={closeMobileNav}>
               <Calculator size={18} aria-hidden="true" />
-              <span className="tnav-tip">Budget</span>
+              <span className="nav-tip">Budget</span>
             </Link>
 
-            <Link className="tnav-link" to="/currency" onClick={closeMobileNav}>
+            <Link className="nav-link" to="/currency" onClick={closeMobileNav}>
               <DollarSign size={18} aria-hidden="true" />
-              <span className="tnav-tip">Currency</span>
+              <span className="nav-tip">Currency</span>
             </Link>
 
             <div style={{ borderTop: "1px solid rgba(255,255,255,.06)", marginTop: 8, paddingTop: 8 }}>
               <button
-                className="tnav-ddItem"
+                className="nav-ddItem"
                 onClick={() => {
                   setMobileOpen(false);
                   navigate("/auth", { state: { isLogin: false } });
@@ -481,7 +481,7 @@ function Navbar() {
               </button>
 
               <button
-                className="tnav-ddItem"
+                className="nav-ddItem"
                 onClick={() => {
                   setMobileOpen(false);
                   navigate("/auth", { state: { isLogin: true } });
@@ -491,7 +491,7 @@ function Navbar() {
                 <span>Log in</span>
               </button>
 
-              <Link className="tnav-ddLink" to="/help" onClick={() => setMobileOpen(false)}>
+              <Link className="nav-ddLink" to="/help" onClick={() => setMobileOpen(false)}>
                 <span aria-hidden="true">❓</span>
                 <span>Help Centre</span>
               </Link>
@@ -501,7 +501,7 @@ function Navbar() {
       </nav>
 
       {/* Spacer to avoid content under fixed bar */}
-      <div aria-hidden="true" style={{ height: "var(--tnav-height)" }} />
+      <div aria-hidden="true" style={{ height: "var(--nav-height)" }} />
     </>
   );
 }
