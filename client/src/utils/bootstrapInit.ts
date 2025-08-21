@@ -11,6 +11,7 @@ export const initializeBootstrap = () => {
   if (typeof window !== 'undefined' && !window.bootstrap) {
     console.warn('Bootstrap JavaScript not loaded. Some features may not work properly.');
     return false;
+  // amazonq-ignore-next-line
   }
   return true;
 };

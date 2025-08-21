@@ -262,6 +262,7 @@ function Navbar() {
             className="nav-brand"
             aria-label="Trip Assistant - Go to homepage"
             onClick={closeMobileNav}
+
           >
             <div className="nav-logoWrap">
               <div className="nav-logo" aria-hidden="true">
@@ -292,7 +293,7 @@ function Navbar() {
                 </svg>
               </div>
             </div>
-          </Link>
+          </button>
 
           {/* Desktop nav */}
           <ul className="nav-links" role="menubar" aria-label="Main menu">
