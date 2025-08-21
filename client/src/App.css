@@ -89,3 +89,16 @@ body,
 .nav-link {
   transition: all 0.3s ease-in-out;
 }
+
+.dropdown-menu, .dropdown-item, .dropdown-item-white {
+  background: #1a237e !important;
+  color: #fff !important;
+}
+.dropdown-item-white {
+  color: #fff !important;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: #fff !important;
+}
+

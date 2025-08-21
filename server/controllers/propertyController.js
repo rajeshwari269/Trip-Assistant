@@ -17,10 +17,10 @@ const addProperty = async (req, res) => {
       status,
     } = req.body;
 
-    const imagePaths = req.files.map((file) => `/uploads/${file.filename}`);
+    const imagePaths = req.files ? req.files.map((file) => `/uploads/${file.filename}`) : [];
 
     const property = await Property.create({
-      host_id: host_id || req.user.userId,
+      host_id: host_id || req.user?.userId || "1",
       title,
       description,
       location,
@@ -33,7 +33,7 @@ const addProperty = async (req, res) => {
       images: imagePaths,
     });
 
-    return sendSuccess(res, { property });
+    return sendSuccess(res, { property }, "Property added successfully");
   } catch (error) {
     return handleServerError(error, "Add property error", res);
   }
@@ -113,3 +113,7 @@ module.exports = {
   updateProperty,
   deleteProperty,
 };
+
+// For backward compatibility with existing routes
+exports.addProperty = addProperty;
+exports.getProperties = getAllProperties;
