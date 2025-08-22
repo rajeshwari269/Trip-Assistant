@@ -88,13 +88,12 @@ function Auth() {
     }
 
     const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL || "http://localhost:5000";
+// ...existing code...
     const url = isLogin ? `${apiBaseUrl}/api/users/login` : `${apiBaseUrl}/api/users/signup`;
-    
     // Fix payload structure to match server expectations
     const payload = isLogin 
       ? { email, password }
       : { user_name: userName, email, password, mobile_no: mobileNo };
-    
     // Check if server is reachable
     try {
       await fetch(`${apiBaseUrl}/api/users`, { 
@@ -122,19 +121,17 @@ function Auth() {
 
       if (response.ok) {
         showSuccess(isLogin ? "Login Successful" : "Signup Successful");
-        
+// ...existing code...
         // Fix response data access - server returns data.data.user.id
         const userId = data.data?.user?.id || data.user?.id || data.user_id;
         if (userId) {
           localStorage.setItem("user_id", userId);
         }
-        
         // Store token if available
         const token = data.data?.token || data.token;
         if (token) {
           localStorage.setItem("auth_token", token);
         }
-        
         navigate("/places");
       } else {
         // Fix error message extraction - server returns data.message
