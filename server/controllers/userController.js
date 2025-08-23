@@ -139,8 +139,112 @@ const getProfile = async (req, res) => {
   }
 };
 
+
+// get user
+const finduser=async (req,res) => {
+try {
+    const {id}=req.params;
+  
+    const user=await User.findById(id).select("-password")
+  
+if(!user){
+    return res.status(404).json({
+        success: false,
+        message: "user not founded",
+    })
+}
+     res.status(200).json({
+        success:true,
+        user:user
+     })
+} catch (error) {
+    return res.status(500).json({
+        success: false,
+        message:error.message,
+    })
+}
+  
+}
+
+
+const updateuser=async (req,res) => {
+ try {
+   const {id}=req.params;
+ 
+   const { userName,email,mobileNo}=req.body
+ 
+ if(!(userName||email||mobileNo)){
+     return res.status(404).json({
+         success: false,
+         message: "fill at least one of them",
+     })
+ }
+ 
+ const Obj={};
+ 
+ if(userName)Obj.user_name=userName;
+ if(email)Obj.email=email;
+ if(mobileNo)Obj.mobile_no=mobileNo;
+ const user=await User.findByIdAndUpdate(id,
+         {$set:Obj},{new:true}).select("-password");
+       
+ if(!user){
+     return res.status(400).json({
+         success: false,
+         message: "could not be updated",
+     })
+ }
+ 
+  res.status(200).json({
+         success: true,
+         message:"User updated successfully", user
+     })
+ } catch (error) {
+   return res.status(500).json({
+         success: false,
+         message:error.message,
+     })
+ }
+
+
+
+  
+}
+
+
+
+const Delete=async (req,res) => {
+try {
+    const {id}=req.params;
+  
+    const user=await User.findByIdAndDelete(id);
+
+  
+if(!user){
+    return res.status(404).json({
+        success: false,
+        message: "user not founded",
+    })
+  }
+   res.status(200).json({
+        success:true,
+        message: "user remove succefully",
+    })
+  }
+  catch(error){
+   res.status(500).json({
+        success: false,
+        message: error.message,
+    })
+  }
+  
+  
+}
 module.exports = {
   login,
   register,
   getProfile,
+  finduser,
+  updateuser,
+  Delete,
 };
