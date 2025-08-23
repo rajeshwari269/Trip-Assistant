@@ -1,11 +1,12 @@
 import * as React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { FaMapMarkerAlt, FaStar, FaComments } from "react-icons/fa";
+import { FaMapMarkerAlt, FaStar, FaRobot } from "react-icons/fa";
 import PlaceCard from "../components/placeCard";
 import "./Places.css";
 import SearchBar from "../components/searchbar";
 import Chatbot from "../components/chatbot";
+import ScrollToTop from "../components/ScrollToTop";
 
 const places = [
   {
@@ -198,14 +199,19 @@ const Places: React.FC = () => {
 
       {/* Floating Chatbot Button */}
       <button
-        className="chatbot-btn btn btn-primary"
+        className="chatbot-btn"
         onClick={() => setIsChatOpen(true)}
+        aria-label="Open travel assistant chat"
+        title="Chat with our travel assistant"
       >
-        <FaComments size={20} />
+        <FaRobot size={20} />
       </button>
 
       {/* Show Chatbot when button is clicked */}
       {isChatOpen && <Chatbot onClose={() => setIsChatOpen(false)} />}
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
 
       {/* Top Rated Tours and Adventures Section from PlaceCard */}
       <PlaceCard />
