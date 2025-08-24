@@ -180,7 +180,7 @@ const updateuser = async (req, res) => {
 }
 
 // it is for delete user
-const Delete = async (req, res) => {
+const Deleteuser = async (req, res) => {
   try {
     const id=req.user._id;
 
@@ -210,5 +210,5 @@ module.exports = {
   register,
   getProfile,
   updateuser,
-  Delete,
+  Deleteuser,
 };
