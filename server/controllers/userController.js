@@ -141,7 +141,7 @@ const getProfile = async (req, res) => {
 //update user;
 const updateuser = async (req, res) => {
   try {
-    const id=req.user._id;
+    const id=req.user.userId;
 
     const { userName, email, mobileNo } = req.body
 
@@ -182,7 +182,7 @@ const updateuser = async (req, res) => {
 // it is for delete user
 const Deleteuser = async (req, res) => {
   try {
-    const id=req.user._id;
+    const id=req.user.userId;
 
     const user = await User.findByIdAndDelete(id);
     if (!user) {
