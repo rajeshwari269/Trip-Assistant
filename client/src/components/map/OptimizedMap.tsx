@@ -1,7 +1,6 @@
 
 import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -67,17 +66,7 @@ export default function OptimizedMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           keepBuffer={2}
         />
-        <MarkerClusterGroup
-          chunkedLoading
-          chunkInterval={200}
-          chunkDelay={50}
-          spiderfyOnMaxZoom
-          showCoverageOnHover={false}
-          removeOutsideVisibleBounds
-          maxClusterRadius={80}
-        >
-          {markers}
-        </MarkerClusterGroup>
+        {markers}
       </MapContainer>
     </div>
   );

@@ -18,7 +18,7 @@ interface ChatbotProps {
 const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const chatRef = useRef<HTMLDivElement>(null);
-
+  const containerRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
@@ -125,7 +125,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
   };
 
   return (
-    <aside 
+    <div 
       ref={containerRef}
       className="chatbot-container"
       role="complementary"
@@ -224,7 +224,7 @@ const Chatbot: React.FC<ChatbotProps> = ({ onClose }) => {
           Send
         </button>
       </form>
-    </aside>
+    </div>
   );
 };
 
