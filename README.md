@@ -72,21 +72,7 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&duration=3000&pause=1000&color=FF6347&center=true&vCenter=true&width=500&lines=Join+Us+in+GSSoC+and+OSCI+2025!;Contribute+to+Trip+Planner;Enhance+Your+Portfolio;Learn+Modern+Web+Development" alt="Open Source Programs" />
 </div>
 
-### GSSoC 2025 - Girl Script Summer of Code
 
-<div align="center">
-  <img src="client/src/assets/gssoc-banner.png" alt="GSSoC 2025" width="600" class="program-banner"/>
-</div>
-
-[GSSoC](https://gssoc.girlscript.tech/) is a 3-month long Open Source program conducted by GirlScript Foundation. It brings together students, developers, and organizations to contribute to meaningful open-source projects while promoting diversity in tech.
-
-### OSCI 2025 - Open Source Connect India
-
-<div align="center">
-  <img src="client/src/assets/osci-banner.png" alt="OSCI 2025" width="600" class="program-banner"/>
-</div>
-
-[OSCI](https://oscindia.dev/) is an initiative aimed at promoting open source development in India. It brings together developers from across the country to collaborate on innovative projects and enhance India's presence in the global open source ecosystem.
 
 <div align="center">
   <a href="https://gssoc.girlscript.tech/">
@@ -518,15 +504,6 @@ We welcome all contributions—big or small! See [Contributing.md](Contributing.
 - **Testing**: Write and improve test coverage
 - **Design**: Suggest UI/UX improvements with mockups
 
-#### For Open Source Program Participants
-
-- **GSSoC 2025**: If you're participating in GSSoC, check our labeled issues and mention your participation in PRs
-- **OSCI 2025**: OSCI participants can focus on documentation improvements and accessibility features
-
-#### Mentorship
-
-- **Pair Programming**: Connect with maintainers for pair programming sessions
-- **First-time Contributors**: Look for "good first issue" labels to get started
 
 #### Communication
 
