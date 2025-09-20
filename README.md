@@ -9,18 +9,12 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=61DAFB&center=true&vCenter=true&width=435&lines=Your+Journey+Companion;AI-Powered+Travel+Planning;Discover%2C+Plan%2C+Experience;Travel+Smarter%2C+Together" alt="Typing SVG" />
 </picture>
 
-> **⭐ Please star and fork this repository and join our [discussions](https://github.com/Richajaishwal0/Trip_assistant/discussions) to help make this project even better!**
+> 
 >
-> <a href="https://github.com/Richajaishwal0/Trip_assistant/stargazers">
->  <img src="https://img.shields.io/github/stars/Richajaishwal0/Trip_assistant?style=social&label=Star%20Now" alt="Star on GitHub">
-
+> 
   </a>
   &nbsp;
-  <a href="https://github.com/Richajaishwal0/Trip_assistant/discussions">
-    <img src="https://img.shields.io/github/discussions/Richajaishwal0/Trip_assistant?style=social&label=Join%20Discussions" alt="Join Discussions">
-  </a>
-
-### Repository Stats
+  
 
 <div align="center">
   <table>
@@ -66,21 +60,11 @@
   </table>
 </div>
 
-## 🚀 Participating in Open Source Programs
-
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=24&duration=3000&pause=1000&color=FF6347&center=true&vCenter=true&width=500&lines=Join+Us+in+GSSoC+and+OSCI+2025!;Contribute+to+Trip+Planner;Enhance+Your+Portfolio;Learn+Modern+Web+Development" alt="Open Source Programs" />
-</div>
 
 
 
-<div align="center">
-  <a href="https://gssoc.girlscript.tech/">
-    <img src="https://img.shields.io/badge/GSSoC-2025-blue?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAEfUlEQVR4nO2Wa2wUVRTH/3dmZ3Zmd9vdUgpb2paWPih9I6hYBYq0WCmiRjQxKolG/WA0JgICfgHUGA1GjNGoMTFAQzAxGhJRtA1SoAVa+gBaoGXpY7vdJ7sz+5iZO2Nmbpcuy253jYmJN7nZzD3349zfOeeeCxARZnMwsxodAO7v/wLgXvQBJArQvQ9kcq6vr8ftdqMgWH9fQwDAYDBg8eLFgtfr9dbV1YmTExNk0N+i+WMxJhaLYfXq1fB4PMmCIIgmk4nNqgUcDgfy8/NZ+Ww5q6urq9fV1g71+QeYp6OTWUwm+uboEdq0aVO0vLxckCQpNqsAra2tWLlyZdZvp0/5GhsaWQQK/nHpEpWUlLg3bNjgTiQSM96DtHzJnTt30NHRkZ5IJM0j+vvR7XJD4YAkDGEkGEJbextKS0vnjY2NTc4KgNlshslkghCPI5FI0MCgH16rFRFJgiiKGF29BoPDARQVFRUB8M0KQCwWQzgchsPhAGNMyNKoUN8bZX6/H+np6RA4gyRJ6osyLpcLXq93KkBDQwOCweBvNpttSXFx8eLt27c/09jYuKe+vv5HR0dHl8vlCvX19UV8Pt+IxWIZKCsr6y0tLX1+1apVm2pqanZWVFQ8kpeXl8MMBkPKXPn5+Utyc3Of2rt3b5nT6dzjdDq3er1e0e/3DwYCgWB3d/dwW1vb8MWLF0NHjhwJHTt27GRVVdX+srKyFwB8qAIsWLCgIBqNXg+FQnyGlra0t7d3OxyOUFtbW4QzEGOMKGWCZoxpDyKSt23bNhQMBm8rAGazGYwxEBEkScqaaYGJCYFAIODxeKKMMQZAQU5aLZPPjDHkcDgKPB6PXwHIzMwEYwyiKEIUxdSZFgeAsbExRkREKQCqaovVe6GjoyMNgFEBSE9Ph8FgSAKkzARw48aNWFpaWkIF4JwrC6uLU0qpNbJx48ZYSkqKqAAQEcxmc1IO09LS0qZboLu7m+fm5t7u7OwcsVqtL3o8nj/7+/v7rFbrfYuKijJfeuGFWndXF1MACgsLiXOOYDCIkZGR5GeRk5MzbY3U1dWhe/duUXD7MJn2FDrCCeQyEzxd97Alhw/jnTVrHPPnz/9AkqSvBUEwCMCU06tYQFJKn8Yh8SwUHTSwlLiEodZrcA1G8PnBA+tLS0u/4pyvVb9lk5OTyM7O1gHoAM47ekLoue1DW0cndGcepXCUyhq/3j87d9HRw4fpnY8+6lAq/96fEYDRaMStW7d0Cxw8eIh4UjUokqSEGCBO2nDf6u6mtWvX0tatWx0HDhz4RJKk9ZxzTAWQZRnz5s3TLdDWep1OnDhBfr+fMcaoqakpWd2UtECbYmRMm3t6e+nTTz6m7du3h7Zs2eI9f/78VwDWyLKsKweiKI4DGEwoVpcy4PV64bLbMTo0BJ4kQ2GMOOdgjEOWJTDGiDGG8+fO4csvPsO6F9cFN2/e7P7pp5/2A3iJcy4pDUsH4Jx/B2BTNBpliqNlSiYjpYjUfKjvpDShTN9/9RVt3brVs3bt2q7q6urPOOdvcs7DygGcMYDLly/D5/PB6XSOhs6dO+8zm82FGzZsWF5QUJClxFIP0NXVFbxy5cpgTU3NwOXLl28C+AbArzMd4m9UfMGMzI1q8QAAAABJRU5ErkJggg==" class="animated-badge"/>
-  </a>
-  <a href="https://oscindia.dev/">
-    <img src="https://img.shields.io/badge/OSCI-India%202025-orange?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEEklEQVR4nO1ZXWhcRRT+dmaTmE22u4kWrfQHpEVtKYJYUFuwVkGkICgUBUVFwQfBRyHgg4IvUl980V8UQa0g+KIi+KQoVsQKolCrxR+qpa3aaNNsNtkke+/MmZljbnY32ey9m91Na0oODOydc2fO+ebMnTlzLtDS0vLfg1itD7766qsaAGUAGc75BDVijLUkEolRIvq81Wp9w8PhWs3Pz2cAaJzzAoAqgDEAdQDf09+ZKtVq1e8bxlq5XI4AhAbwzm8R/TsA/taQiSClvE3TNFv1L5hZWFjIDcPfC8B7AOoATkspbyMiZ1GU0um0DSADoBBFEb0fXhCdnd3Cx3H8fCKRsHVdJyK6o+OzyWRyqFKplOI4/sXzvA9qtdqLw8PDrk7tTqQQq9Xqy91ut7PQjy1h8+bNRVVnx7J2b2pqqp5Op+kpTaVS6UlFH6adbrdbtCzryO7duz/csWPHU5qmuYlE4nkpJWiatrPvf2pqalTXdS4ej59UNOp0OkVaEJqm2aZpXgcwsXHjxkpfxzTNk4ZhzPI7kpZl3UiaVCr10rZt2/YEQUCxLaXk1Ncg0qrV6lDMACjEcVxUHQ+RQUopePr06Tc2bdpEMDce06PFYvHzTCbjct5PZAmFQqHc13V/V4wxtyhsCf1uRjKZLPTnxDGaBI71XzIMY7Cvk0wmf3Vd15JSakEQnOqPuZ7HwjA8rarN0zKKouPkpK4bnpOKaLPZLNdqNSsMww9V9dscx28pejZwoYhaoyhapaRpmidjLhaLrSAI5gBoUkpqHwTQ4pz/pPT7TdcnqqbwH4KAJelT8+7zGMnx8fEP4zi+U9f1W+bn55/M5XIfc87v0XX9+vn5+S+FEJeTyeQrQohLQ9h8krDr+/7PnucdBzAbx/FsHMd/qSV4CQB2XfeeKIpuaDabB9vtdrrdbtfc3l5PrVYbhGEIDmjaO2EYHmi322fCMPzO9/0vfN//0nXdY0qOkdjjAOw4jh8JgmC60+nkdV03iMjglm1GRARE9KthGMdt2z6Vz+cPbd++/UWuM3JZt97r9XZJKSdSqdQlmqaRJvCbYEbTtLO6rteEEEV+a1rv9Xp7lxs/0ebEsszXCSH2Oj1iczurxpYt9x8hIrhcv4CU0lwAWIui6Lwgq5JEawbggiDr70CLxY8wPp7+pOveFYTBLLSoI0QGbM3s5uJ4FuCXmOZ5Lvr09AuH6vXjh9W8rxnrALbgS4eeGFJW9qmUJ/w4x4XDn9Hk5JUHC4Xrnjz/gvCtAzrXsQDARRFcEMzw77eV44I2DJP3/XM/nTlz7FPXbb/kecFuqjpHmYG7ePCxUjav04bNr9t09D5iTdPE1NToRUrIVIK7LwT3iGIzYc+eB9gmjp6vxws0MZE+QPN67pILmZaW1hL4Gwdx0I0e5lCfAAAAAElFTkSuQmCC" class="animated-badge"/>
-  </a>
+
+
 </div>
 
 [![Contributions Welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=for-the-badge)](CONTRIBUTING.md)
